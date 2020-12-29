@@ -1,1 +1,3 @@
-print("Hello, world!")
+import ArgumentParser
+
+SendKeysCli.main()

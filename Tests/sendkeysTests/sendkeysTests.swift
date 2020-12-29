@@ -25,8 +25,8 @@ final class sendkeysTests: XCTestCase {
 
         let data = pipe.fileHandleForReading.readDataToEndOfFile()
         let output = String(data: data, encoding: .utf8)
-
-        XCTAssertEqual(output, "Hello, world!\n")
+        
+        XCTAssertTrue(output!.hasPrefix("OVERVIEW: Command line tool to script up sending keystrokes and mouse actions"))
     }
 
     /// Returns path to the built products directory.
