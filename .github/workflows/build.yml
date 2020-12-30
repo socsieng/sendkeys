@@ -68,3 +68,17 @@ jobs:
           sendkeys --help
         env:
           DEVELOPER_DIR: /Applications/Xcode_${{ matrix.xcode }}.app/Contents/Developer
+
+  create_release:
+    needs: [macos_big_sur, macos_catalina]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - id: release
+        uses: GoogleCloudPlatform/release-please-action@v2
+        with:
+          token: ${{secrets.GITHUB_TOKEN}}
+          release-type: simple
+          package-name: sendkeys
+          bump-minor-pre-major: true
