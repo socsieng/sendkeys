@@ -50,6 +50,14 @@ public struct SendKeysCli: ParsableCommand {
         
         if !(commandString ?? "").isEmpty {
             commandProcessor.process(commandString!)
+        } else {
+            var data: Data
+            
+            repeat {
+                data = FileHandle.standardInput.availableData
+                commandString = String(data: data, encoding: .utf8)
+                commandProcessor.process(commandString!)
+            } while data.count > 0
         }
     }
 }
