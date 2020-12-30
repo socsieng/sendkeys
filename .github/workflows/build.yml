@@ -15,7 +15,7 @@ jobs:
   #   strategy:
   #     matrix:
   #       xcode:
-  #         - '12'
+  #         - '12.2'
 
   #   name: macOS Big Sur (Xcode ${{ matrix.xcode }})
 

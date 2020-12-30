@@ -3,6 +3,7 @@ bindir ?= $(prefix)/bin
 
 .PHONY: build
 build:
+	@scripts/update-version.sh
 	@swift build -c release --disable-sandbox
 
 .PHONY: install
