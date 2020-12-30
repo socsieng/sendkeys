@@ -1,0 +1,70 @@
+name: build
+
+on:
+  push:
+    branches:
+      - '*'
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  macos_big_sur:
+    runs-on: macos-11.0
+
+    strategy:
+      matrix:
+        xcode:
+          - '12'
+
+    name: macOS Big Sur (Xcode ${{ matrix.xcode }})
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v1
+      - uses: actions/cache@v2
+        with:
+          path: .build
+          key: ${{ runner.os }}-xcode-${{ matrix.xcode }}-${{ hashFiles('**/Package.resolved') }}
+          restore-keys: |
+            ${{ runner.os }}-xcode-${{ matrix.xcode }}
+      - name: build
+        run: |
+          swift test
+        env:
+          DEVELOPER_DIR: /Applications/Xcode_${{ matrix.xcode }}.app/Contents/Developer
+      - name: install
+        run: |
+          make install
+          sendkeys --help
+
+  macos_catalina:
+    runs-on: macos-10.15
+
+    strategy:
+      matrix:
+        xcode:
+          - '12'
+
+    name: macOS Catalina (Xcode ${{ matrix.xcode }})
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v1
+      - uses: actions/cache@v2
+        with:
+          path: .build
+          key: ${{ runner.os }}-xcode-${{ matrix.xcode }}-${{ hashFiles('**/Package.resolved') }}
+          restore-keys: |
+            ${{ runner.os }}-xcode-${{ matrix.xcode }}
+      - name: build
+        run: |
+          swift test
+        env:
+          DEVELOPER_DIR: /Applications/Xcode_${{ matrix.xcode }}.app/Contents/Developer
+      - name: install
+        run: |
+          make install
+          sendkeys --help
+        env:
+          DEVELOPER_DIR: /Applications/Xcode_${{ matrix.xcode }}.app/Contents/Developer
