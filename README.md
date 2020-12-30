@@ -124,3 +124,11 @@ The default time between keystrokes and instructions is determined by the `--del
 A continuation can be used to ignore the next keystroke or instruction. This is useful to help with formatting a long sequence of character and inserting a new line for readability.
 
 Insert a continuation using the character sequence `<\>`. The following instruction the sequence will be skipped over (including another continuation).
+
+## Prerequisites
+
+This application will only run on macOS 10.11 or later.
+
+When running from the terminal, ensure that the terminal has permission to use accessibility features. This can be done by
+navigating to System Preferences > Security & Privacy > Privacy > Accessibility and adding your terminal application
+there.
