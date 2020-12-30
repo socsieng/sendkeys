@@ -1,5 +1,12 @@
 # Changelog
 
+### [0.2.2](https://www.github.com/socsieng/sendkeys/compare/v0.2.1...v0.2.2) (2020-12-30)
+
+
+### Bug Fixes
+
+* **build:** fix bad substitution in sed ([254161e](https://www.github.com/socsieng/sendkeys/commit/254161e567bfb8a8063d0dd8c8b976ec0d2c09da))
+
 ### [0.2.1](https://www.github.com/socsieng/sendkeys/compare/v0.2.0...v0.2.1) (2020-12-30)
 
 
