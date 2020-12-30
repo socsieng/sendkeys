@@ -7,7 +7,7 @@ build:
 
 .PHONY: install
 install: build
-	@install ".build/release/sendkeys" "$(bindir)"
+	@install ".build/release/sendkeys" "$(bindir)/sendkeys"
 
 .PHONY: uninstall
 uninstall:
