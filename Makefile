@@ -7,12 +7,13 @@ build:
 
 .PHONY: install
 install: build
+	@install -d "$(bindir)"
 	@install ".build/release/sendkeys" "$(bindir)/sendkeys"
 
 .PHONY: uninstall
 uninstall:
-	rm -rf "$(bindir)/sendkeys"
+	@rm -rf "$(bindir)/sendkeys"
 
 .PHONY: clean
 clean:
-	rm -rf .build/release
+	@rm -rf .build/release
