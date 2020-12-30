@@ -7,3 +7,6 @@ xcuserdata/
 .swiftpm/
 
 *.bak
+
+Formula/sendkeys.rb
+*.tar.gz

@@ -4,7 +4,7 @@ set -e
 
 cwd=`pwd`
 script_folder=`cd $(dirname $0) && pwd`
-version=`cat $script_folder/../version.txt`
+version=${1:-`cat $script_folder/../version.txt`}
 
 echo "updating version to $version"
 

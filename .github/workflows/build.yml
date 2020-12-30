@@ -21,7 +21,7 @@ jobs:
 
   #   steps:
   #     - name: checkout
-  #       uses: actions/checkout@v1
+  #       uses: actions/checkout@v2
   #     - uses: actions/cache@v2
   #       with:
   #         path: .build
@@ -50,7 +50,7 @@ jobs:
 
     steps:
       - name: checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
       - uses: actions/cache@v2
         with:
           path: .build
@@ -73,7 +73,8 @@ jobs:
     needs: 
       # - macos_big_sur
       - macos_catalina
-    runs-on: ubuntu-latest
+
+    runs-on: macos-10.15
     if: github.ref == 'refs/heads/main'
 
     name: Create release
@@ -86,3 +87,23 @@ jobs:
           release-type: simple
           package-name: sendkeys
           bump-minor-pre-major: true
+
+      - uses: actions/checkout@v2
+        if: ${{ steps.release.outputs.release_created }}
+
+      - name: bottle
+        if: ${{ steps.release.outputs.release_created }}
+        run: |
+          ./scripts/update-version.sh ${{ steps.release.outputs.tag_name }}
+          ./scripts/bottle.sh ${{ steps.release.outputs.tag_name }}
+
+      - name: upload bottle
+        if: ${{ steps.release.outputs.release_created }}
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.release.outputs.upload_url }}
+          asset_path: ./sendkeys--{{ steps.release.outputs.tag_name }}.catalina.bottle.tar.gz
+          asset_name: sendkeys--{{ steps.release.outputs.tag_name }}.catalina.bottle.tar.gz
+          asset_content_type: application/gzip
