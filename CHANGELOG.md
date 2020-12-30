@@ -1,5 +1,12 @@
 # Changelog
 
+### [0.2.1](https://www.github.com/socsieng/sendkeys/compare/v0.2.0...v0.2.1) (2020-12-30)
+
+
+### Bug Fixes
+
+* **build:** update scripts to handle differences in tag_name ([13fbf6b](https://www.github.com/socsieng/sendkeys/commit/13fbf6bb377ada5becd25399b75e9367cbbc4302))
+
 ## [0.2.0](https://www.github.com/socsieng/sendkeys/compare/v0.1.0...v0.2.0) (2020-12-30)
 
 
