@@ -76,6 +76,8 @@ jobs:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
 
+    name: Create release
+
     steps:
       - id: release
         uses: GoogleCloudPlatform/release-please-action@v2
