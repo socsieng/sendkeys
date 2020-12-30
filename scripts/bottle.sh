@@ -8,7 +8,9 @@ version=${1:-`cat $script_folder/../version.txt`}
 forumula_template=$script_folder/../Formula/sendkeys_template.rb
 forumula=$script_folder/../Formula/sendkeys.rb
 url="file://$cwd/sendkeys.tar.gz"
-sed_url="$(echo $url | sed 's/\//\\\//g')"
+sed_url=`echo $url | sed 's/\//\\\//g'`
+
+version=`echo $version | sed -E 's/^v//g'`
 
 tar zcvf sendkeys.tar.gz --exclude=".git" --exclude=".build" ./
 
@@ -22,3 +24,5 @@ sed -E -i "" "s/version \"[0-9]+\.[0-9]+\.[0-9]+\"/version \"$version\"/g" $foru
 
 brew install --force --build-bottle $forumula
 brew bottle sendkeys --force-core-tap
+
+echo ::set-output name=bottle::`ls sendkeys--$version.*.tar.gz`

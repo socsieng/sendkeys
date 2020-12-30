@@ -83,7 +83,7 @@ jobs:
       - id: release
         uses: GoogleCloudPlatform/release-please-action@v2
         with:
-          token: ${{secrets.GITHUB_TOKEN}}
+          token: ${{ secrets.GITHUB_TOKEN }}
           release-type: simple
           package-name: sendkeys
           bump-minor-pre-major: true
@@ -91,7 +91,8 @@ jobs:
       - uses: actions/checkout@v2
         if: ${{ steps.release.outputs.release_created }}
 
-      - name: Create bottle
+      - id: bottle
+        name: Create bottle
         if: ${{ steps.release.outputs.release_created }}
         run: |
           ./scripts/update-version.sh ${{ steps.release.outputs.tag_name }}
@@ -104,6 +105,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.release.outputs.upload_url }}
-          asset_path: ./sendkeys--{{ steps.release.outputs.tag_name }}.catalina.bottle.tar.gz
-          asset_name: sendkeys--{{ steps.release.outputs.tag_name }}.catalina.bottle.tar.gz
+          asset_path: ./${{ steps.bottle.outputs.bottle }}
+          asset_name: ${{ steps.bottle.outputs.bottle }}
           asset_content_type: application/gzip
