@@ -4,7 +4,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "sendkeys",
+    name: "SendKeys",
     dependencies: [
         // Dependencies declare other packages that this package depends on.
         .package(url: "https://github.com/apple/swift-argument-parser", from: "0.3.1")
@@ -13,10 +13,13 @@ let package = Package(
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
         // Targets can depend on other targets in this package, and on products in packages which this package depends on.
         .target(
-            name: "sendkeys",
+            name: "SendKeys",
+            dependencies: ["SendKeysLib", "ArgumentParser"]),
+        .target(
+            name: "SendKeysLib",
             dependencies: ["ArgumentParser"]),
         .testTarget(
-            name: "sendkeysTests",
-            dependencies: ["sendkeys"]),
+            name: "SendKeysTests",
+            dependencies: ["SendKeys", "SendKeysLib"]),
     ]
 )

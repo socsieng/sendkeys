@@ -2,7 +2,7 @@ import XCTest
 import class Foundation.Bundle
 
 final class sendkeysTests: XCTestCase {
-    func testExample() throws {
+    func testHelp() throws {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct
         // results.
@@ -16,6 +16,7 @@ final class sendkeysTests: XCTestCase {
 
         let process = Process()
         process.executableURL = fooBinary
+        process.arguments = ["--help"]
 
         let pipe = Pipe()
         process.standardOutput = pipe
@@ -40,8 +41,4 @@ final class sendkeysTests: XCTestCase {
         return Bundle.main.bundleURL
       #endif
     }
-
-    static var allTests = [
-        ("testExample", testExample),
-    ]
 }
