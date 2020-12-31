@@ -86,7 +86,6 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           release-type: simple
           package-name: sendkeys
-          bump-minor-pre-major: true
           changelog-types: |
             [
               {"type":"feat","section":"Features","hidden":false},
