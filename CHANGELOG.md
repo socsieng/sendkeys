@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.0.0](https://www.github.com/socsieng/sendkeys/compare/v0.5.0...v1.0.0) (2020-12-31)
+
+
+### Features
+
+* stable release 1.0.0 ([27bcfc6](https://www.github.com/socsieng/sendkeys/commit/27bcfc68bc183b7a0d6e466b32ea619d7eee7aed))
+
+
+### Bug Fixes
+
+* read file relative to current directory ([49e1253](https://www.github.com/socsieng/sendkeys/commit/49e12537b288a34e7eb3bc060bc513ae36a86a82))
+
+
+### Miscellaneous
+
+* append newline when raising a fatal error ([b33f495](https://www.github.com/socsieng/sendkeys/commit/b33f495d7c60810cc82a540b920467dd61f8b869))
+
 ## [0.5.0](https://www.github.com/socsieng/sendkeys/compare/v0.4.0...v0.5.0) (2020-12-31)
 
 
