@@ -23,6 +23,13 @@ sed -E -i "" "s/url \"\"/url \"$sed_url\"/g" $forumula
 sed -E -i "" "s/version \"[0-9]+\.[0-9]+\.[0-9]+\"/version \"$version\"/g" $forumula
 
 brew install --force --build-bottle $forumula
-brew bottle sendkeys --force-core-tap
+brew bottle sendkeys --force-core-tap --root-url "https://github.com/socsieng/sendkeys/releases/download/v${version}"
 
-echo ::set-output name=bottle::`ls sendkeys--$version.*.tar.gz`
+bottle=`ls sendkeys--$version.*.tar.gz`
+bottle_rename=`echo $bottle | sed 's/sendkeys--/sendkeys-/g'`
+
+mv $bottle $bottle_rename
+
+echo ::set-output name=file::$bottle_rename
+echo ::set-output name=url::"https://github.com/socsieng/sendkeys/releases/download/v${version}/$bottle_rename"
+echo ::set-output name=sha::"$(shasum -a 256 $bottle_rename | awk '{printf $1}')"
