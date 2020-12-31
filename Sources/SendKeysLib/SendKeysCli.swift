@@ -51,14 +51,21 @@ public struct SendKeysCli: ParsableCommand {
         
         if !(commandString ?? "").isEmpty {
             commandProcessor.process(commandString!)
-        } else {
+        } else if !isTty() {
             var data: Data
             
             repeat {
                 data = FileHandle.standardInput.availableData
+
                 commandString = String(data: data, encoding: .utf8)
                 commandProcessor.process(commandString!)
             } while data.count > 0
+        } else {
+            print(SendKeysCli.helpMessage())
         }
+    }
+
+    private func isTty() -> Bool {
+        return isatty(FileHandle.standardInput.fileDescriptor) == 1
     }
 }
