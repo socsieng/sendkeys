@@ -1,5 +1,12 @@
 # Changelog
 
+### [0.2.3](https://www.github.com/socsieng/sendkeys/compare/v0.2.2...v0.2.3) (2020-12-31)
+
+
+### Bug Fixes
+
+* update bottle name to work with brew ([259c140](https://www.github.com/socsieng/sendkeys/commit/259c14051895c5672f290e2f8f2bf299395e31a4))
+
 ### [0.2.2](https://www.github.com/socsieng/sendkeys/compare/v0.2.1...v0.2.2) (2020-12-30)
 
 
