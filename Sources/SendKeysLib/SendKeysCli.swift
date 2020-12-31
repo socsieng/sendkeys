@@ -6,8 +6,8 @@ public struct SendKeysCli: ParsableCommand {
     public static let configuration = CommandConfiguration(
         commandName: "sendkeys",
         abstract: "Command line tool for automating keystrokes and mouse events",
-        version: "0.1.0" /* auto-updated */
-        // subcommands: [Generate.self]
+        version: "0.0.0", /* auto-updated */
+        subcommands: [MousePosition.self]
     )
     
     @Option(name: .shortAndLong, help: "Name of the application to send keys to.")
