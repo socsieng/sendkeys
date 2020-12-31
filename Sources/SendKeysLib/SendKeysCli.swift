@@ -40,11 +40,11 @@ public struct SendKeysCli: ParsableCommand {
         var commandString: String?
         
         if !(inputFile ?? "").isEmpty {
-            let directoryUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-            let fileUrl = URL(fileURLWithPath: inputFile!, relativeTo: directoryUrl)
-            
-            let data = try! Data(contentsOf: fileUrl)
-            commandString = String(data: data, encoding: .utf8)
+            if let data = FileManager.default.contents(atPath: inputFile!) {
+                commandString = String(data: data, encoding: .utf8)
+            } else {
+                fatalError("Could not read file \(inputFile!)")
+            }
         } else if !(characters ?? "").isEmpty {
             commandString = characters
         }
