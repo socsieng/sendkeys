@@ -1,5 +1,25 @@
 # Changelog
 
+## [0.4.0](https://www.github.com/socsieng/sendkeys/compare/v0.3.0...v0.4.0) (2020-12-31)
+
+
+### Features
+
+* add check to see if accessibility permissions have been enabled ([409e0fb](https://www.github.com/socsieng/sendkeys/commit/409e0fbe935113329b1d61cdbe3f2cd186781117))
+* add sub command to display the current mouse position ([507f8b8](https://www.github.com/socsieng/sendkeys/commit/507f8b8aa1ccedbee2936295c2d192f1a1c33ede))
+* add wait option for mouse-position ([2c0aa8f](https://www.github.com/socsieng/sendkeys/commit/2c0aa8fab484de46b835cc0ec52afc22699f9033))
+
+
+### Bug Fixes
+
+* display help when no commands supplied ([c3175ba](https://www.github.com/socsieng/sendkeys/commit/c3175ba182ab98831dfbb29afcd2241f6e22cdfc))
+* only perform accessibility check if stdin is tty ([6043a78](https://www.github.com/socsieng/sendkeys/commit/6043a784a9f2245bd826b30787d494a687899428))
+
+
+### Documentation
+
+* add documentation on how to use mouse-position command ([42e9955](https://www.github.com/socsieng/sendkeys/commit/42e9955b4f3efbc2d56c062f85134d17deea68b7))
+
 ## [0.3.0](https://www.github.com/socsieng/sendkeys/compare/v0.2.4...v0.3.0) (2020-12-31)
 
 
