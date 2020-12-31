@@ -43,7 +43,7 @@ public class CommandsIterator: IteratorProtocol {
                 
                 return command
             } else {
-                fatalError("Unmatched sequence.")
+                fatalError("Unmatched sequence.\n")
             }
         }
         return nil

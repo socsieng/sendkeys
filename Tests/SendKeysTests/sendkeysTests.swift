@@ -36,7 +36,7 @@ final class sendkeysTests: XCTestCase {
         for bundle in Bundle.allBundles where bundle.bundlePath.hasSuffix(".xctest") {
             return bundle.bundleURL.deletingLastPathComponent()
         }
-        fatalError("couldn't find the products directory")
+        fatalError("Couldn't find the products directory\n")
       #else
         return Bundle.main.bundleURL
       #endif

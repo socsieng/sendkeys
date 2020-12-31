@@ -97,7 +97,7 @@ class MouseController {
             event?.setIntegerValueField(field, value: Int64(amount * -1))
             event?.post(tap: CGEventTapLocation.cghidEventTap)
         } else {
-            fatalError("Scrolling is only available on 10.13 or later")
+            fatalError("Scrolling is only available on 10.13 or later\n")
         }
     }
     

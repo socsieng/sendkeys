@@ -23,7 +23,7 @@ public class CommandExecutor: CommandExecutorProtocol {
         case .mouseScroll:
             executeMouseScroll(command)
         default:
-            fatalError("Unrecognized command type \(command.type)")
+            fatalError("Unrecognized command type \(command.type)\n")
         }
     }
     

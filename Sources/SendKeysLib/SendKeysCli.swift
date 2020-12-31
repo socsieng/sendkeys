@@ -43,7 +43,7 @@ public struct SendKeysCli: ParsableCommand {
             if let data = FileManager.default.contents(atPath: inputFile!) {
                 commandString = String(data: data, encoding: .utf8)
             } else {
-                fatalError("Could not read file \(inputFile!)")
+                fatalError("Could not read file \(inputFile!)\n")
             }
         } else if !(characters ?? "").isEmpty {
             commandString = characters
