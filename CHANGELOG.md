@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.3.0](https://www.github.com/socsieng/sendkeys/compare/v0.2.4...v0.3.0) (2020-12-31)
+
+
+### ⚠ BREAKING CHANGES
+
+* update build step to update homebrew formula
+
+### build
+
+* update build step to update homebrew formula ([5fd8722](https://www.github.com/socsieng/sendkeys/commit/5fd8722409c6b536ec2388db7e99e0dfa6a134ea))
+
 ### [0.2.4](https://www.github.com/socsieng/sendkeys/compare/v0.2.3...v0.2.4) (2020-12-31)
 
 
