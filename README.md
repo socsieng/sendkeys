@@ -131,6 +131,18 @@ A continuation can be used to ignore the next keystroke or instruction. This is 
 
 Insert a continuation using the character sequence `<\>`. The following instruction the sequence will be skipped over (including another continuation).
 
+## Retrieving mouse position
+
+The `mouse-position` sub command can be used to help determine which mouse coordinates to use in your scripts.
+
+For a one off read, move your mouse to the desired position, switch to your terminal app using `command` + `tab` and execute the following command:
+
+```sh
+sendkeys mouse-position
+```
+
+Use the `--wait` option to capture multiple mouse positions in a session.
+
 ## Prerequisites
 
 This application will only run on macOS 10.11 or later.
