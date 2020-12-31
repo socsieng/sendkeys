@@ -36,17 +36,23 @@ _Activates the Notes application and sends keystrokes piped from `stdout` of the
 
 ## Installation
 
+### Homebrew
+
+Recommended: Install using [homebrew](https://brew.sh/):
+
+```sh
+brew install socsieng/tap/sendkeys
+```
+
 ### Manual installation
+
+Alternatively, install from source:
 
 ```sh
 git clone https://github.com/socsieng/sendkeys.git
 cd sendkeys
 make install
 ```
-
-### Homebrew
-
-Coming soon.
 
 ## Markup
 
