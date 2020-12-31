@@ -1,5 +1,12 @@
 # Changelog
 
+### [0.2.4](https://www.github.com/socsieng/sendkeys/compare/v0.2.3...v0.2.4) (2020-12-31)
+
+
+### Documentation
+
+* add brew install instructions ([95023b1](https://www.github.com/socsieng/sendkeys/commit/95023b1a8533ab7f2fb6e7ec4f650a312e0ab828))
+
 ### [0.2.3](https://www.github.com/socsieng/sendkeys/compare/v0.2.2...v0.2.3) (2020-12-31)
 
 
