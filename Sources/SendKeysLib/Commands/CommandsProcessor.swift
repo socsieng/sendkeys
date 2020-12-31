@@ -38,7 +38,7 @@ public class CommandsProcessor {
                 shouldDefaultPause = false
             } else if command.type == .stickyPause {
                 shouldDefaultPause = false
-                defaultPause = Double(command.arguments[0])!
+                defaultPause = Double(command.arguments[0]!)!
             } else if shouldDefaultPause {
                 executeCommand(getDefaultPauseCommand())
                 shouldDefaultPause = true

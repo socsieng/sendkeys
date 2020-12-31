@@ -20,6 +20,8 @@ public class CommandExecutor: CommandExecutorProtocol {
             executeMouseClick(command)
         case .mouseDrag:
             executeMouseDrag(command)
+        case .mouseScroll:
+            executeMouseScroll(command)
         default:
             fatalError("Unrecognized command type \(command.type)")
         }
@@ -29,22 +31,22 @@ public class CommandExecutor: CommandExecutorProtocol {
         var modifiers: [String] = []
         
         if command.arguments.count > 1 {
-            modifiers = command.arguments[1].components(separatedBy: ",")
+            modifiers = command.arguments[1]!.components(separatedBy: ",")
         }
         
-        try! keyPresser.pressKey(key: command.arguments[0], modifiers: modifiers)
+        try! keyPresser.pressKey(key: command.arguments[0]!, modifiers: modifiers)
     }
     
     private func executePause(_ command: Command) {
-        Sleeper.sleep(seconds: Double(command.arguments[0])!)
+        Sleeper.sleep(seconds: Double(command.arguments[0]!)!)
     }
     
     private func executeMouseMove(_ command: Command) {
-        let x1 = Double(command.arguments[0])!
-        let y1 = Double(command.arguments[1])!
-        let x2 = Double(command.arguments[2])!
-        let y2 = Double(command.arguments[3])!
-        let duration: TimeInterval = Double(command.arguments[4])!
+        let x1 = Double(command.arguments[0]!)!
+        let y1 = Double(command.arguments[1]!)!
+        let x2 = Double(command.arguments[2]!)!
+        let y2 = Double(command.arguments[3]!)!
+        let duration: TimeInterval = Double(command.arguments[4]!)!
         
         mouseController.move(
             start: CGPoint(x: x1, y: y1),
@@ -54,8 +56,8 @@ public class CommandExecutor: CommandExecutorProtocol {
     }
     
     private func executeMouseClick(_ command: Command) {
-        let button = command.arguments[0]
-        let clicks = Int(command.arguments[1])!
+        let button = command.arguments[0]!
+        let clicks = Int(command.arguments[1]!)!
 
         try! mouseController.click(
             CGPoint(x: -1, y: -1),
@@ -63,14 +65,25 @@ public class CommandExecutor: CommandExecutorProtocol {
             clickCount: clicks
         )
     }
+    
+    private func executeMouseScroll(_ command: Command) {
+        let x = Int(command.arguments[0]!) ?? 0
+        let y = Int(command.arguments[1]!) ?? 0
+        let duration = Double(command.arguments[2] ?? "0") ?? 0
+
+        mouseController.scroll(
+            CGPoint(x: x, y: y),
+            duration
+        )
+    }
 
     private func executeMouseDrag(_ command: Command) {
-        let x1 = Double(command.arguments[0])!
-        let y1 = Double(command.arguments[1])!
-        let x2 = Double(command.arguments[2])!
-        let y2 = Double(command.arguments[3])!
-        let duration: TimeInterval = Double(command.arguments[4])!
-        let button = command.arguments[5]
+        let x1 = Double(command.arguments[0]!)!
+        let y1 = Double(command.arguments[1]!)!
+        let x2 = Double(command.arguments[2]!)!
+        let y2 = Double(command.arguments[3]!)!
+        let duration: TimeInterval = Double(command.arguments[4]!)!
+        let button = command.arguments[5]!
 
         try! mouseController.drag(
             start: CGPoint(x: x1, y: y1),

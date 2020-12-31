@@ -5,14 +5,15 @@ public enum CommandType {
     case mouseMove
     case mouseClick
     case mouseDrag
+    case mouseScroll
     case continuation
 }
 
 public struct Command: Equatable {
     let type: CommandType
-    let arguments: [String]
+    let arguments: [String?]
     
-    public init(_ type: CommandType, _ arguments: [String]) {
+    public init(_ type: CommandType, _ arguments: [String?]) {
         self.type = type
         self.arguments = arguments
     }

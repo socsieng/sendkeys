@@ -85,9 +85,9 @@ The mouse cursor can be moved using the following markup: `<m:[x1,y1,]x2,y2[:dur
 
 Example usage:
 
-- `<m:400,400:0.5>`: Move mouse cursor from current position to 400, 400 over 0.5 seconds
-- `<m:400,400,0,0:2>`: Move mouse cursor from 400, 400 position to 0, 0 over 2 seconds
-- `<m:400,400>`: Move mouse cursor to 400, 400 instantly
+- `<m:400,400:0.5>`: Move mouse cursor from current position to 400, 400 over 0.5 seconds.
+- `<m:400,400,0,0:2>`: Move mouse cursor from 400, 400 position to 0, 0 over 2 seconds.
+- `<m:400,400>`: Move mouse cursor to 400, 400 instantly.
 
 #### Mouse click
 
@@ -98,8 +98,8 @@ A mouse click can be activated using the following markup: `<m:button[:clicks]>`
 
 Example usage:
 
-- `<m:right>`: Right mouse click at the current mouse location
-- `<m:left:2>`: Double click the left button at the current mouse location
+- `<m:right>`: Right mouse click at the current mouse location.
+- `<m:left:2>`: Double click the left button at the current mouse location.
 
 #### Mouse drag
 
@@ -114,8 +114,22 @@ The structure argument structure is similar to moving the mouse cursor.
 
 Example usage:
 
-- `<d:400,400:0.5>`: Drag the mouse using the left mouse button from current position to 400, 400 over 0.5 seconds
-- `<d:400,400,0,0:2:right>`: Drag the mouse using the right mouse button from 400, 400 position to 0, 0 over 2 seconds
+- `<d:400,400:0.5>`: Drag the mouse using the left mouse button from current position to 400, 400 over 0.5 seconds.
+- `<d:400,400,0,0:2:right>`: Drag the mouse using the right mouse button from 400, 400 position to 0, 0 over 2 seconds.
+
+#### Mouse scrolling
+
+A mouse scroll can be initiated with: `<s:x,y[:duration]>`
+
+- `x` is required and controls horizontal scrolling. Positive values scroll to the right, while negative values scroll to the left.
+- `y` is required and controls vertical scrolling. Positive values scroll down, while negative values scroll up.
+- `duration` is optional and determines the number of seconds (supports partial seconds) that should be used to drag the mouse (larger number means slower movement). Defaults to `0`.
+
+Example usage:
+
+- `<s:0,400:0.5>`: Scrolls down 400 pixels over 0.5 seconds.
+- `<s:0,-100:0.2>`: Scrolls up 400 pixels over 0.2 seconds.
+- `<s:100,0>`: Scrolls 100 pixel to the right instantly.
 
 ### Pauses
 

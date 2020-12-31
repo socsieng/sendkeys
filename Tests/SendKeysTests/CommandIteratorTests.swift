@@ -217,6 +217,42 @@ final class CommandIteratorTests: XCTestCase {
             ])
     }
 
+    func testParsesMouseScroll() throws {
+        let commands = getCommands(CommandsIterator("<s:0,10>"))
+        XCTAssertEqual(
+            commands,
+            [
+                Command(CommandType.mouseScroll, ["0", "10", nil])
+            ])
+    }
+
+    func testParsesMouseScrollWithNegativeAmount() throws {
+        let commands = getCommands(CommandsIterator("<s:-100,10>"))
+        XCTAssertEqual(
+            commands,
+            [
+                Command(CommandType.mouseScroll, ["-100", "10", nil])
+            ])
+    }
+
+    func testParsesMouseScrollWithDuration() throws {
+        let commands = getCommands(CommandsIterator("<s:0,10:0.5>"))
+        XCTAssertEqual(
+            commands,
+            [
+                Command(CommandType.mouseScroll, ["0", "10", "0.5"])
+            ])
+    }
+
+    func testParsesMouseScrollWithNegativeAmountAndDuration() throws {
+        let commands = getCommands(CommandsIterator("<s:0,-10:0.5>"))
+        XCTAssertEqual(
+            commands,
+            [
+                Command(CommandType.mouseScroll, ["0", "-10", "0.5"])
+            ])
+    }
+
     private func getCommands(_ iterator: CommandsIterator) -> [Command] {
         var commands: [Command] = []
         

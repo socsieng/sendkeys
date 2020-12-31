@@ -1,6 +1,11 @@
 import Foundation
 
 class MouseController {
+    enum ScrollAxis {
+        case horizontal
+        case vertical
+    }
+    
     let animationRefreshInterval: TimeInterval = 0.01
     
     func move(start: CGPoint, end: CGPoint, duration: TimeInterval) {
@@ -60,6 +65,40 @@ class MouseController {
         
         let upEvent = CGEvent(mouseEventSource: nil, mouseType: upMouseType, mouseCursorPosition: end, mouseButton: button)
         upEvent?.post(tap: CGEventTapLocation.cghidEventTap)
+    }
+    
+    func scroll(_ delta: CGPoint, _ duration: TimeInterval) {
+        var scrolledX: Int = 0;
+        var scrolledY: Int = 0;
+        
+        let animator = Animator(duration, animationRefreshInterval, { progress in
+            if delta.x != 0 {
+                let amount = Int((Double(delta.x) * progress) - Double(scrolledX))
+                scrolledX += amount
+                
+                self.scrollBy(amount, .horizontal)
+            }
+            if delta.y != 0 {
+                let amount = Int((Double(delta.y) * progress) - Double(scrolledY))
+                scrolledY += amount
+                
+                self.scrollBy(amount, .vertical)
+            }
+        })
+        
+        animator.animate()
+    }
+    
+    func scrollBy(_ amount: Int, _ axis: ScrollAxis) {
+        if #available(OSX 10.13, *) {
+            let event = CGEvent(scrollWheelEvent2Source: nil, units: .pixel, wheelCount: 1, wheel1: 0, wheel2: 0, wheel3: 0)
+            let field = axis == .vertical ? CGEventField.scrollWheelEventPointDeltaAxis1 : CGEventField.scrollWheelEventPointDeltaAxis2
+            
+            event?.setIntegerValueField(field, value: Int64(amount * -1))
+            event?.post(tap: CGEventTapLocation.cghidEventTap)
+        } else {
+            fatalError("Scrolling is only available on 10.13 or later")
+        }
     }
     
     func getLocation() -> CGPoint? {

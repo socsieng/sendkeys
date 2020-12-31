@@ -12,6 +12,7 @@ public class CommandsIterator: IteratorProtocol {
         MouseMoveCommandMatcher(),
         MouseClickCommandMatcher(),
         MouseDragCommandMatcher(),
+        MouseScrollCommandMatcher(),
         DefaultCommandMatcher()
     ]
 
