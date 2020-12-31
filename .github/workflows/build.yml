@@ -87,7 +87,13 @@ jobs:
           release-type: simple
           package-name: sendkeys
           bump-minor-pre-major: true
-          changelog-types: '[{"type":"docs","section":"Documentation","hidden":false}]'
+          changelog-types: |
+            [
+              {"type":"feat","section":"Features","hidden":false},
+              {"type":"fix","section":"Bug Fixes","hidden":false},
+              {"type":"docs","section":"Documentation","hidden":false},
+              {"type":"chore","section":"Miscellaneous","hidden":false}
+            ]
 
       - uses: actions/checkout@v2
         if: ${{ steps.release.outputs.release_created }}
