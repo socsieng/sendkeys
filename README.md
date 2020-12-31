@@ -16,7 +16,8 @@ sendkeys -a "Notes" -c "Hello<p:1> world<c:left:option,shift><c:i:command>"
 
 ![hello world example](https://github.com/socsieng/sendkeys-macos/raw/master/docs/example1.gif)
 
-_Activates the Notes application and types `Hello` (followed by a 1 second pause) and `world`, and then selects the word `world` and changes the font to italics with `command` + `i`._
+_Activates the Notes application and types `Hello` (followed by a 1 second pause) and `world`, and then selects the word
+`world` and changes the font to italics with `command` + `i`._
 
 Input can be read from a file:
 
@@ -56,16 +57,19 @@ make install
 
 ## Markup
 
-Most printable characters will be sent as keystrokes to the active application. Support for additional instructions is provided by some basic markup which is unlikely to be used in other markup languages to avoid conflicts.
+Most printable characters will be sent as keystrokes to the active application. Support for additional instructions is
+provided by some basic markup which is unlikely to be used in other markup languages to avoid conflicts.
 
 ### Key codes and modifier keys
 
 Support for special key codes and modifier keys is provided with the following markup structure: `<c:key[:modifiers]>`
 
-- `key` can include any printable character or, one of the following key names: `f1`, `f2`, `f3`, `f4`, `f5`, `f6`, `f7`,
-  `f8`, `f9`, `f10`, `f11`, `f12`, `esc`, `return`, `enter`, `delete`, `space`, `tab`, `up`, `down`, `left`, `right`,
-  `home`, `end`, `pgup`, and `pgdown`. See list of [mapped keys](https://github.com/socsieng/sendkeys/blob/main/Sources/SendKeysLib/KeyCodes.swift#L127) for a full list.
-- `modifiers` is an optional list of comma separated values that can include `command`, `shift`, `control`, and `option`.
+- `key` can include any printable character or, one of the following key names: `f1`, `f2`, `f3`, `f4`, `f5`, `f6`,
+  `f7`, `f8`, `f9`, `f10`, `f11`, `f12`, `esc`, `return`, `enter`, `delete`, `space`, `tab`, `up`, `down`, `left`,
+  `right`, `home`, `end`, `pgup`, and `pgdown`. See list of
+  [mapped keys](https://github.com/socsieng/sendkeys/blob/main/Sources/SendKeysLib/KeyCodes.swift#L127) for a full list.
+- `modifiers` is an optional list of comma separated values that can include `command`, `shift`, `control`, and
+  `option`.
 
 Example key combinations:
 
@@ -81,7 +85,8 @@ The mouse cursor can be moved using the following markup: `<m:[x1,y1,]x2,y2[:dur
 
 - `x1` and `y1` are optional x and y coordinates to move the mouse from. Defaults to the current mouse position.
 - `x2` and `y2` are x and y coordinates to move the mouse to. These values are required.
-- `duration` is optional and determines the number of seconds (supports partial seconds) that should be used to move the mouse cursor (larger number means slower movement). Defaults to `0`.
+- `duration` is optional and determines the number of seconds (supports partial seconds) that should be used to move the
+  mouse cursor (larger number means slower movement). Defaults to `0`.
 
 Example usage:
 
@@ -109,8 +114,10 @@ The structure argument structure is similar to moving the mouse cursor.
 
 - `x1` and `y1` are optional x and y coordinates to start the drage. Defaults to the current mouse position.
 - `x2` and `y2` are x and y coordinates to end the drag. These values are required.
-- `duration` is optional and determines the number of seconds (supports partial seconds) that should be used to drag the mouse (larger number means slower movement). Defaults to `0`.
-- `button` is optional and refers to the mouse button to use when initiating the mouse drag. Supported values include `left`, `center`, and `right`. Defaults to `left`.
+- `duration` is optional and determines the number of seconds (supports partial seconds) that should be used to drag the
+  mouse (larger number means slower movement). Defaults to `0`.
+- `button` is optional and refers to the mouse button to use when initiating the mouse drag. Supported values include
+  `left`, `center`, and `right`. Defaults to `left`.
 
 Example usage:
 
@@ -121,9 +128,11 @@ Example usage:
 
 A mouse scroll can be initiated with: `<s:x,y[:duration]>`
 
-- `x` is required and controls horizontal scrolling. Positive values scroll to the right, while negative values scroll to the left.
+- `x` is required and controls horizontal scrolling. Positive values scroll to the right, while negative values scroll
+  to the left.
 - `y` is required and controls vertical scrolling. Positive values scroll down, while negative values scroll up.
-- `duration` is optional and determines the number of seconds (supports partial seconds) that should be used to drag the mouse (larger number means slower movement). Defaults to `0`.
+- `duration` is optional and determines the number of seconds (supports partial seconds) that should be used to drag the
+  mouse (larger number means slower movement). Defaults to `0`.
 
 Example usage:
 
@@ -133,7 +142,8 @@ Example usage:
 
 ### Pauses
 
-The default time between keystrokes and instructions is determined by the `--delay`/`-d` argument (default value is `0.1`). Pauses can be customized with: `<p:duration>`
+The default time between keystrokes and instructions is determined by the `--delay`/`-d` argument (default value is
+`0.1`). Pauses can be customized with: `<p:duration>`
 
 - `duration` is required and controls the amount of time to pause before the next keystroke/instruction is executed.
 
@@ -141,15 +151,18 @@ The default time between keystrokes and instructions is determined by the `--del
 
 ### Continuation
 
-A continuation can be used to ignore the next keystroke or instruction. This is useful to help with formatting a long sequence of character and inserting a new line for readability.
+A continuation can be used to ignore the next keystroke or instruction. This is useful to help with formatting a long
+sequence of character and inserting a new line for readability.
 
-Insert a continuation using the character sequence `<\>`. The following instruction the sequence will be skipped over (including another continuation).
+Insert a continuation using the character sequence `<\>`. The following instruction the sequence will be skipped over
+(including another continuation).
 
 ## Retrieving mouse position
 
 The `mouse-position` sub command can be used to help determine which mouse coordinates to use in your scripts.
 
-For a one off read, move your mouse to the desired position, switch to your terminal app using `command` + `tab` and execute the following command:
+For a one off read, move your mouse to the desired position, switch to your terminal app using `command` + `tab` and
+execute the following command:
 
 ```sh
 sendkeys mouse-position
@@ -161,6 +174,6 @@ Use the `--wait` option to capture multiple mouse positions in a session.
 
 This application will only run on macOS 10.11 or later.
 
-When running from the terminal, ensure that the terminal has permission to use accessibility features. This can be done by
-navigating to System Preferences > Security & Privacy > Privacy > Accessibility and adding your terminal application
+When running from the terminal, ensure that the terminal has permission to use accessibility features. This can be done
+by navigating to System Preferences > Security & Privacy > Privacy > Accessibility and adding your terminal application
 there.
