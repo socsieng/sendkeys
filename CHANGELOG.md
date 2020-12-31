@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.0](https://www.github.com/socsieng/sendkeys/compare/v0.4.0...v0.5.0) (2020-12-31)
+
+
+### Features
+
+* add support for scrolling ([b438e00](https://www.github.com/socsieng/sendkeys/commit/b438e0089b947339c935a21ba39c66375dea4b5d))
+
 ## [0.4.0](https://www.github.com/socsieng/sendkeys/compare/v0.3.0...v0.4.0) (2020-12-31)
 
 
