@@ -118,7 +118,7 @@ jobs:
           git clone "https://${{ secrets.PERSONAL_ACCESS_TOKEN }}@github.com/socsieng/homebrew-tap.git"
           cd homebrew-tap
 
-          git checkout -B temp
+          git checkout -B main
           formula='Formula/sendkeys.rb'
           version=`echo '${{ steps.release.outputs.tag_name }}' | sed -E 's/^v//g'`
           revision='${{ steps.release.outputs.sha }}'
@@ -132,4 +132,4 @@ jobs:
           sed -E -i "" "s/sha256 \"[^\"]+\"/sha256 \"$sha\"/g" $formula
           
           git commit -am "chore: update sendkeys to ${{ steps.release.outputs.tag_name }}"
-          git push origin temp
+          git push origin main
