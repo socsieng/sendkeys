@@ -109,3 +109,27 @@ jobs:
           asset_path: ./${{ steps.bottle.outputs.file }}
           asset_name: ${{ steps.bottle.outputs.file }}
           asset_content_type: application/gzip
+
+      - name: Update homebrew formula
+        if: ${{ steps.release.outputs.release_created }}
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email socsieng-github-actions[bot]@users.noreply.github.com
+          git clone "https://${{ secrets.PERSONAL_ACCESS_TOKEN }}@github.com/socsieng/homebrew-tap.git"
+          cd homebrew-tap
+
+          git checkout -B temp
+          formula='Formula/sendkeys.rb'
+          version=`echo '${{ steps.release.outputs.tag_name }}' | sed -E 's/^v//g'`
+          revision='${{ steps.release.outputs.sha }}'
+          sed_root_url=`echo '${{ steps.bottle.outputs.root_url }}' | sed 's/\\//\\\\\//g'`
+          sha='${{ steps.bottle.outputs.sha }}'
+
+          sed -E -i "" "s/:tag => \"[^\"]+\"/:tag => \"v$version\"/g" $formula
+          sed -E -i "" "s/:revision => \"[^\"]+\"/:revision => \"$revision\"/g" $formula
+          sed -E -i "" "s/version \"[^\"]+\"/version \"$version\"/g" $formula
+          sed -E -i "" "s/root_url \"[^\"]+\"/root_url \"$sed_root_url\"/g" $formula
+          sed -E -i "" "s/sha256 \"[^\"]+\"/sha256 \"$sha\"/g" $formula
+          
+          git commit -am "chore: update sendkeys to ${{ steps.release.outputs.tag_name }}"
+          git push origin temp
