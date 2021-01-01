@@ -10,13 +10,14 @@ class MouseController {
     
     func move(start: CGPoint, end: CGPoint, duration: TimeInterval, flags: CGEventFlags) {
         let resolvedStart = resolveLocation(start)
+        let eventSource = CGEventSource(event: nil)
         
         let animator = Animator(duration, animationRefreshInterval, { progress in
             let location = CGPoint(
                 x: (Double(end.x - resolvedStart.x) * progress) + Double(resolvedStart.x),
                 y: (Double(end.y - resolvedStart.y) * progress) + Double(resolvedStart.y)
             )
-            self.setLocation(location, flags: flags)
+            self.setLocation(location, eventSource: eventSource, flags: flags)
         })
         
         animator.animate()
@@ -37,21 +38,24 @@ class MouseController {
         downEvent?.setIntegerValueField(.mouseEventClickState, value: Int64(clickCount))
         downEvent?.flags = flags
         downEvent?.post(tap: CGEventTapLocation.cghidEventTap)
+        let eventSource = CGEventSource(event: downEvent)
         
-        let upEvent = CGEvent(mouseEventSource: nil, mouseType: upMouseType, mouseCursorPosition: resolvedLocation, mouseButton: button)
+        let upEvent = CGEvent(mouseEventSource: eventSource, mouseType: upMouseType, mouseCursorPosition: resolvedLocation, mouseButton: button)
         upEvent?.post(tap: CGEventTapLocation.cghidEventTap)
     }
     
     func drag(start: CGPoint, end: CGPoint, duration: TimeInterval, button: CGMouseButton, flags: CGEventFlags) {
         let resolvedStart = resolveLocation(start)
+        var eventSource: CGEventSource?
+
         let animator = Animator(duration, animationRefreshInterval, { progress in
             let location = CGPoint(
                 x: (Double(end.x - resolvedStart.x) * progress) + Double(resolvedStart.x),
                 y: (Double(end.y - resolvedStart.y) * progress) + Double(resolvedStart.y)
             )
-            self.setLocation(location, button: button, flags: flags)
+            self.setLocation(location, eventSource: eventSource, button: button, flags: flags)
         })
-        
+
         var downMouseType = CGEventType.leftMouseDown
         var upMouseType = CGEventType.leftMouseUp
         
@@ -62,38 +66,40 @@ class MouseController {
         
         let downEvent = CGEvent(mouseEventSource: nil, mouseType: downMouseType, mouseCursorPosition: resolvedStart, mouseButton: button)
         downEvent?.post(tap: CGEventTapLocation.cghidEventTap)
+        eventSource = CGEventSource(event: downEvent)
 
         animator.animate()
         
-        let upEvent = CGEvent(mouseEventSource: nil, mouseType: upMouseType, mouseCursorPosition: end, mouseButton: button)
+        let upEvent = CGEvent(mouseEventSource: eventSource, mouseType: upMouseType, mouseCursorPosition: end, mouseButton: button)
         upEvent?.post(tap: CGEventTapLocation.cghidEventTap)
     }
     
     func scroll(_ delta: CGPoint, _ duration: TimeInterval) {
         var scrolledX: Int = 0;
         var scrolledY: Int = 0;
-        
+        let eventSource = CGEventSource(event: nil)
+
         let animator = Animator(duration, animationRefreshInterval, { progress in
             if delta.x != 0 {
                 let amount = Int((Double(delta.x) * progress) - Double(scrolledX))
                 scrolledX += amount
                 
-                self.scrollBy(amount, .horizontal)
+                self.scrollBy(amount, .horizontal, eventSource: eventSource)
             }
             if delta.y != 0 {
                 let amount = Int((Double(delta.y) * progress) - Double(scrolledY))
                 scrolledY += amount
                 
-                self.scrollBy(amount, .vertical)
+                self.scrollBy(amount, .vertical, eventSource: eventSource)
             }
         })
         
         animator.animate()
     }
     
-    func scrollBy(_ amount: Int, _ axis: ScrollAxis) {
+    func scrollBy(_ amount: Int, _ axis: ScrollAxis, eventSource: CGEventSource?) {
         if #available(OSX 10.13, *) {
-            let event = CGEvent(scrollWheelEvent2Source: nil, units: .pixel, wheelCount: 1, wheel1: 0, wheel2: 0, wheel3: 0)
+            let event = CGEvent(scrollWheelEvent2Source: eventSource, units: .pixel, wheelCount: 1, wheel1: 0, wheel2: 0, wheel3: 0)
             let field = axis == .vertical ? CGEventField.scrollWheelEventPointDeltaAxis1 : CGEventField.scrollWheelEventPointDeltaAxis2
             
             event?.setIntegerValueField(field, value: Int64(amount * -1))
@@ -108,8 +114,8 @@ class MouseController {
         return event?.location
     }
     
-    private func setLocation(_ location: CGPoint, moveType: CGEventType = CGEventType.mouseMoved, button: CGMouseButton = CGMouseButton.left, flags: CGEventFlags = []) {
-        let moveEvent = CGEvent(mouseEventSource: nil, mouseType: moveType, mouseCursorPosition: location, mouseButton: button)
+    private func setLocation(_ location: CGPoint, eventSource: CGEventSource?, moveType: CGEventType = CGEventType.mouseMoved, button: CGMouseButton = CGMouseButton.left, flags: CGEventFlags = []) {
+        let moveEvent = CGEvent(mouseEventSource: eventSource, mouseType: moveType, mouseCursorPosition: location, mouseButton: button)
         moveEvent?.flags = flags
         moveEvent?.post(tap: CGEventTapLocation.cghidEventTap)
     }

@@ -18,7 +18,7 @@ class KeyPresser {
         keyDownEvent!.flags = flags
         keyDownEvent!.post(tap: CGEventTapLocation.cghidEventTap)
 
-        let keyUpEvent = CGEvent(keyboardEventSource: nil, virtualKey: keycode, keyDown: false)
+        let keyUpEvent = CGEvent(keyboardEventSource: CGEventSource(event: keyDownEvent), virtualKey: keycode, keyDown: false)
         keyUpEvent!.flags = flags
         keyUpEvent!.post(tap: CGEventTapLocation.cghidEventTap)
     }
