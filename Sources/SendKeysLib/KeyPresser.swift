@@ -1,7 +1,13 @@
 import Foundation
 
 class KeyPresser {
-    func pressKey(key: String, modifiers: [String]) throws {
+    func keyPress(key: String, modifiers: [String]) throws {
+        if let keyDownEvent = try! keyDown(key: key, modifiers: modifiers) {
+            keyUp(event: keyDownEvent)
+        }
+    }
+
+    func keyDown(key: String, modifiers: [String]) throws -> CGEvent? {
         let keycode = KeyCodes.getKeyCode(key) ?? 0
         let flags = try! KeyPresser.getModifierFlags(modifiers)
         let keyDownEvent = CGEvent(keyboardEventSource: nil, virtualKey: keycode, keyDown: true)
@@ -15,12 +21,19 @@ class KeyPresser {
             }
         }
         
-        keyDownEvent!.flags = flags
-        keyDownEvent!.post(tap: CGEventTapLocation.cghidEventTap)
+        if !flags.isEmpty {
+            keyDownEvent?.flags = flags
+        }
 
-        let keyUpEvent = CGEvent(keyboardEventSource: CGEventSource(event: keyDownEvent), virtualKey: keycode, keyDown: false)
-        keyUpEvent!.flags = flags
-        keyUpEvent!.post(tap: CGEventTapLocation.cghidEventTap)
+        keyDownEvent?.post(tap: CGEventTapLocation.cghidEventTap)
+
+        return keyDownEvent
+    }
+
+    func keyUp(event: CGEvent) {
+        let keyUpEvent = CGEvent(keyboardEventSource: CGEventSource(event: event), virtualKey: 0, keyDown: false)
+        keyUpEvent?.flags = event.flags
+        keyUpEvent?.post(tap: CGEventTapLocation.cghidEventTap)
     }
     
     static func getModifierFlags(_ modifiers: [String]) throws -> CGEventFlags {

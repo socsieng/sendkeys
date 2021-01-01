@@ -7,6 +7,7 @@ class MouseController {
     }
     
     let animationRefreshInterval: TimeInterval = 0.01
+    let keyPresser = KeyPresser()
     
     func move(start: CGPoint, end: CGPoint, duration: TimeInterval, flags: CGEventFlags) {
         let resolvedStart = resolveLocation(start)
@@ -51,26 +52,30 @@ class MouseController {
         let resolvedStart = resolveLocation(start)
         var eventSource: CGEventSource?
 
+        var downMouseType = CGEventType.leftMouseDown
+        var upMouseType = CGEventType.leftMouseUp
+        var moveType = CGEventType.leftMouseDragged
+
         let animator = Animator(duration, animationRefreshInterval, { progress in
             let location = CGPoint(
                 x: (Double(end.x - resolvedStart.x) * progress) + Double(resolvedStart.x),
                 y: (Double(end.y - resolvedStart.y) * progress) + Double(resolvedStart.y)
             )
-            self.setLocation(location, eventSource: eventSource, button: button, flags: flags)
+            self.setLocation(location, eventSource: eventSource, moveType: moveType, button: button, flags: flags)
         })
 
-        var downMouseType = CGEventType.leftMouseDown
-        var upMouseType = CGEventType.leftMouseUp
-        
         if button == .right {
             downMouseType = CGEventType.rightMouseDown
             upMouseType = CGEventType.rightMouseUp
+            moveType = CGEventType.rightMouseDragged
         } else if button != .left {
             downMouseType = CGEventType.otherMouseDown
             upMouseType = CGEventType.otherMouseUp
+            moveType = CGEventType.otherMouseDragged
         }
         
         let downEvent = CGEvent(mouseEventSource: nil, mouseType: downMouseType, mouseCursorPosition: resolvedStart, mouseButton: button)
+        downEvent?.flags = flags
         downEvent?.post(tap: CGEventTapLocation.cghidEventTap)
         eventSource = CGEventSource(event: downEvent)
 
