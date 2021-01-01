@@ -3,13 +3,7 @@ import Foundation
 class KeyPresser {
     func pressKey(key: String, modifiers: [String]) throws {
         let keycode = KeyCodes.getKeyCode(key) ?? 0
-        
-        var flags: CGEventFlags = []
-        for modifier in modifiers {
-            let flag = try getModifierFlag(modifier)
-            flags.insert(flag)
-        }
-
+        let flags = try! KeyPresser.getModifierFlags(modifiers)
         let keyDownEvent = CGEvent(keyboardEventSource: nil, virtualKey: keycode, keyDown: true)
         
         if keycode == 0 {
@@ -29,7 +23,18 @@ class KeyPresser {
         keyUpEvent!.post(tap: CGEventTapLocation.cghidEventTap)
     }
     
-    private func getModifierFlag(_ modifier: String) throws -> CGEventFlags {
+    static func getModifierFlags(_ modifiers: [String]) throws -> CGEventFlags {
+        var flags: CGEventFlags = []
+        
+        for modifier in modifiers.filter({ !$0.isEmpty }) {
+            let flag = try getModifierFlag(modifier)
+            flags.insert(flag)
+        }
+        
+        return flags
+    }
+    
+    private static func getModifierFlag(_ modifier: String) throws -> CGEventFlags {
         switch modifier {
         case "⌘",
              "cmd",

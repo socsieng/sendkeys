@@ -57,11 +57,13 @@ public class CommandExecutor: CommandExecutorProtocol {
     
     private func executeMouseClick(_ command: Command) {
         let button = command.arguments[0]!
-        let clicks = Int(command.arguments[1]!)!
+        let modifiers = command.arguments[1] ?? ""
+        let clicks = Int(command.arguments[2]!)!
 
         try! mouseController.click(
             CGPoint(x: -1, y: -1),
             button: getMouseButton(button: button),
+            flags: KeyPresser.getModifierFlags(modifiers.components(separatedBy: ",")),
             clickCount: clicks
         )
     }

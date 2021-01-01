@@ -22,7 +22,7 @@ class MouseController {
         animator.animate()
     }
     
-    func click(_ location: CGPoint, button: CGMouseButton, clickCount: Int) {
+    func click(_ location: CGPoint, button: CGMouseButton, flags: CGEventFlags, clickCount: Int) {
         let resolvedLocation = resolveLocation(location)
         
         var downMouseType = CGEventType.leftMouseDown
@@ -34,6 +34,7 @@ class MouseController {
         }
         
         let downEvent = CGEvent(mouseEventSource: nil, mouseType: downMouseType, mouseCursorPosition: resolvedLocation, mouseButton: button)
+        downEvent?.flags = flags
         downEvent?.post(tap: CGEventTapLocation.cghidEventTap)
         
         let upEvent = CGEvent(mouseEventSource: nil, mouseType: upMouseType, mouseCursorPosition: resolvedLocation, mouseButton: button)

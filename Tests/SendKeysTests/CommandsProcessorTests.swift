@@ -130,7 +130,7 @@ final class CommandProcessorTests: XCTestCase {
             Command(.pause, ["0.1"]),
             Command(.mouseMove, ["-1", "-1", "200", "200", "1"]),
             Command(.pause, ["0.1"]),
-            Command(.mouseClick, ["left", "1"]),
+            Command(.mouseClick, ["left", nil, "1"]),
         ])
     }
 }

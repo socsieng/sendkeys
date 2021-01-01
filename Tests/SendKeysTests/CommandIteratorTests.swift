@@ -141,7 +141,16 @@ final class CommandIteratorTests: XCTestCase {
         XCTAssertEqual(
             commands,
             [
-                Command(CommandType.mouseClick, ["left", "1"])
+                Command(CommandType.mouseClick, ["left", nil, "1"])
+            ])
+    }
+
+    func testParsesMouseClickWithModifiers() throws {
+        let commands = getCommands(CommandsIterator("<m:left:shift,command>"))
+        XCTAssertEqual(
+            commands,
+            [
+                Command(CommandType.mouseClick, ["left", "shift,command", "1"])
             ])
     }
 
@@ -150,7 +159,16 @@ final class CommandIteratorTests: XCTestCase {
         XCTAssertEqual(
             commands,
             [
-                Command(CommandType.mouseClick, ["right", "2"])
+                Command(CommandType.mouseClick, ["right", nil, "2"])
+            ])
+    }
+
+    func testParsesMouseClickWithModifiersAndClickCount() throws {
+        let commands = getCommands(CommandsIterator("<m:right:command:2>"))
+        XCTAssertEqual(
+            commands,
+            [
+                Command(CommandType.mouseClick, ["right", "command", "2"])
             ])
     }
 
