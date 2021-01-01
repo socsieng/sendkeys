@@ -2,9 +2,11 @@ import Foundation
 
 public class CommandsIterator: IteratorProtocol {
     public typealias Element = Command
-    
+
     private let commandMatchers: [CommandMatcher] = [
         KeyPressCommandMatcher(),
+        KeyDownCommandMatcher(),
+        KeyUpCommandMatcher(),
         StickyPauseCommandMatcher(),
         PauseCommandMatcher(),
         ContinuationCommandMatcher(),
@@ -22,7 +24,7 @@ public class CommandsIterator: IteratorProtocol {
     public init(_ commandString: String) {
         self.commandString = commandString
     }
-    
+
     public func next() -> Element? {
         let length = commandString.utf16.count
         if index < length {
@@ -31,16 +33,16 @@ public class CommandsIterator: IteratorProtocol {
                 matchResult = matcher.expression.firstMatch(in: commandString, options: .anchored, range: NSMakeRange(index, length - index))
                 return matchResult != nil
             }
-            
+
             if matcher != nil {
                 let args = getArguments(commandString, matchResult!)
                 let command = matcher!.createCommand(args)
-                
+
                 if matchResult != nil {
                     let range = Range(matchResult!.range, in: commandString)
                     index = range!.upperBound.utf16Offset(in: commandString)
                 }
-                
+
                 return command
             } else {
                 fatalError("Unmatched sequence.\n")
@@ -52,13 +54,13 @@ public class CommandsIterator: IteratorProtocol {
     private func getArguments(_ commandString: String, _ matchResult: NSTextCheckingResult) -> [String?] {
         var args: [String?] = [];
         let numberOfRanges = matchResult.numberOfRanges
-        
+
         for i in 0..<numberOfRanges {
             let range = Range(matchResult.range(at: i), in: commandString)
             let arg = range == nil ? nil : String(commandString[range!])
             args.append(arg)
         }
-        
+
         return args
     }
 }

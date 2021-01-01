@@ -7,10 +7,10 @@ public protocol CommandExecutorProtocol {
 public class CommandExecutor: CommandExecutorProtocol {
     private let keyPresser = KeyPresser()
     private let mouseController = MouseController()
-    
+
     public func execute(_ command: Command) {
         switch command.type {
-        case .keyPress:
+        case .keyPress, .keyDown, .keyUp:
             executeKeyPress(command)
         case .pause, .stickyPause:
             executePause(command)
@@ -22,25 +22,36 @@ public class CommandExecutor: CommandExecutorProtocol {
             executeMouseDrag(command)
         case .mouseScroll:
             executeMouseScroll(command)
-        default:
-            fatalError("Unrecognized command type \(command.type)\n")
+        case .continuation:
+            return
         }
     }
-    
+
     private func executeKeyPress(_ command: Command) {
         var modifiers: [String] = []
-        
+
         if command.arguments.count > 1 {
             modifiers = command.arguments[1]!.components(separatedBy: ",")
         }
-        
+
+        switch command.type {
+        case .keyPress:
+            try! keyPresser.keyPress(key: command.arguments[0]!, modifiers: modifiers)
+        case .keyDown:
+            let _ = try! keyPresser.keyDown(key: command.arguments[0]!, modifiers: modifiers)
+        case .keyUp:
+            let _ = try! keyPresser.keyUp(key: command.arguments[0]!, modifiers: modifiers)
+        default:
+            return
+        }
+
         try! keyPresser.keyPress(key: command.arguments[0]!, modifiers: modifiers)
     }
-    
+
     private func executePause(_ command: Command) {
         Sleeper.sleep(seconds: Double(command.arguments[0]!)!)
     }
-    
+
     private func executeMouseMove(_ command: Command) {
         let x1 = Double(command.arguments[0]!)!
         let y1 = Double(command.arguments[1]!)!
@@ -48,7 +59,7 @@ public class CommandExecutor: CommandExecutorProtocol {
         let y2 = Double(command.arguments[3]!)!
         let duration: TimeInterval = Double(command.arguments[4]!)!
         let modifiers = command.arguments[5]
-        
+
         mouseController.move(
             start: CGPoint(x: x1, y: y1),
             end: CGPoint(x: x2, y: y2),
@@ -56,7 +67,7 @@ public class CommandExecutor: CommandExecutorProtocol {
             flags: modifiers != nil ? try! KeyPresser.getModifierFlags(modifiers!.components(separatedBy: ",")) : []
         )
     }
-    
+
     private func executeMouseClick(_ command: Command) {
         let button = command.arguments[0]!
         let modifiers = command.arguments[1]
@@ -69,7 +80,7 @@ public class CommandExecutor: CommandExecutorProtocol {
             clickCount: clicks
         )
     }
-    
+
     private func executeMouseScroll(_ command: Command) {
         let x = Int(command.arguments[0]!) ?? 0
         let y = Int(command.arguments[1]!) ?? 0
@@ -100,7 +111,7 @@ public class CommandExecutor: CommandExecutorProtocol {
             flags: modifiers != nil ? try! KeyPresser.getModifierFlags(modifiers!.components(separatedBy: ",")) : []
         )
     }
-    
+
     private func getMouseButton(button: String) throws -> CGMouseButton {
         switch button {
         case "left":

@@ -1,8 +1,8 @@
 import Foundation
 
-public class KeyPressCommandMatcher: CommandMatcher {
+public class KeyUpCommandMatcher: CommandMatcher {
     public init() {
-        super.init(try! NSRegularExpression(pattern: "\\<[ck]:(.|[\\w]+)(:([,\\w⌘^⌥⇧]+))?\\>"))
+        super.init(try! NSRegularExpression(pattern: "\\<ku:(.|[\\w]+)(:([,\\w⌘^⌥⇧]+))?\\>"))
     }
 
     override public func createCommand(_ arguments: [String?]) -> Command {
@@ -10,6 +10,6 @@ public class KeyPressCommandMatcher: CommandMatcher {
         if arguments[3] != nil {
             args.append(arguments[3]!)
         }
-        return Command(.keyPress, args)
+        return Command(.keyUp, args)
     }
 }

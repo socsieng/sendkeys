@@ -13,8 +13,8 @@ final class CommandIteratorTests: XCTestCase {
                 Command(CommandType.keyPress, ["c"])
             ])
     }
-    
-    func testParsesKeyPresses() throws {
+
+    func testParsesKeyPress() throws {
         let commands = getCommands(CommandsIterator("<c:a>"))
         XCTAssertEqual(
             commands,
@@ -22,7 +22,7 @@ final class CommandIteratorTests: XCTestCase {
                 Command(CommandType.keyPress, ["a"])
             ])
     }
-    
+
     func testParsesKeyPressesWithModifierKey() throws {
         let commands = getCommands(CommandsIterator("<c:a:command>"))
         XCTAssertEqual(
@@ -31,13 +31,76 @@ final class CommandIteratorTests: XCTestCase {
                 Command(CommandType.keyPress, ["a", "command"])
             ])
     }
-    
+
     func testParsesKeyPressesWithModifierKeys() throws {
         let commands = getCommands(CommandsIterator("<c:a:command,shift>"))
         XCTAssertEqual(
             commands,
             [
                 Command(CommandType.keyPress, ["a", "command,shift"])
+            ])
+    }
+
+    func testParsesKeyPressAlias() throws {
+        let commands = getCommands(CommandsIterator("<k:a>"))
+        XCTAssertEqual(
+            commands,
+            [
+                Command(CommandType.keyPress, ["a"])
+            ])
+    }
+
+    func testParsesKeyDown() throws {
+        let commands = getCommands(CommandsIterator("<kd:a>"))
+        XCTAssertEqual(
+            commands,
+            [
+                Command(CommandType.keyDown, ["a"])
+            ])
+    }
+
+    func testParsesKeyDownWithModifierKey() throws {
+        let commands = getCommands(CommandsIterator("<kd:a:shift>"))
+        XCTAssertEqual(
+            commands,
+            [
+                Command(CommandType.keyDown, ["a", "shift"])
+            ])
+    }
+
+    func testParsesKeyDownAsModifierKey() throws {
+        let commands = getCommands(CommandsIterator("<kd:shift>"))
+        XCTAssertEqual(
+            commands,
+            [
+                Command(CommandType.keyDown, ["shift"])
+            ])
+    }
+
+    func testParsesKeyUp() throws {
+        let commands = getCommands(CommandsIterator("<ku:a>"))
+        XCTAssertEqual(
+            commands,
+            [
+                Command(CommandType.keyUp, ["a"])
+            ])
+    }
+
+    func testParsesKeyUpWithModifierKey() throws {
+        let commands = getCommands(CommandsIterator("<ku:a:shift>"))
+        XCTAssertEqual(
+            commands,
+            [
+                Command(CommandType.keyUp, ["a", "shift"])
+            ])
+    }
+
+    func testParsesKeyUpAsModifierKey() throws {
+        let commands = getCommands(CommandsIterator("<ku:shift>"))
+        XCTAssertEqual(
+            commands,
+            [
+                Command(CommandType.keyUp, ["shift"])
             ])
     }
 
@@ -51,7 +114,7 @@ final class CommandIteratorTests: XCTestCase {
                 Command(CommandType.keyPress, ["return"])
             ])
     }
-    
+
     func testParsesNewLinesWithCarriageReturns() throws {
         let commands = getCommands(CommandsIterator("\r\n\r\n\n"))
         XCTAssertEqual(
@@ -318,17 +381,17 @@ final class CommandIteratorTests: XCTestCase {
 
     private func getCommands(_ iterator: CommandsIterator) -> [Command] {
         var commands: [Command] = []
-        
+
         while true {
             let command = iterator.next()
-            
+
             if command == nil {
                 break
             }
-            
+
             commands.append(command!)
         }
-        
+
         return commands
     }
 }

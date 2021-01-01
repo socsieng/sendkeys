@@ -77,6 +77,18 @@ Example key combinations:
 - `command` + `a`: `<c:a:command>`
 - `option` + `shift` + `left arrow`: `<c:left:option,shift>`
 
+#### Key up and down
+
+Some applications expect modifier keys to be pressed explicitly before invoking actions like mouse click. An example of
+this is Pixelmator which expect the `option` key to be pressed before executing the alternate click action. This can be
+achieved with key down `<kd:key[:modifiers]>` and key up `<ku:key[:modifiers]>`.
+
+Note that these command shoulds only be used in these special cases when the mouse action and modifier keys are not
+supported natively.
+
+An example of how to trigger alternate click behavior in Pixelmator as described above:
+`<kd:option><m:left:option><ku:option>`.
+
 ### Mouse commands
 
 #### Move mouse cursor
