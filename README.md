@@ -81,12 +81,14 @@ Example key combinations:
 
 #### Move mouse cursor
 
-The mouse cursor can be moved using the following markup: `<m:[x1,y1,]x2,y2[:duration]>`
+The mouse cursor can be moved using the following markup: `<m:[x1,y1,]x2,y2[:duration][:modifiers]>`
 
 - `x1` and `y1` are optional x and y coordinates to move the mouse from. Defaults to the current mouse position.
 - `x2` and `y2` are x and y coordinates to move the mouse to. These values are required.
 - `duration` is optional and determines the number of seconds (supports partial seconds) that should be used to move the
   mouse cursor (larger number means slower movement). Defaults to `0`.
+- `modifiers` is an optional list of comma separated values that can include `command`, `shift`, `control`, and
+  `option`.
 
 Example usage:
 
@@ -96,9 +98,11 @@ Example usage:
 
 #### Mouse click
 
-A mouse click can be activated using the following markup: `<m:button[:clicks]>`
+A mouse click can be activated using the following markup: `<m:button[:modifiers][:clicks]>`
 
 - `button` is required and refers to the mouse button to click. Supported values include `left`, `center`, and `right`.
+- `modifiers` is an optional list of comma separated values that can include `command`, `shift`, `control`, and
+  `option`.
 - `clicks` is optional and specifies the number of times the button should be clicked. Defaults to `1`.
 
 Example usage:
@@ -108,7 +112,7 @@ Example usage:
 
 #### Mouse drag
 
-A mouse drag be initiated with: `<d:[x1,y1,]x2,y2[:duration][:button]>`
+A mouse drag be initiated with: `<d:[x1,y1,]x2,y2[:duration][:button[:modifiers]]>`
 
 The structure argument structure is similar to moving the mouse cursor.
 
@@ -118,21 +122,27 @@ The structure argument structure is similar to moving the mouse cursor.
   mouse (larger number means slower movement). Defaults to `0`.
 - `button` is optional and refers to the mouse button to use when initiating the mouse drag. Supported values include
   `left`, `center`, and `right`. Defaults to `left`.
+- `modifiers` is an optional list of comma separated values that can include `command`, `shift`, `control`, and
+  `option`. Note that modifiers can only be used if `button` is explicitly set
 
 Example usage:
 
 - `<d:400,400:0.5>`: Drag the mouse using the left mouse button from current position to 400, 400 over 0.5 seconds.
 - `<d:400,400,0,0:2:right>`: Drag the mouse using the right mouse button from 400, 400 position to 0, 0 over 2 seconds.
+- `<d:400,400:2:left:shift>`: Drag the mouse using the left mouse button to 400, 400 over 2 seconds with the `shift` key
+  down.
 
 #### Mouse scrolling
 
-A mouse scroll can be initiated with: `<s:x,y[:duration]>`
+A mouse scroll can be initiated with: `<s:x,y[:duration][:modifiers]>`
 
 - `x` is required and controls horizontal scrolling. Positive values scroll to the right, while negative values scroll
   to the left.
 - `y` is required and controls vertical scrolling. Positive values scroll down, while negative values scroll up.
 - `duration` is optional and determines the number of seconds (supports partial seconds) that should be used to drag the
   mouse (larger number means slower movement). Defaults to `0`.
+- `modifiers` is an optional list of comma separated values that can include `command`, `shift`, `control`, and
+  `option`.
 
 Example usage:
 
