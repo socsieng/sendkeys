@@ -195,7 +195,7 @@ final class CommandIteratorTests: XCTestCase {
         XCTAssertEqual(
             commands,
             [
-                Command(CommandType.mouseDrag, ["1", "2", "3", "4", "0", "left"])
+                Command(CommandType.mouseDrag, ["1", "2", "3", "4", "0", "left", nil])
             ])
     }
 
@@ -204,7 +204,16 @@ final class CommandIteratorTests: XCTestCase {
         XCTAssertEqual(
             commands,
             [
-                Command(CommandType.mouseDrag, ["1", "2", "3", "4", "0", "right"])
+                Command(CommandType.mouseDrag, ["1", "2", "3", "4", "0", "right", nil])
+            ])
+    }
+
+    func testParsesMouseDragWithButtonAndModifiers() throws {
+        let commands = getCommands(CommandsIterator("<d:1,2,3,4:right:command,shift>"))
+        XCTAssertEqual(
+            commands,
+            [
+                Command(CommandType.mouseDrag, ["1", "2", "3", "4", "0", "right", "command,shift"])
             ])
     }
 
@@ -213,7 +222,7 @@ final class CommandIteratorTests: XCTestCase {
         XCTAssertEqual(
             commands,
             [
-                Command(CommandType.mouseDrag, ["1", "2", "3", "4", "0.1", "left"])
+                Command(CommandType.mouseDrag, ["1", "2", "3", "4", "0.1", "left", nil])
             ])
     }
 
@@ -222,7 +231,16 @@ final class CommandIteratorTests: XCTestCase {
         XCTAssertEqual(
             commands,
             [
-                Command(CommandType.mouseDrag, ["1", "2", "3", "4", "0.1", "right"])
+                Command(CommandType.mouseDrag, ["1", "2", "3", "4", "0.1", "right", nil])
+            ])
+    }
+
+    func testParsesMouseDragWithDurationAndButtonAndModifier() throws {
+        let commands = getCommands(CommandsIterator("<d:1,2,3,4:0.1:right:command>"))
+        XCTAssertEqual(
+            commands,
+            [
+                Command(CommandType.mouseDrag, ["1", "2", "3", "4", "0.1", "right", "command"])
             ])
     }
 
@@ -231,7 +249,7 @@ final class CommandIteratorTests: XCTestCase {
         XCTAssertEqual(
             commands,
             [
-                Command(CommandType.mouseDrag, ["-1", "-1", "3", "4", "0", "left"])
+                Command(CommandType.mouseDrag, ["-1", "-1", "3", "4", "0", "left", nil])
             ])
     }
 
@@ -240,7 +258,7 @@ final class CommandIteratorTests: XCTestCase {
         XCTAssertEqual(
             commands,
             [
-                Command(CommandType.mouseDrag, ["-1", "-1", "3", "4", "2", "left"])
+                Command(CommandType.mouseDrag, ["-1", "-1", "3", "4", "2", "left", nil])
             ])
     }
 
@@ -249,7 +267,7 @@ final class CommandIteratorTests: XCTestCase {
         XCTAssertEqual(
             commands,
             [
-                Command(CommandType.mouseDrag, ["-1", "-1", "3", "4", "2", "center"])
+                Command(CommandType.mouseDrag, ["-1", "-1", "3", "4", "2", "center", nil])
             ])
     }
 

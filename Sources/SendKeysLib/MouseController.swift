@@ -41,14 +41,14 @@ class MouseController {
         upEvent?.post(tap: CGEventTapLocation.cghidEventTap)
     }
     
-    func drag(start: CGPoint, end: CGPoint, duration: TimeInterval, button: CGMouseButton) {
+    func drag(start: CGPoint, end: CGPoint, duration: TimeInterval, button: CGMouseButton, flags: CGEventFlags) {
         let resolvedStart = resolveLocation(start)
         let animator = Animator(duration, animationRefreshInterval, { progress in
             let location = CGPoint(
                 x: (Double(end.x - resolvedStart.x) * progress) + Double(resolvedStart.x),
                 y: (Double(end.y - resolvedStart.y) * progress) + Double(resolvedStart.y)
             )
-            self.setLocation(location)
+            self.setLocation(location, button: button, flags: flags)
         })
         
         var downMouseType = CGEventType.leftMouseDown

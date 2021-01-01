@@ -88,12 +88,14 @@ public class CommandExecutor: CommandExecutorProtocol {
         let y2 = Double(command.arguments[3]!)!
         let duration: TimeInterval = Double(command.arguments[4]!)!
         let button = command.arguments[5]!
+        let modifiers = command.arguments[6]
 
         try! mouseController.drag(
             start: CGPoint(x: x1, y: y1),
             end: CGPoint(x: x2, y: y2),
             duration: duration,
-            button: getMouseButton(button: button)
+            button: getMouseButton(button: button),
+            flags: modifiers != nil ? try! KeyPresser.getModifierFlags(modifiers!.components(separatedBy: ",")) : []
         )
     }
     
