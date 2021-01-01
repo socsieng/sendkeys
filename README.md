@@ -14,7 +14,7 @@ Basic usage:
 sendkeys -a "Notes" -c "Hello<p:1> world<c:left:option,shift><c:i:command>"
 ```
 
-![hello world example](https://github.com/socsieng/sendkeys-macos/raw/master/docs/example1.gif)
+![hello world example](https://github.com/socsieng/sendkeys/raw/main/docs/images/example1.gif)
 
 _Activates the Notes application and types `Hello` (followed by a 1 second pause) and `world`, and then selects the word
 `world` and changes the font to italics with `command` + `i`._
@@ -177,3 +177,5 @@ This application will only run on macOS 10.11 or later.
 When running from the terminal, ensure that the terminal has permission to use accessibility features. This can be done
 by navigating to System Preferences > Security & Privacy > Privacy > Accessibility and adding your terminal application
 there.
+
+![accessibility settings](https://github.com/socsieng/sendkeys/raw/main/docs/images/accessibility.gif)
