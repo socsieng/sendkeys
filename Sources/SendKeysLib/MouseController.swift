@@ -29,7 +29,10 @@ class MouseController {
         var downMouseType = CGEventType.leftMouseDown
         var upMouseType = CGEventType.leftMouseUp
         
-        if button != .left {
+        if button == .right {
+            downMouseType = CGEventType.rightMouseDown
+            upMouseType = CGEventType.rightMouseUp
+        } else if button != .left {
             downMouseType = CGEventType.otherMouseDown
             upMouseType = CGEventType.otherMouseUp
         }
@@ -59,7 +62,10 @@ class MouseController {
         var downMouseType = CGEventType.leftMouseDown
         var upMouseType = CGEventType.leftMouseUp
         
-        if button != .left {
+        if button == .right {
+            downMouseType = CGEventType.rightMouseDown
+            upMouseType = CGEventType.rightMouseUp
+        } else if button != .left {
             downMouseType = CGEventType.otherMouseDown
             upMouseType = CGEventType.otherMouseUp
         }
