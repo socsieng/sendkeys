@@ -34,6 +34,7 @@ class MouseController {
         }
         
         let downEvent = CGEvent(mouseEventSource: nil, mouseType: downMouseType, mouseCursorPosition: resolvedLocation, mouseButton: button)
+        downEvent?.setIntegerValueField(.mouseEventClickState, value: Int64(clickCount))
         downEvent?.flags = flags
         downEvent?.post(tap: CGEventTapLocation.cghidEventTap)
         
