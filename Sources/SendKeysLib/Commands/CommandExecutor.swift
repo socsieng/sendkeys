@@ -74,10 +74,12 @@ public class CommandExecutor: CommandExecutorProtocol {
         let x = Int(command.arguments[0]!) ?? 0
         let y = Int(command.arguments[1]!) ?? 0
         let duration = Double(command.arguments[2] ?? "0") ?? 0
+        let modifiers = command.arguments[3]
 
         mouseController.scroll(
             CGPoint(x: x, y: y),
-            duration
+            duration,
+            flags: modifiers != nil ? try! KeyPresser.getModifierFlags(modifiers!.components(separatedBy: ",")) : []
         )
     }
 

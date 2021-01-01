@@ -276,7 +276,7 @@ final class CommandIteratorTests: XCTestCase {
         XCTAssertEqual(
             commands,
             [
-                Command(CommandType.mouseScroll, ["0", "10", nil])
+                Command(CommandType.mouseScroll, ["0", "10", nil, nil])
             ])
     }
 
@@ -285,7 +285,7 @@ final class CommandIteratorTests: XCTestCase {
         XCTAssertEqual(
             commands,
             [
-                Command(CommandType.mouseScroll, ["-100", "10", nil])
+                Command(CommandType.mouseScroll, ["-100", "10", nil, nil])
             ])
     }
 
@@ -294,7 +294,16 @@ final class CommandIteratorTests: XCTestCase {
         XCTAssertEqual(
             commands,
             [
-                Command(CommandType.mouseScroll, ["0", "10", "0.5"])
+                Command(CommandType.mouseScroll, ["0", "10", "0.5", nil])
+            ])
+    }
+
+    func testParsesMouseScrollWithDurationAndModifiers() throws {
+        let commands = getCommands(CommandsIterator("<s:0,10:0.5:shift>"))
+        XCTAssertEqual(
+            commands,
+            [
+                Command(CommandType.mouseScroll, ["0", "10", "0.5", "shift"])
             ])
     }
 
@@ -303,7 +312,7 @@ final class CommandIteratorTests: XCTestCase {
         XCTAssertEqual(
             commands,
             [
-                Command(CommandType.mouseScroll, ["0", "-10", "0.5"])
+                Command(CommandType.mouseScroll, ["0", "-10", "0.5", nil])
             ])
     }
 

@@ -85,7 +85,7 @@ class MouseController {
         upEvent?.post(tap: CGEventTapLocation.cghidEventTap)
     }
     
-    func scroll(_ delta: CGPoint, _ duration: TimeInterval) {
+    func scroll(_ delta: CGPoint, _ duration: TimeInterval, flags: CGEventFlags) {
         var scrolledX: Int = 0;
         var scrolledY: Int = 0;
         let eventSource = CGEventSource(event: nil)
@@ -95,25 +95,27 @@ class MouseController {
                 let amount = Int((Double(delta.x) * progress) - Double(scrolledX))
                 scrolledX += amount
                 
-                self.scrollBy(amount, .horizontal, eventSource: eventSource)
+                self.scrollBy(amount, .horizontal, eventSource: eventSource, flags: flags)
             }
             if delta.y != 0 {
                 let amount = Int((Double(delta.y) * progress) - Double(scrolledY))
                 scrolledY += amount
                 
-                self.scrollBy(amount, .vertical, eventSource: eventSource)
+                self.scrollBy(amount, .vertical, eventSource: eventSource, flags: flags)
             }
         })
         
         animator.animate()
     }
     
-    func scrollBy(_ amount: Int, _ axis: ScrollAxis, eventSource: CGEventSource?) {
+    func scrollBy(_ amount: Int, _ axis: ScrollAxis, eventSource: CGEventSource?, flags: CGEventFlags) {
         if #available(OSX 10.13, *) {
             let event = CGEvent(scrollWheelEvent2Source: eventSource, units: .pixel, wheelCount: 1, wheel1: 0, wheel2: 0, wheel3: 0)
             let field = axis == .vertical ? CGEventField.scrollWheelEventPointDeltaAxis1 : CGEventField.scrollWheelEventPointDeltaAxis2
             
             event?.setIntegerValueField(field, value: Int64(amount * -1))
+            event?.flags = flags
+
             event?.post(tap: CGEventTapLocation.cghidEventTap)
         } else {
             fatalError("Scrolling is only available on 10.13 or later\n")
