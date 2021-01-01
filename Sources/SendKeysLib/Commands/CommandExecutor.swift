@@ -47,23 +47,25 @@ public class CommandExecutor: CommandExecutorProtocol {
         let x2 = Double(command.arguments[2]!)!
         let y2 = Double(command.arguments[3]!)!
         let duration: TimeInterval = Double(command.arguments[4]!)!
+        let modifiers = command.arguments[5]
         
         mouseController.move(
             start: CGPoint(x: x1, y: y1),
             end: CGPoint(x: x2, y: y2),
-            duration: duration
+            duration: duration,
+            flags: modifiers != nil ? try! KeyPresser.getModifierFlags(modifiers!.components(separatedBy: ",")) : []
         )
     }
     
     private func executeMouseClick(_ command: Command) {
         let button = command.arguments[0]!
-        let modifiers = command.arguments[1] ?? ""
+        let modifiers = command.arguments[1]
         let clicks = Int(command.arguments[2]!)!
 
         try! mouseController.click(
             CGPoint(x: -1, y: -1),
             button: getMouseButton(button: button),
-            flags: KeyPresser.getModifierFlags(modifiers.components(separatedBy: ",")),
+            flags: modifiers != nil ? try! KeyPresser.getModifierFlags(modifiers!.components(separatedBy: ",")) : [],
             clickCount: clicks
         )
     }

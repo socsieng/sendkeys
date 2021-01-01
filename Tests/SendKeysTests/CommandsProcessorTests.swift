@@ -126,9 +126,9 @@ final class CommandProcessorTests: XCTestCase {
         let commands = commandExecutor!.commands
         
         XCTAssertEqual(commands, [
-            Command(.mouseMove, ["-1", "-1", "20", "20", "1"]),
+            Command(.mouseMove, ["-1", "-1", "20", "20", "1", nil]),
             Command(.pause, ["0.1"]),
-            Command(.mouseMove, ["-1", "-1", "200", "200", "1"]),
+            Command(.mouseMove, ["-1", "-1", "200", "200", "1", nil]),
             Command(.pause, ["0.1"]),
             Command(.mouseClick, ["left", nil, "1"]),
         ])

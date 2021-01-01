@@ -105,7 +105,16 @@ final class CommandIteratorTests: XCTestCase {
         XCTAssertEqual(
             commands,
             [
-                Command(CommandType.mouseMove, ["1", "2", "3", "4", "0"])
+                Command(CommandType.mouseMove, ["1", "2", "3", "4", "0", nil])
+            ])
+    }
+
+    func testParsesMouseMoveWithModifier() throws {
+        let commands = getCommands(CommandsIterator("<m:1,2,3,4:command>"))
+        XCTAssertEqual(
+            commands,
+            [
+                Command(CommandType.mouseMove, ["1", "2", "3", "4", "0", "command"])
             ])
     }
 
@@ -114,7 +123,16 @@ final class CommandIteratorTests: XCTestCase {
         XCTAssertEqual(
             commands,
             [
-                Command(CommandType.mouseMove, ["1", "2", "3", "4", "0.1"])
+                Command(CommandType.mouseMove, ["1", "2", "3", "4", "0.1", nil])
+            ])
+    }
+
+    func testParsesMouseMoveWithDurationAndModifiers() throws {
+        let commands = getCommands(CommandsIterator("<m:1,2,3,4:0.1:shift,command>"))
+        XCTAssertEqual(
+            commands,
+            [
+                Command(CommandType.mouseMove, ["1", "2", "3", "4", "0.1", "shift,command"])
             ])
     }
 
@@ -123,7 +141,7 @@ final class CommandIteratorTests: XCTestCase {
         XCTAssertEqual(
             commands,
             [
-                Command(CommandType.mouseMove, ["-1", "-1", "3", "4", "0"])
+                Command(CommandType.mouseMove, ["-1", "-1", "3", "4", "0", nil])
             ])
     }
 
@@ -132,7 +150,7 @@ final class CommandIteratorTests: XCTestCase {
         XCTAssertEqual(
             commands,
             [
-                Command(CommandType.mouseMove, ["-1", "-1", "3", "4", "2"])
+                Command(CommandType.mouseMove, ["-1", "-1", "3", "4", "2", nil])
             ])
     }
 

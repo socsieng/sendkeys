@@ -8,7 +8,7 @@ class MouseController {
     
     let animationRefreshInterval: TimeInterval = 0.01
     
-    func move(start: CGPoint, end: CGPoint, duration: TimeInterval) {
+    func move(start: CGPoint, end: CGPoint, duration: TimeInterval, flags: CGEventFlags) {
         let resolvedStart = resolveLocation(start)
         
         let animator = Animator(duration, animationRefreshInterval, { progress in
@@ -16,7 +16,7 @@ class MouseController {
                 x: (Double(end.x - resolvedStart.x) * progress) + Double(resolvedStart.x),
                 y: (Double(end.y - resolvedStart.y) * progress) + Double(resolvedStart.y)
             )
-            self.setLocation(location)
+            self.setLocation(location, flags: flags)
         })
         
         animator.animate()
@@ -107,8 +107,9 @@ class MouseController {
         return event?.location
     }
     
-    private func setLocation(_ location: CGPoint, moveType: CGEventType = CGEventType.mouseMoved, button: CGMouseButton = CGMouseButton.left) {
+    private func setLocation(_ location: CGPoint, moveType: CGEventType = CGEventType.mouseMoved, button: CGMouseButton = CGMouseButton.left, flags: CGEventFlags = []) {
         let moveEvent = CGEvent(mouseEventSource: nil, mouseType: moveType, mouseCursorPosition: location, mouseButton: button)
+        moveEvent?.flags = flags
         moveEvent?.post(tap: CGEventTapLocation.cghidEventTap)
     }
     
