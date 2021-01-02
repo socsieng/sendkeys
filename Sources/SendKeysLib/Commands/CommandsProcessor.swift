@@ -1,9 +1,10 @@
 import Foundation
 
 public class CommandsProcessor {
-    var defaultPause: Double
-    let commandExecutor: CommandExecutorProtocol
+    var defaultPause: TimeInterval
+    
     let numberFormatter = NumberFormatter()
+    let commandExecutor: CommandExecutorProtocol
     
     public init(defaultPause: Double, commandExecutor: CommandExecutorProtocol? = nil) {
         self.defaultPause = defaultPause
@@ -15,7 +16,7 @@ public class CommandsProcessor {
     }
         
     private func getDefaultPauseCommand() -> Command {
-        return Command(.pause, [numberFormatter.string(from: NSNumber(value: defaultPause))!])
+        return PauseCommand(duration: defaultPause)
     }
     
     public func process(_ commandString: String) {
@@ -29,28 +30,24 @@ public class CommandsProcessor {
                 continue
             }
             
-            if command.type == .continuation {
+            if command is ContinuationCommand {
                 shouldIgnoreNextCommand = true
                 continue
             }
-            
-            if command.type == .pause {
+
+            if command is StickyPauseCommand {
                 shouldDefaultPause = false
-            } else if command.type == .stickyPause {
+                defaultPause = (command as! StickyPauseCommand).duration
+            } else if command is PauseCommand {
                 shouldDefaultPause = false
-                defaultPause = Double(command.arguments[0]!)!
             } else if shouldDefaultPause {
-                executeCommand(getDefaultPauseCommand())
+                commandExecutor.execute(getDefaultPauseCommand())
                 shouldDefaultPause = true
             } else {
                 shouldDefaultPause = true
             }
-
-            executeCommand(command)
+            
+            commandExecutor.execute(command)
         }
-    }
-    
-    func executeCommand(_ command: Command) {
-        commandExecutor.execute(command)
     }
 }

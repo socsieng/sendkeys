@@ -8,9 +8,9 @@ final class CommandIteratorTests: XCTestCase {
         XCTAssertEqual(
             commands,
             [
-                Command(CommandType.keyPress, ["a"]),
-                Command(CommandType.keyPress, ["b"]),
-                Command(CommandType.keyPress, ["c"])
+                DefaultCommand(key: "a"),
+                DefaultCommand(key: "b"),
+                DefaultCommand(key: "c")
             ])
     }
 
@@ -19,7 +19,7 @@ final class CommandIteratorTests: XCTestCase {
         XCTAssertEqual(
             commands,
             [
-                Command(CommandType.keyPress, ["a"])
+                KeyPressCommand(key: "a", modifiers: [])
             ])
     }
 
@@ -28,7 +28,7 @@ final class CommandIteratorTests: XCTestCase {
         XCTAssertEqual(
             commands,
             [
-                Command(CommandType.keyPress, ["delete"])
+                KeyPressCommand(key: "delete", modifiers: [])
             ])
     }
 
@@ -37,7 +37,7 @@ final class CommandIteratorTests: XCTestCase {
         XCTAssertEqual(
             commands,
             [
-                Command(CommandType.keyPress, ["a", "command"])
+                KeyPressCommand(key: "a", modifiers: ["command"])
             ])
     }
 
@@ -46,7 +46,7 @@ final class CommandIteratorTests: XCTestCase {
         XCTAssertEqual(
             commands,
             [
-                Command(CommandType.keyPress, ["a", "command,shift"])
+                KeyPressCommand(key: "a", modifiers: ["command", "shift"])
             ])
     }
 
@@ -55,7 +55,7 @@ final class CommandIteratorTests: XCTestCase {
         XCTAssertEqual(
             commands,
             [
-                Command(CommandType.keyPress, ["a"])
+                KeyPressCommand(key: "a", modifiers: [])
             ])
     }
 
@@ -64,7 +64,7 @@ final class CommandIteratorTests: XCTestCase {
         XCTAssertEqual(
             commands,
             [
-                Command(CommandType.keyDown, ["a"])
+                KeyDownCommand(key: "a", modifiers: [])
             ])
     }
 
@@ -73,7 +73,7 @@ final class CommandIteratorTests: XCTestCase {
         XCTAssertEqual(
             commands,
             [
-                Command(CommandType.keyDown, ["a", "shift"])
+                KeyDownCommand(key: "a", modifiers: ["shift"])
             ])
     }
 
@@ -82,7 +82,7 @@ final class CommandIteratorTests: XCTestCase {
         XCTAssertEqual(
             commands,
             [
-                Command(CommandType.keyDown, ["shift"])
+                KeyDownCommand(key: "shift", modifiers: [])
             ])
     }
 
@@ -91,7 +91,7 @@ final class CommandIteratorTests: XCTestCase {
         XCTAssertEqual(
             commands,
             [
-                Command(CommandType.keyUp, ["a"])
+                KeyUpCommand(key: "a", modifiers: [])
             ])
     }
 
@@ -100,7 +100,7 @@ final class CommandIteratorTests: XCTestCase {
         XCTAssertEqual(
             commands,
             [
-                Command(CommandType.keyUp, ["a", "shift"])
+                KeyUpCommand(key: "a", modifiers: ["shift"])
             ])
     }
 
@@ -109,7 +109,7 @@ final class CommandIteratorTests: XCTestCase {
         XCTAssertEqual(
             commands,
             [
-                Command(CommandType.keyUp, ["shift"])
+                KeyUpCommand(key: "shift", modifiers: [])
             ])
     }
 
@@ -118,9 +118,9 @@ final class CommandIteratorTests: XCTestCase {
         XCTAssertEqual(
             commands,
             [
-                Command(CommandType.keyPress, ["return"]),
-                Command(CommandType.keyPress, ["return"]),
-                Command(CommandType.keyPress, ["return"])
+                NewlineCommand(),
+                NewlineCommand(),
+                NewlineCommand()
             ])
     }
 
@@ -129,9 +129,9 @@ final class CommandIteratorTests: XCTestCase {
         XCTAssertEqual(
             commands,
             [
-                Command(CommandType.keyPress, ["return"]),
-                Command(CommandType.keyPress, ["return"]),
-                Command(CommandType.keyPress, ["return"])
+                NewlineCommand(),
+                NewlineCommand(),
+                NewlineCommand()
             ])
     }
 
@@ -140,8 +140,8 @@ final class CommandIteratorTests: XCTestCase {
         XCTAssertEqual(
             commands,
             [
-                Command(CommandType.keyPress, ["a", "command"]),
-                Command(CommandType.keyPress, ["c", "command"])
+                KeyPressCommand(key: "a", modifiers: ["command"]),
+                KeyPressCommand(key: "c", modifiers: ["command"])
             ])
     }
 
@@ -150,7 +150,7 @@ final class CommandIteratorTests: XCTestCase {
         XCTAssertEqual(
             commands,
             [
-                Command(CommandType.continuation, [])
+                ContinuationCommand()
             ])
     }
 
@@ -159,7 +159,7 @@ final class CommandIteratorTests: XCTestCase {
         XCTAssertEqual(
             commands,
             [
-                Command(CommandType.pause, ["0.2"])
+                PauseCommand(duration: 0.2)
             ])
     }
 
@@ -168,7 +168,7 @@ final class CommandIteratorTests: XCTestCase {
         XCTAssertEqual(
             commands,
             [
-                Command(CommandType.stickyPause, ["0.2"])
+                StickyPauseCommand(duration: 0.2)
             ])
     }
 
@@ -177,7 +177,7 @@ final class CommandIteratorTests: XCTestCase {
         XCTAssertEqual(
             commands,
             [
-                Command(CommandType.mouseMove, ["1", "2", "3", "4", "0", nil])
+                MouseMoveCommand(x1: 1, y1: 2, x2: 3, y2: 4, duration: 0, modifiers: [])
             ])
     }
 
@@ -186,7 +186,7 @@ final class CommandIteratorTests: XCTestCase {
         XCTAssertEqual(
             commands,
             [
-                Command(CommandType.mouseMove, ["1", "2", "3", "4", "0", "command"])
+                MouseMoveCommand(x1: 1, y1: 2, x2: 3, y2: 4, duration: 0, modifiers: ["command"])
             ])
     }
 
@@ -195,7 +195,7 @@ final class CommandIteratorTests: XCTestCase {
         XCTAssertEqual(
             commands,
             [
-                Command(CommandType.mouseMove, ["1", "2", "3", "4", "0.1", nil])
+                MouseMoveCommand(x1: 1, y1: 2, x2: 3, y2: 4, duration: 0.1, modifiers: [])
             ])
     }
 
@@ -204,7 +204,7 @@ final class CommandIteratorTests: XCTestCase {
         XCTAssertEqual(
             commands,
             [
-                Command(CommandType.mouseMove, ["1", "2", "3", "4", "0.1", "shift,command"])
+                MouseMoveCommand(x1: 1, y1: 2, x2: 3, y2: 4, duration: 0.1, modifiers: ["shift", "command"])
             ])
     }
 
@@ -213,7 +213,7 @@ final class CommandIteratorTests: XCTestCase {
         XCTAssertEqual(
             commands,
             [
-                Command(CommandType.mouseMove, ["-1", "-1", "3", "4", "0", nil])
+                MouseMoveCommand(x1: nil, y1: nil, x2: 3, y2: 4, duration: 0, modifiers: [])
             ])
     }
 
@@ -222,7 +222,7 @@ final class CommandIteratorTests: XCTestCase {
         XCTAssertEqual(
             commands,
             [
-                Command(CommandType.mouseMove, ["-1", "-1", "3", "4", "2", nil])
+                MouseMoveCommand(x1: nil, y1: nil, x2: 3, y2: 4, duration: 2, modifiers: [])
             ])
     }
 
@@ -231,7 +231,7 @@ final class CommandIteratorTests: XCTestCase {
         XCTAssertEqual(
             commands,
             [
-                Command(CommandType.mouseClick, ["left", nil, "1"])
+                MouseClickCommand(button: "left", modifiers: [], clicks: 1)
             ])
     }
 
@@ -240,7 +240,7 @@ final class CommandIteratorTests: XCTestCase {
         XCTAssertEqual(
             commands,
             [
-                Command(CommandType.mouseClick, ["left", "shift,command", "1"])
+                MouseClickCommand(button: "left", modifiers: ["shift", "command"], clicks: 1)
             ])
     }
 
@@ -249,7 +249,7 @@ final class CommandIteratorTests: XCTestCase {
         XCTAssertEqual(
             commands,
             [
-                Command(CommandType.mouseClick, ["right", nil, "2"])
+                MouseClickCommand(button: "right", modifiers: [], clicks: 2)
             ])
     }
 
@@ -258,7 +258,7 @@ final class CommandIteratorTests: XCTestCase {
         XCTAssertEqual(
             commands,
             [
-                Command(CommandType.mouseClick, ["right", "command", "2"])
+                MouseClickCommand(button: "right", modifiers: ["command"], clicks: 2)
             ])
     }
 
@@ -267,7 +267,7 @@ final class CommandIteratorTests: XCTestCase {
         XCTAssertEqual(
             commands,
             [
-                Command(CommandType.mouseDrag, ["1", "2", "3", "4", "0", "left", nil])
+                MouseDragCommand(x1: 1, y1: 2, x2: 3, y2: 4, duration: 0, button: "left", modifiers: [])
             ])
     }
 
@@ -276,7 +276,7 @@ final class CommandIteratorTests: XCTestCase {
         XCTAssertEqual(
             commands,
             [
-                Command(CommandType.mouseDrag, ["1", "2", "3", "4", "0", "right", nil])
+                MouseDragCommand(x1: 1, y1: 2, x2: 3, y2: 4, duration: 0, button: "right", modifiers: [])
             ])
     }
 
@@ -285,7 +285,7 @@ final class CommandIteratorTests: XCTestCase {
         XCTAssertEqual(
             commands,
             [
-                Command(CommandType.mouseDrag, ["1", "2", "3", "4", "0", "right", "command,shift"])
+                MouseDragCommand(x1: 1, y1: 2, x2: 3, y2: 4, duration: 0, button: "right", modifiers: ["command", "shift"])
             ])
     }
 
@@ -294,7 +294,7 @@ final class CommandIteratorTests: XCTestCase {
         XCTAssertEqual(
             commands,
             [
-                Command(CommandType.mouseDrag, ["1", "2", "3", "4", "0.1", "left", nil])
+                MouseDragCommand(x1: 1, y1: 2, x2: 3, y2: 4, duration: 0.1, button: "left", modifiers: [])
             ])
     }
 
@@ -303,7 +303,7 @@ final class CommandIteratorTests: XCTestCase {
         XCTAssertEqual(
             commands,
             [
-                Command(CommandType.mouseDrag, ["1", "2", "3", "4", "0.1", "right", nil])
+                MouseDragCommand(x1: 1, y1: 2, x2: 3, y2: 4, duration: 0.1, button: "right", modifiers: [])
             ])
     }
 
@@ -312,7 +312,7 @@ final class CommandIteratorTests: XCTestCase {
         XCTAssertEqual(
             commands,
             [
-                Command(CommandType.mouseDrag, ["1", "2", "3", "4", "0.1", "right", "command"])
+                MouseDragCommand(x1: 1, y1: 2, x2: 3, y2: 4, duration: 0.1, button: "right", modifiers: ["command"])
             ])
     }
 
@@ -321,7 +321,7 @@ final class CommandIteratorTests: XCTestCase {
         XCTAssertEqual(
             commands,
             [
-                Command(CommandType.mouseDrag, ["-1", "-1", "3", "4", "0", "left", nil])
+                MouseDragCommand(x1: nil, y1: nil, x2: 3, y2: 4, duration: 0, button: "left", modifiers: [])
             ])
     }
 
@@ -330,7 +330,7 @@ final class CommandIteratorTests: XCTestCase {
         XCTAssertEqual(
             commands,
             [
-                Command(CommandType.mouseDrag, ["-1", "-1", "3", "4", "2", "left", nil])
+                MouseDragCommand(x1: nil, y1: nil, x2: 3, y2: 4, duration: 2, button: "left", modifiers: [])
             ])
     }
 
@@ -339,7 +339,7 @@ final class CommandIteratorTests: XCTestCase {
         XCTAssertEqual(
             commands,
             [
-                Command(CommandType.mouseDrag, ["-1", "-1", "3", "4", "2", "center", nil])
+                MouseDragCommand(x1: nil, y1: nil, x2: 3, y2: 4, duration: 2, button: "center", modifiers: [])
             ])
     }
 
@@ -348,7 +348,7 @@ final class CommandIteratorTests: XCTestCase {
         XCTAssertEqual(
             commands,
             [
-                Command(CommandType.mouseScroll, ["0", "10", nil, nil])
+                MouseScrollCommand(x: 0, y: 10, duration: 0, modifiers: [])
             ])
     }
 
@@ -357,7 +357,7 @@ final class CommandIteratorTests: XCTestCase {
         XCTAssertEqual(
             commands,
             [
-                Command(CommandType.mouseScroll, ["-100", "10", nil, nil])
+                MouseScrollCommand(x: -100, y: 10, duration: 0, modifiers: [])
             ])
     }
 
@@ -366,7 +366,7 @@ final class CommandIteratorTests: XCTestCase {
         XCTAssertEqual(
             commands,
             [
-                Command(CommandType.mouseScroll, ["0", "10", "0.5", nil])
+                MouseScrollCommand(x: 0, y: 10, duration: 0.5, modifiers: [])
             ])
     }
 
@@ -375,7 +375,7 @@ final class CommandIteratorTests: XCTestCase {
         XCTAssertEqual(
             commands,
             [
-                Command(CommandType.mouseScroll, ["0", "10", "0.5", "shift"])
+                MouseScrollCommand(x: 0, y: 10, duration: 0.5, modifiers: ["shift"])
             ])
     }
 
@@ -384,7 +384,7 @@ final class CommandIteratorTests: XCTestCase {
         XCTAssertEqual(
             commands,
             [
-                Command(CommandType.mouseScroll, ["0", "-10", "0.5", nil])
+                MouseScrollCommand(x: 0, y: -10, duration: 0.5, modifiers: [])
             ])
     }
 

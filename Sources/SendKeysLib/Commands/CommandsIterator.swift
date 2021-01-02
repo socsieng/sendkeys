@@ -3,21 +3,6 @@ import Foundation
 public class CommandsIterator: IteratorProtocol {
     public typealias Element = Command
 
-    private let commandMatchers: [CommandMatcher] = [
-        KeyPressCommandMatcher(),
-        KeyDownCommandMatcher(),
-        KeyUpCommandMatcher(),
-        StickyPauseCommandMatcher(),
-        PauseCommandMatcher(),
-        ContinuationCommandMatcher(),
-        NewlineCommandMatcher(),
-        MouseMoveCommandMatcher(),
-        MouseClickCommandMatcher(),
-        MouseDragCommandMatcher(),
-        MouseScrollCommandMatcher(),
-        DefaultCommandMatcher()
-    ]
-
     let commandString: String
     var index = 0;
 
@@ -29,14 +14,13 @@ public class CommandsIterator: IteratorProtocol {
         let length = commandString.utf16.count
         if index < length {
             var matchResult: NSTextCheckingResult?;
-            let matcher = commandMatchers.first { (matcher: CommandMatcher) -> Bool in
-                matchResult = matcher.expression.firstMatch(in: commandString, options: .anchored, range: NSMakeRange(index, length - index))
-                return matchResult != nil
-            }
-
-            if matcher != nil {
+            if let commandType = CommandFactory.commands.first(where: { (commandType: Command.Type) -> Bool in
+                    matchResult = commandType.expression.firstMatch(in: commandString, options: .anchored, range: NSMakeRange(index, length - index))
+                    return matchResult != nil
+                }
+            ) {
                 let args = getArguments(commandString, matchResult!)
-                let command = matcher!.createCommand(args)
+                let command = CommandFactory.create(commandType, arguments: args)
 
                 if matchResult != nil {
                     let range = Range(matchResult!.range, in: commandString)
