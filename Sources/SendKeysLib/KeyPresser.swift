@@ -24,8 +24,8 @@ class KeyPresser {
     }
 
     func keyUp(event: CGEvent) -> CGEvent? {
-        let keyUpEvent = CGEvent(keyboardEventSource: CGEventSource(event: event), virtualKey: 0, keyDown: false)
-        keyUpEvent?.flags = event.flags
+        let keyCode = UInt16(event.getIntegerValueField(.keyboardEventKeycode))
+        let keyUpEvent = CGEvent(keyboardEventSource: CGEventSource(event: event), virtualKey: keyCode, keyDown: false)
         keyUpEvent?.post(tap: CGEventTapLocation.cghidEventTap)
 
         return keyUpEvent
@@ -45,7 +45,7 @@ class KeyPresser {
             }
         }
 
-        if !flags.isEmpty {
+        if !modifiers.isEmpty {
             keyEvent?.flags = flags
         }
 

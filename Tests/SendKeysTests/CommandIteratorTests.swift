@@ -23,6 +23,15 @@ final class CommandIteratorTests: XCTestCase {
             ])
     }
 
+    func testParsesKeyPressDelete() throws {
+        let commands = getCommands(CommandsIterator("<c:delete>"))
+        XCTAssertEqual(
+            commands,
+            [
+                Command(CommandType.keyPress, ["delete"])
+            ])
+    }
+
     func testParsesKeyPressesWithModifierKey() throws {
         let commands = getCommands(CommandsIterator("<c:a:command>"))
         XCTAssertEqual(
