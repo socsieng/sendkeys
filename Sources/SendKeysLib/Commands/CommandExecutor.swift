@@ -44,8 +44,6 @@ public class CommandExecutor: CommandExecutorProtocol {
         default:
             return
         }
-
-        try! keyPresser.keyPress(key: command.arguments[0]!, modifiers: modifiers)
     }
 
     private func executePause(_ command: Command) {
