@@ -1,5 +1,29 @@
 # Changelog
 
+## [1.1.0](https://www.github.com/socsieng/sendkeys/compare/v1.0.0...v1.1.0) (2021-01-02)
+
+
+### Features
+
+* add support for key down and up commands ([2c5cefb](https://www.github.com/socsieng/sendkeys/commit/2c5cefb28c802dea94d55920c4092b232f50e62e))
+* add support for mouse clicks with modifier keys ([1654fd7](https://www.github.com/socsieng/sendkeys/commit/1654fd7217c7588c16c22ff779d26564aee634f9))
+* add support for mouse drag with modifier keys ([32964a7](https://www.github.com/socsieng/sendkeys/commit/32964a725312bfa04d203c4b56d3cf20cf237b52))
+* add support for mouse move with modifier keys ([7f4c891](https://www.github.com/socsieng/sendkeys/commit/7f4c891be9aed26f37c38d6275247830d9f04b5c))
+* add support for mouse scroll with modifier keys ([27afc5b](https://www.github.com/socsieng/sendkeys/commit/27afc5bb7c50b762d4d1333f3c6eeef6b92a8d8d))
+
+
+### Bug Fixes
+
+* add event source attribution to related events ([d443fdf](https://www.github.com/socsieng/sendkeys/commit/d443fdf6c2e64b8258e76c7a2ea23a94de62a695))
+* make right click work consistently across applications ([464a401](https://www.github.com/socsieng/sendkeys/commit/464a401d532ef2afc1cfa6a206d84479aa92888a))
+* use click count when triggering mouse click ([f824a98](https://www.github.com/socsieng/sendkeys/commit/f824a98823551c451fcb4e8f6c9196d9fe26b8e6))
+
+
+### Documentation
+
+* add example of mouse move command ([2470c7b](https://www.github.com/socsieng/sendkeys/commit/2470c7bc56feb207fda2b1f2e39b1377ccf4ffd2))
+* **modifier keys:** add documentation for mouse modifier keys ([7c5e9d9](https://www.github.com/socsieng/sendkeys/commit/7c5e9d917d5eb18b003095a8a361e9ac99078826))
+
 ## [1.0.0](https://www.github.com/socsieng/sendkeys/compare/v0.5.0...v1.0.0) (2020-12-31)
 
 
