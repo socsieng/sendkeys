@@ -108,6 +108,12 @@ Example usage:
 - `<m:400,400,0,0:2>`: Move mouse cursor from 400, 400 position to 0, 0 over 2 seconds.
 - `<m:400,400>`: Move mouse cursor to 400, 400 instantly.
 
+```sh
+sendkeys -c "<m:100,300,300,300:0.5><p:0.5><m:100,300:0.5>"
+```
+
+![mouse move example](https://github.com/socsieng/sendkeys/raw/main/docs/images/mouse.gif)
+
 #### Mouse click
 
 A mouse click can be activated using the following markup: `<m:button[:modifiers][:clicks]>`
