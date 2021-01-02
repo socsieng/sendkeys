@@ -1,5 +1,13 @@
 # Changelog
 
+### [1.1.1](https://www.github.com/socsieng/sendkeys/compare/v1.1.0...v1.1.1) (2021-01-02)
+
+
+### Bug Fixes
+
+* address modifier key issue on key up ([0bfa58a](https://www.github.com/socsieng/sendkeys/commit/0bfa58ad87ebcff46b905900584877544a533463))
+* double key entry issue ([26ad67e](https://www.github.com/socsieng/sendkeys/commit/26ad67e80aaa30fcd9c2a1bb20f5987288760bbc))
+
 ## [1.1.0](https://www.github.com/socsieng/sendkeys/compare/v1.0.0...v1.1.0) (2021-01-02)
 
 
