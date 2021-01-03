@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://www.github.com/socsieng/sendkeys/compare/v1.1.1...v1.2.0) (2021-01-03)
+
+
+### Features
+
+* defer accesibility check to execution of the command ([670d091](https://www.github.com/socsieng/sendkeys/commit/670d091d17100fd9b9cdb74ba0eebf69cae6af51))
+
 ### [1.1.1](https://www.github.com/socsieng/sendkeys/compare/v1.1.0...v1.1.1) (2021-01-02)
 
 
