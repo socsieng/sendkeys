@@ -196,7 +196,8 @@ execute the following command:
 sendkeys mouse-position
 ```
 
-Use the `--wait` option to capture multiple mouse positions in a session.
+Use the `--watch` option to capture the location of mouse clicks, and combine it with `--output commands` to output
+approximate mouse commands that can be used to _replay_ mouse actions.
 
 ## Prerequisites
 
