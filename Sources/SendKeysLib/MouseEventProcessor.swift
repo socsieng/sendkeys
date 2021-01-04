@@ -35,38 +35,44 @@ struct MouseEvent {
     let button: MouseButton
     let startPoint: CGPoint
     let endPoint: CGPoint
+    let duration: TimeInterval
 
-    init(eventType: MouseEventType, button: MouseButton, startPoint: CGPoint, endPoint: CGPoint) {
+    init(eventType: MouseEventType, button: MouseButton, startPoint: CGPoint, endPoint: CGPoint, duration: TimeInterval) {
         self.eventType = eventType
         self.button = button
         self.startPoint = startPoint
         self.endPoint = endPoint
+        self.duration = duration
     }
 }
 
 class MouseEventProcessor {
     var events: [RawMouseEvent] = []
+    var lastDate: Date = Date()
 
     func consumeEvent(type: CGEventType, event: CGEvent) -> MouseEvent? {
         let button = getMouseButton(type: type, event: event)
         let rawEvent = RawMouseEvent(eventType: type, button: button, point: event.location)
+        var mouseEvent: MouseEvent? = nil
 
         switch type {
         case .leftMouseUp, .rightMouseUp, .otherMouseUp:
             switch events.last?.eventType {
             case .leftMouseDown, .rightMouseDown, .otherMouseDown:
-                return MouseEvent(eventType: .click, button: button, startPoint: events.first!.point, endPoint: event.location)
+                mouseEvent = MouseEvent(eventType: .click, button: button, startPoint: events.first!.point, endPoint: event.location, duration: -lastDate.timeIntervalSinceNow)
             case .leftMouseDragged, .rightMouseDragged, .otherMouseDragged:
-                return MouseEvent(eventType: .drag, button: button, startPoint: events.first!.point, endPoint: event.location)
+                mouseEvent = MouseEvent(eventType: .drag, button: button, startPoint: events.first!.point, endPoint: event.location, duration: -lastDate.timeIntervalSinceNow)
             default:
                 events.append(rawEvent)
             }
+
+            lastDate = Date()
             events = []
         default:
             events.append(rawEvent)
         }
 
-        return nil
+        return mouseEvent
     }
 
     private func getMouseButton(type: CGEventType, event: CGEvent) -> MouseButton {

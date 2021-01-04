@@ -17,16 +17,13 @@ class MousePosition: ParsableCommand {
     @Option(name: NameSpecification([.customShort("o"), .customLong("output", withSingleDash: false) ]), help: "Displays results as either a series of coordinates or commands.")
     var mode = OutputMode.coordinates
 
-    @Option(name: NameSpecification([.customShort("d"), .long ]), help: "Default duration to attach to commands.")
-    var includeDelay: Double = 0.5
-
     static let eventProcessor = MouseEventProcessor()
     static var numberFormatter = NumberFormatter()
 
     required init() {
         MousePosition.numberFormatter.usesSignificantDigits = true
         MousePosition.numberFormatter.minimumSignificantDigits = 1
-        MousePosition.numberFormatter.maximumSignificantDigits = 4
+        MousePosition.numberFormatter.maximumSignificantDigits = 3
     }
 
     func run() {
@@ -84,7 +81,6 @@ class MousePosition: ParsableCommand {
         guard let eventTap = CGEvent.tapCreate(tap: .cghidEventTap, place: .tailAppendEventTap, options: .defaultTap, eventsOfInterest: CGEventMask(eventMask), callback: {
             (proxy: CGEventTapProxy, eventType: CGEventType, event: CGEvent, refcon: UnsafeMutableRawPointer?) -> Unmanaged<CGEvent>? in
             let command: MousePosition = bridge(ptr: UnsafeRawPointer(refcon)!)
-            let duration = MousePosition.numberFormatter.string(from: NSNumber(value: command.includeDelay))!
 
             if let mouseEvent = MousePosition.eventProcessor.consumeEvent(type: eventType, event: event) {
                 switch command.mode {
@@ -95,9 +91,27 @@ class MousePosition: ParsableCommand {
                 case .commands:
                     switch mouseEvent.eventType {
                     case .click:
-                        command.printAndFlush(String(format: "<m:%.0f,%.0f:%@><m:%@><\\>", mouseEvent.endPoint.x, mouseEvent.endPoint.y, duration, mouseEvent.button.rawValue))
+                        command.printAndFlush(
+                            String(
+                                format: "<m:%.0f,%.0f:%@><m:%@><\\>",
+                                mouseEvent.endPoint.x,
+                                mouseEvent.endPoint.y,
+                                MousePosition.numberFormatter.string(for: mouseEvent.duration)!,
+                                mouseEvent.button.rawValue
+                            )
+                        )
                     case .drag:
-                        command.printAndFlush(String(format: "<d:%.0f,%.0f,%.0f,%.0f:%@:%@><\\>", mouseEvent.startPoint.x, mouseEvent.startPoint.y, mouseEvent.endPoint.x, mouseEvent.endPoint.y, duration, mouseEvent.button.rawValue))
+                        command.printAndFlush(
+                            String(
+                                format: "<d:%.0f,%.0f,%.0f,%.0f:%@:%@><\\>",
+                                mouseEvent.startPoint.x,
+                                mouseEvent.startPoint.y,
+                                mouseEvent.endPoint.x,
+                                mouseEvent.endPoint.y,
+                                MousePosition.numberFormatter.string(for: mouseEvent.duration)!,
+                                mouseEvent.button.rawValue
+                            )
+                        )
                     }
                 }
             }
