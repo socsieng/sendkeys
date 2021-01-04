@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.3.0](https://www.github.com/socsieng/sendkeys/compare/v1.2.0...v1.3.0) (2021-01-04)
+
+
+### Features
+
+* add option to listen to mouse clicks ([d1d129f](https://www.github.com/socsieng/sendkeys/commit/d1d129fed23f969b10bf0475aeb77f9752a4a5bd))
+
+
+### Documentation
+
+* use expanded argument names in examples ([f4839a3](https://www.github.com/socsieng/sendkeys/commit/f4839a3c027bc78fb13e6f717147f206c3c043d8))
+
 ## [1.2.0](https://www.github.com/socsieng/sendkeys/compare/v1.1.1...v1.2.0) (2021-01-03)
 
 
