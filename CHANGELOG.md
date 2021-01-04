@@ -1,5 +1,22 @@
 # Changelog
 
+## [2.0.0](https://www.github.com/socsieng/sendkeys/compare/v1.3.0...v2.0.0) (2021-01-04)
+
+
+### Features
+
+* use click timings when producing mouse commands ([970e1df](https://www.github.com/socsieng/sendkeys/commit/970e1df52a903c93da62a572edc99caea1ffc1b5)), closes [#18](https://www.github.com/socsieng/sendkeys/issues/18)
+
+
+### Bug Fixes
+
+* check file exists before activating application ([94cda37](https://www.github.com/socsieng/sendkeys/commit/94cda379c54175e1b59a87633512456b327e63fa)), closes [#17](https://www.github.com/socsieng/sendkeys/issues/17)
+
+
+### Documentation
+
+* include example recording and replaying mouse commands ([5019461](https://www.github.com/socsieng/sendkeys/commit/501946176dab36189e05b49c6e09800ec3bd77ad)), closes [#19](https://www.github.com/socsieng/sendkeys/issues/19)
+
 ## [1.3.0](https://www.github.com/socsieng/sendkeys/compare/v1.2.0...v1.3.0) (2021-01-04)
 
 
