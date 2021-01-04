@@ -11,7 +11,7 @@ This is a Swift rewrite of [`sendkeys-macos`](https://github.com/socsieng/sendke
 Basic usage:
 
 ```sh
-sendkeys -a "Notes" -c "Hello<p:1> world<c:left:option,shift><c:i:command>"
+sendkeys --application-name "Notes" --characters "Hello<p:1> world<c:left:option,shift><c:i:command>"
 ```
 
 ![hello world example](https://github.com/socsieng/sendkeys/raw/main/docs/images/example1.gif)
@@ -22,7 +22,7 @@ _Activates the Notes application and types `Hello` (followed by a 1 second pause
 Input can be read from a file:
 
 ```sh
-sendkeys -a "Code" -f example.txt
+sendkeys --application-name "Code" --input-file example.txt
 ```
 
 _Activates Visual Studio Code and sends keystrokes loaded from `example.txt`._
@@ -30,7 +30,7 @@ _Activates Visual Studio Code and sends keystrokes loaded from `example.txt`._
 Input can also be piped to `stdin`:
 
 ```sh
-cat example.txt | sendkeys -a "Notes"
+cat example.txt | sendkeys --application-name "Notes"
 ```
 
 _Activates the Notes application and sends keystrokes piped from `stdout` of the preceeding command._
