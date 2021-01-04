@@ -34,14 +34,6 @@ public struct SendKeysCli: ParsableCommand {
             fputs("WARNING: Accessibility preferences must be enabled to use this tool. If running from the terminal, make sure that your terminal app has accessibility permissiions enabled.\n\n", stderr)
         }
 
-        if !(applicationName ?? "").isEmpty {
-            try AppActivator(appName: applicationName!).activate()
-        }
-
-        if (initialDelay > 0) {
-            Sleeper.sleep(seconds: initialDelay)
-        }
-
         let commandProcessor = CommandsProcessor(defaultPause: delay)
         var commandString: String?
 
@@ -53,6 +45,14 @@ public struct SendKeysCli: ParsableCommand {
             }
         } else if !(characters ?? "").isEmpty {
             commandString = characters
+        }
+
+        if !(applicationName ?? "").isEmpty {
+            try AppActivator(appName: applicationName!).activate()
+        }
+
+        if (initialDelay > 0) {
+            Sleeper.sleep(seconds: initialDelay)
         }
 
         if !(commandString ?? "").isEmpty {
