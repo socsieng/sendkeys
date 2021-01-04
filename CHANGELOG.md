@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.2.1](https://www.github.com/socsieng/sendkeys/compare/v1.2.0...v1.2.1) (2021-01-04)
+
+
+### Documentation
+
+* use expanded argument names in examples ([f4839a3](https://www.github.com/socsieng/sendkeys/commit/f4839a3c027bc78fb13e6f717147f206c3c043d8))
+
 ## [1.2.0](https://www.github.com/socsieng/sendkeys/compare/v1.1.1...v1.2.0) (2021-01-03)
 
 
