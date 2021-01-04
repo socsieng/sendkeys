@@ -199,6 +199,14 @@ sendkeys mouse-position
 Use the `--watch` option to capture the location of mouse clicks, and combine it with `--output commands` to output
 approximate mouse commands that can be used to _replay_ mouse actions.
 
+```
+# capture mouse commands
+sendkeys mouse-position --watch --output commands > mouse_commands.txt
+
+# replay mouse commands
+sendkeys --input-file mouse_commands.txt
+```
+
 ## Prerequisites
 
 This application will only run on macOS 10.11 or later.
