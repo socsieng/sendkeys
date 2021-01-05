@@ -61,6 +61,8 @@ class MousePosition: ParsableCommand {
 
     func watchMouseInput() {
         fputs("Waiting for mouse input... ctrl + c to stop.\n", stderr)
+        
+        MousePosition.eventProcessor.start()
 
         var eventMask = (1 << CGEventType.leftMouseDown.rawValue)
             | (1 << CGEventType.leftMouseUp.rawValue)

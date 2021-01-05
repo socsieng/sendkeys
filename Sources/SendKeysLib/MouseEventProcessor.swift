@@ -94,6 +94,10 @@ struct MouseEvent: CustomStringConvertible {
 class MouseEventProcessor {
     var events: [RawMouseEvent] = []
     var lastDate: Date = Date()
+    
+    func start() {
+        lastDate = Date()
+    }
 
     func consumeEvent(type: CGEventType, event: CGEvent) -> MouseEvent? {
         let button = getMouseButton(type: type, event: event)
