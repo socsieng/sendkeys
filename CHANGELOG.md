@@ -1,5 +1,17 @@
 # Changelog
 
+### [2.0.1](https://www.github.com/socsieng/sendkeys/compare/v2.0.0...v2.0.1) (2021-01-05)
+
+
+### Bug Fixes
+
+* start mouse timing when mouse-position command is executed ([1437aac](https://www.github.com/socsieng/sendkeys/commit/1437aac909e289a782d16677601a81c49d443d85))
+
+
+### Documentation
+
+* update documentation to state that the application should be running ([3e0d973](https://www.github.com/socsieng/sendkeys/commit/3e0d9736559d48e45c3287c48830bd743926e3ef))
+
 ## [2.0.0](https://www.github.com/socsieng/sendkeys/compare/v1.3.0...v2.0.0) (2021-01-04)
 
 
