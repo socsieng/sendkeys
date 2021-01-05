@@ -16,8 +16,8 @@ sendkeys --application-name "Notes" --characters "Hello<p:1> world<c:left:option
 
 ![hello world example](https://github.com/socsieng/sendkeys/raw/main/docs/images/example1.gif)
 
-_Activates the Notes application and types `Hello` (followed by a 1 second pause) and `world`, and then selects the word
-`world` and changes the font to italics with `command` + `i`._
+_Activates the Notes application (assuming Notes is already running) and types `Hello` (followed by a 1 second pause)
+and `world`, and then selects the word `world` and changes the font to italics with `command` + `i`._
 
 Input can be read from a file:
 

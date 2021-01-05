@@ -10,7 +10,7 @@ public struct SendKeysCli: ParsableCommand {
         subcommands: [MousePosition.self]
     )
 
-    @Option(name: .shortAndLong, help: "Name of the application to send keys to.")
+    @Option(name: .shortAndLong, help: "Name of a running application to send keys to.")
     var applicationName: String?
 
     @Option(name: .shortAndLong, help: "Default delay between keystrokes in seconds.")
