@@ -18,12 +18,8 @@ class MousePosition: ParsableCommand {
     var mode = OutputMode.coordinates
 
     static let eventProcessor = MouseEventProcessor()
-    static var numberFormatter = NumberFormatter()
 
     required init() {
-        MousePosition.numberFormatter.usesSignificantDigits = true
-        MousePosition.numberFormatter.minimumSignificantDigits = 1
-        MousePosition.numberFormatter.maximumSignificantDigits = 3
     }
 
     func run() {
@@ -89,30 +85,7 @@ class MousePosition: ParsableCommand {
                         command.printAndFlush(String(format: "%.0f,%.0f", mouseEvent.endPoint.x, mouseEvent.endPoint.y))
                     }
                 case .commands:
-                    switch mouseEvent.eventType {
-                    case .click:
-                        command.printAndFlush(
-                            String(
-                                format: "<m:%.0f,%.0f:%@><m:%@><\\>",
-                                mouseEvent.endPoint.x,
-                                mouseEvent.endPoint.y,
-                                MousePosition.numberFormatter.string(for: mouseEvent.duration)!,
-                                mouseEvent.button.rawValue
-                            )
-                        )
-                    case .drag:
-                        command.printAndFlush(
-                            String(
-                                format: "<d:%.0f,%.0f,%.0f,%.0f:%@:%@><\\>",
-                                mouseEvent.startPoint.x,
-                                mouseEvent.startPoint.y,
-                                mouseEvent.endPoint.x,
-                                mouseEvent.endPoint.y,
-                                MousePosition.numberFormatter.string(for: mouseEvent.duration)!,
-                                mouseEvent.button.rawValue
-                            )
-                        )
-                    }
+                    command.printAndFlush(mouseEvent.description)
                 }
             }
 

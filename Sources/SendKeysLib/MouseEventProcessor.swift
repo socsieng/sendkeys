@@ -30,12 +30,14 @@ struct RawMouseEvent {
     }
 }
 
-struct MouseEvent {
+struct MouseEvent: CustomStringConvertible {
     let eventType: MouseEventType
     let button: MouseButton
     let startPoint: CGPoint
     let endPoint: CGPoint
     let duration: TimeInterval
+    
+    static let numberFormatter = createNumberFormatter()
 
     init(eventType: MouseEventType, button: MouseButton, startPoint: CGPoint, endPoint: CGPoint, duration: TimeInterval) {
         self.eventType = eventType
@@ -43,6 +45,49 @@ struct MouseEvent {
         self.startPoint = startPoint
         self.endPoint = endPoint
         self.duration = duration
+    }
+
+    var description: String {
+        get {
+            switch eventType {
+            case .click:
+                var moveParts: [String] = []
+                var clickParts: [String] = []
+
+                moveParts.append(String(format: "%.0f,%.0f", endPoint.x, endPoint.y))
+                
+                if duration > 0 {
+                    moveParts.append(Self.numberFormatter.string(for: duration)!)
+                }
+                
+                clickParts.append(button.description)
+                
+                return "<m:\(moveParts.joined(separator: ":"))><m:\(clickParts.joined(separator: ":"))><\\>"
+            case .drag:
+                var parts: [String] = []
+                
+                parts.append(String(format: "%.0f,%.0f,%.0f,%.0f", startPoint.x, startPoint.y, endPoint.x, endPoint.y))
+                
+                if duration > 0 {
+                    parts.append(Self.numberFormatter.string(for: duration)!)
+                }
+                
+                parts.append(button.description)
+                
+                return "<d:\(parts.joined(separator: ":"))><\\>"
+            }
+            
+        }
+    }
+    
+    static func createNumberFormatter() -> NumberFormatter {
+        let numberFormatter = NumberFormatter()
+        
+        numberFormatter.usesSignificantDigits = true
+        numberFormatter.minimumSignificantDigits = 1
+        numberFormatter.maximumSignificantDigits = 3
+
+        return numberFormatter
     }
 }
 
