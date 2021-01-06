@@ -199,6 +199,15 @@ final class CommandIteratorTests: XCTestCase {
             ])
     }
 
+    func testParsesMouseMoveWithNegativeCoordinates() throws {
+        let commands = getCommands(CommandsIterator("<m:-1,-2,-3,-4:0.1>"))
+        XCTAssertEqual(
+            commands,
+            [
+                MouseMoveCommand(x1: -1, y1: -2, x2: -3, y2: -4, duration: 0.1, modifiers: [])
+            ])
+    }
+
     func testParsesMouseMoveWithDurationAndModifiers() throws {
         let commands = getCommands(CommandsIterator("<m:1,2,3,4:0.1:shift,command>"))
         XCTAssertEqual(
@@ -295,6 +304,15 @@ final class CommandIteratorTests: XCTestCase {
             commands,
             [
                 MouseDragCommand(x1: 1, y1: 2, x2: 3, y2: 4, duration: 0.1, button: "left", modifiers: [])
+            ])
+    }
+
+    func testParsesMouseDragWithDurationWithNegativeCoordinates() throws {
+        let commands = getCommands(CommandsIterator("<d:-1,-2,-3,-4:0.1>"))
+        XCTAssertEqual(
+            commands,
+            [
+                MouseDragCommand(x1: -1, y1: -2, x2: -3, y2: -4, duration: 0.1, button: "left", modifiers: [])
             ])
     }
 

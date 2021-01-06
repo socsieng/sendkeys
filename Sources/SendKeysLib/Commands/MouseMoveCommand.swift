@@ -3,7 +3,7 @@ import Foundation
 public class MouseMoveCommand: MouseClickCommand {
     public override class var commandType: CommandType { return .mouseMove }
 
-    private static let _expression = try! NSRegularExpression(pattern: "\\<m:((\\d+),(\\d+),)?(\\d+),(\\d+)(:([\\d.]+))?(:([a-z,]+))?\\>")
+    private static let _expression = try! NSRegularExpression(pattern: "\\<m:((-?\\d+),(-?\\d+),)?(-?\\d+),(-?\\d+)(:([\\d.]+))?(:([a-z,]+))?\\>")
     public override class var expression: NSRegularExpression { return _expression }
 
     var x1: Int?
