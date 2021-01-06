@@ -1,7 +1,7 @@
 # SendKeys
 
 ![Build status](https://github.com/socsieng/sendkeys/workflows/build/badge.svg)
-![Homebrew installs](https://img.shields.io/github/downloads/socsieng/sendkeys/total.svg?label=%F0%9F%8D%BA+installs&color=brightgreen)
+![Homebrew installs](https://img.shields.io/github/downloads/socsieng/sendkeys/total.svg?label=%F0%9F%8D%BA+installs&labelColor=32393F&color=brightgreen)
 
 SendKeys is a macOS command line application used to automate the keystrokes and mouse events.
 
