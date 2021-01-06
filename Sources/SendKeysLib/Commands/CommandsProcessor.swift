@@ -5,14 +5,22 @@ public class CommandsProcessor {
     
     let numberFormatter = NumberFormatter()
     let commandExecutor: CommandExecutorProtocol
+    let keyPresser: KeyPresser
+    let mouseController: MouseController
     
-    public init(defaultPause: Double, commandExecutor: CommandExecutorProtocol? = nil) {
+    init(defaultPause: Double, keyPresser: KeyPresser, mouseController: MouseController, commandExecutor: CommandExecutorProtocol? = nil) {
         self.defaultPause = defaultPause
         self.commandExecutor = commandExecutor ?? CommandExecutor()
+        self.keyPresser = keyPresser
+        self.mouseController = mouseController
         
         numberFormatter.usesSignificantDigits = true
         numberFormatter.minimumSignificantDigits = 1
         numberFormatter.maximumSignificantDigits = 3
+    }
+
+    convenience public init(defaultPause: Double, commandExecutor: CommandExecutorProtocol? = nil) {
+        self.init(defaultPause: defaultPause, keyPresser: KeyPresser(), mouseController: MouseController(animationRefreshInterval: 0.01), commandExecutor: commandExecutor)
     }
         
     private func getDefaultPauseCommand() -> Command {
@@ -20,7 +28,8 @@ public class CommandsProcessor {
     }
     
     public func process(_ commandString: String) {
-        let commands = IteratorSequence(CommandsIterator(commandString))
+        let commandFactory = CommandFactory(keyPresser: keyPresser, mouseController: mouseController)
+        let commands = IteratorSequence(CommandsIterator(commandString, commandFactory: commandFactory))
         var shouldDefaultPause = false
         var shouldIgnoreNextCommand = false
         

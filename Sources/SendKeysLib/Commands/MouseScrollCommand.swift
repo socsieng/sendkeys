@@ -29,7 +29,7 @@ public class MouseScrollCommand: MouseClickCommand {
     }
 
     public override func execute() throws {
-        mouseController.scroll(
+        mouseController!.scroll(
             CGPoint(x: x, y: y),
             duration,
             flags: try! KeyPresser.getModifierFlags(modifiers)

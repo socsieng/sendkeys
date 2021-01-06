@@ -6,8 +6,12 @@ class MouseController {
         case vertical
     }
     
-    let animationRefreshInterval: TimeInterval = 0.01
+    let animationRefreshInterval: TimeInterval
     let keyPresser = KeyPresser()
+    
+    init(animationRefreshInterval: TimeInterval) {
+        self.animationRefreshInterval = animationRefreshInterval
+    }
     
     func move(start: CGPoint?, end: CGPoint, duration: TimeInterval, flags: CGEventFlags) {
         let resolvedStart = start ?? getLocation()!

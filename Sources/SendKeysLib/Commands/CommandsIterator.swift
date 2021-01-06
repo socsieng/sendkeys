@@ -4,10 +4,13 @@ public class CommandsIterator: IteratorProtocol {
     public typealias Element = Command
 
     let commandString: String
+    let commandFactory: CommandFactory
+    
     var index = 0;
 
-    public init(_ commandString: String) {
+    public init(_ commandString: String, commandFactory: CommandFactory = CommandFactory()) {
         self.commandString = commandString
+        self.commandFactory = commandFactory
     }
 
     public func next() -> Element? {
@@ -20,7 +23,7 @@ public class CommandsIterator: IteratorProtocol {
                 }
             ) {
                 let args = getArguments(commandString, matchResult!)
-                let command = CommandFactory.create(commandType, arguments: args)
+                let command = commandFactory.create(commandType, arguments: args)
 
                 if matchResult != nil {
                     let range = Range(matchResult!.range, in: commandString)

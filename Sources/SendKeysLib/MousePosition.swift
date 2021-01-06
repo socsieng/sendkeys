@@ -31,7 +31,7 @@ class MousePosition: ParsableCommand {
     }
 
     func printMousePosition() {
-        let location = MouseController().getLocation()!
+        let location = MouseController(animationRefreshInterval: 0.01).getLocation()!
         print(String(format: "%.0f,%.0f", location.x, location.y))
     }
 

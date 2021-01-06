@@ -23,6 +23,9 @@ public struct Sender: ParsableCommand {
     @Option(name: .shortAndLong, help: "String of characters to send.")
     var characters: String?
 
+    @Option(help: "Number of seconds between animation updates.")
+    var animationInterval: Double = 0.01
+
     public init() { }
 
     public mutating func run() throws {
@@ -32,7 +35,9 @@ public struct Sender: ParsableCommand {
             fputs("WARNING: Accessibility preferences must be enabled to use this tool. If running from the terminal, make sure that your terminal app has accessibility permissiions enabled.\n\n", stderr)
         }
 
-        let commandProcessor = CommandsProcessor(defaultPause: delay)
+        let keyPresser = KeyPresser()
+        let mouseController = MouseController(animationRefreshInterval: animationInterval)
+        let commandProcessor = CommandsProcessor(defaultPause: delay, keyPresser: keyPresser, mouseController: mouseController)
         var commandString: String?
 
         if !(inputFile ?? "").isEmpty {

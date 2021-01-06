@@ -15,6 +15,6 @@ public class KeyUpCommand: KeyPressCommand {
     }
 
     public override func execute() throws {
-        let _ = try! keyPresser.keyUp(key: key!, modifiers: modifiers)
+        let _ = try! keyPresser!.keyUp(key: key!, modifiers: modifiers)
     }
 }

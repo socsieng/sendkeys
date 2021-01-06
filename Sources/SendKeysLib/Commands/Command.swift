@@ -23,6 +23,14 @@ public protocol CommandProtocol {
     func equals(_ comparison: Command) -> Bool
 }
 
+protocol RequiresKeyPresser {
+    var keyPresser: KeyPresser? { get set }
+}
+
+protocol RequiresMouseController {
+    var mouseController: MouseController? { get set }
+}
+
 public class Command: Equatable, CustomStringConvertible {
     public class var commandType: CommandType { return .undefined }
     

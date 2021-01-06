@@ -1,6 +1,6 @@
 import Foundation
 
-public class KeyPressCommand: Command {
+public class KeyPressCommand: Command, RequiresKeyPresser {
     public override class var commandType: CommandType { return .keyPress }
     
     private static let _expression = try! NSRegularExpression(pattern: "\\<[ck]:(.|[\\w]+)(:([,\\w⌘^⌥⇧]+))?\\>")
@@ -9,7 +9,7 @@ public class KeyPressCommand: Command {
     var key: String?
     var modifiers: [String] = []
     
-    let keyPresser = KeyPresser()
+    var keyPresser: KeyPresser?
     
     override init() {
         super.init()
@@ -30,7 +30,7 @@ public class KeyPressCommand: Command {
     }
 
     public override func execute() throws {
-        try! keyPresser.keyPress(key: key!, modifiers: modifiers)
+        try! keyPresser!.keyPress(key: key!, modifiers: modifiers)
     }
     
     public override func equals(_ comparison: Command) -> Bool {

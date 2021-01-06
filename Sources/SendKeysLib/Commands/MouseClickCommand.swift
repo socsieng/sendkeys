@@ -1,6 +1,6 @@
 import Foundation
 
-public class MouseClickCommand: Command {
+public class MouseClickCommand: Command, RequiresMouseController {
     public override class var commandType: CommandType { return .mouseClick }
 
     private static let _expression = try! NSRegularExpression(pattern: "\\<m:([a-z]+)(:([a-z,]+))?(:(\\d+))?\\>")
@@ -10,7 +10,7 @@ public class MouseClickCommand: Command {
     var modifiers: [String] = []
     var clicks: Int = 1
 
-    let mouseController = MouseController()
+    var mouseController: MouseController?
 
     override init() {
         super.init()
@@ -33,7 +33,7 @@ public class MouseClickCommand: Command {
     }
 
     public override func execute() throws {
-        try! mouseController.click(
+        try! mouseController!.click(
             nil,
             button: getMouseButton(button: button!),
             flags: try! KeyPresser.getModifierFlags(modifiers),

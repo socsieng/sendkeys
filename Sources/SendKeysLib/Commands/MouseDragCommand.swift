@@ -34,7 +34,7 @@ public class MouseDragCommand: MouseMoveCommand {
     }
 
     public override func execute() throws {
-        try! mouseController.drag(
+        try! mouseController!.drag(
             start: x1 == nil || y1 == nil ? nil : CGPoint(x: x1!, y: y1!),
             end: CGPoint(x: x2, y: y2),
             duration: duration,
