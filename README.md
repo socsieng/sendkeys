@@ -220,7 +220,7 @@ sendkeys mouse-position
 Use the `--watch` option to capture the location of mouse clicks, and combine it with `--output commands` to output
 approximate mouse commands that can be used to _replay_ mouse actions.
 
-```
+```sh
 # capture mouse commands
 sendkeys mouse-position --watch --output commands > mouse_commands.txt
 
