@@ -50,7 +50,7 @@ struct KeyCodes {
     static let f18                       : UInt16 = 0x4F
     static let f19                       : UInt16 = 0x50
     static let f20                       : UInt16 = 0x5A
-    
+
     // US-ANSI Keyboard Positions
     // eg. These key codes are for the physical key (in any keyboard layout)
     // at the location of the named key in the US-ANSI layout.
@@ -91,7 +91,7 @@ struct KeyCodes {
     static let seven                     : UInt16 = 0x1A
     static let eight                     : UInt16 = 0x1C
     static let nine                      : UInt16 = 0x19
-    
+
     static let equals                    : UInt16 = 0x18
     static let minus                     : UInt16 = 0x1B
     static let semicolon                 : UInt16 = 0x29
@@ -103,7 +103,7 @@ struct KeyCodes {
     static let grave                     : UInt16 = 0x32
     static let leftBracket               : UInt16 = 0x21
     static let rightBracket              : UInt16 = 0x1E
-    
+
     static let keypadDecimal             : UInt16 = 0x41
     static let keypadMultiply            : UInt16 = 0x43
     static let keypadPlus                : UInt16 = 0x45
@@ -230,9 +230,9 @@ struct KeyCodes {
         "keypaddecimal": keypadDecimal,
         "keypadmultiply": keypadMultiply,
         "keypadplus": keypadPlus,
-        "keypadvlear": keypadClear,
-        "keypadfivide": keypadDivide,
-        "keypadrnter": keypadEnter,
+        "keypadclear": keypadClear,
+        "keypaddivide": keypadDivide,
+        "keypadenter": keypadEnter,
         "keypadminus": keypadMinus,
         "keypadequals": keypadEquals,
         "keypad0": keypad0,
