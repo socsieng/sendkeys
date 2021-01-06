@@ -1,5 +1,24 @@
 # Changelog
 
+## [2.1.0](https://www.github.com/socsieng/sendkeys/compare/v2.0.0...v2.1.0) (2021-01-06)
+
+
+### Features
+
+* add option to change animation refresh rate ([73a2c29](https://www.github.com/socsieng/sendkeys/commit/73a2c294a878f9e8e64c14a4b6664ddb1586e13b)), closes [#21](https://www.github.com/socsieng/sendkeys/issues/21)
+* add transform subcommand ([3893313](https://www.github.com/socsieng/sendkeys/commit/38933135a3746343d501cd720d4b66f7ee1ac552))
+
+
+### Bug Fixes
+
+* start mouse timing when mouse-position command is executed ([1437aac](https://www.github.com/socsieng/sendkeys/commit/1437aac909e289a782d16677601a81c49d443d85))
+* support negative values for mouse click and drag events ([f50209a](https://www.github.com/socsieng/sendkeys/commit/f50209ae1e8924dbd189a11a6ecad388082c1d17)), closes [#23](https://www.github.com/socsieng/sendkeys/issues/23)
+
+
+### Documentation
+
+* update documentation to state that the application should be running ([3e0d973](https://www.github.com/socsieng/sendkeys/commit/3e0d9736559d48e45c3287c48830bd743926e3ef))
+
 ## [2.0.0](https://www.github.com/socsieng/sendkeys/compare/v1.3.0...v2.0.0) (2021-01-04)
 
 
