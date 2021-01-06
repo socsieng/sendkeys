@@ -185,6 +185,24 @@ sequence of character and inserting a new line for readability.
 Insert a continuation using the character sequence `<\>`. The following instruction the sequence will be skipped over
 (including another continuation).
 
+## Transforming text for text editors
+
+Some text editors like Visual Studio Code will automatically indent or insert closing brackets which can cause
+duplication of whitespace and characters. The `transform` subcommand can help transform text files for better
+compatibility with similar text editors.
+
+Example:
+
+```sh
+sendkeys transform --input-file example.js
+```
+
+You can also pipe the output of the `transform` command directly to your editor of choice. Example:
+
+```sh
+sendkeys transform --input-file example.js | sendkeys --application-name "Code"
+```
+
 ## Retrieving mouse position
 
 The `mouse-position` sub command can be used to help determine which mouse coordinates to use in your scripts.
