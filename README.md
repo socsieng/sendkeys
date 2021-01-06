@@ -40,9 +40,9 @@ _Activates the Notes application and sends keystrokes piped from `stdout` of the
 
 ## Installation
 
-### Homebrew
+### Homebrew (recommended)
 
-Recommended: Install using [homebrew](https://brew.sh/):
+Install using [homebrew](https://brew.sh/):
 
 ```sh
 brew install socsieng/tap/sendkeys
