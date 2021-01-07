@@ -1,5 +1,13 @@
 # Changelog
 
+### [2.1.1](https://www.github.com/socsieng/sendkeys/compare/v2.1.0...v2.1.1) (2021-01-07)
+
+
+### Bug Fixes
+
+* fix typo in key mappings ([c4a4997](https://www.github.com/socsieng/sendkeys/commit/c4a4997375c55cc4217c1a381df39ff94d9ff751))
+* handle `a` key correctly as keycode 0 ([29209a3](https://www.github.com/socsieng/sendkeys/commit/29209a34a495afdc0028e353ccf1b8375b32f005))
+
 ## [2.1.0](https://www.github.com/socsieng/sendkeys/compare/v2.0.0...v2.1.0) (2021-01-06)
 
 
