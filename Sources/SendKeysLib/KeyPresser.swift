@@ -32,11 +32,11 @@ class KeyPresser {
     }
 
     private func createKeyEvent(key: String, modifiers: [String], keyDown: Bool) throws -> CGEvent? {
-        let keycode = KeyCodes.getKeyCode(key) ?? 0
+        let keycode = KeyCodes.getKeyCode(key)
         let flags = try! KeyPresser.getModifierFlags(modifiers)
-        let keyEvent = CGEvent(keyboardEventSource: nil, virtualKey: keycode, keyDown: keyDown)
+        let keyEvent = CGEvent(keyboardEventSource: nil, virtualKey: keycode ?? 0, keyDown: keyDown)
 
-        if keycode == 0 {
+        if keycode == nil {
             if key.count == 1 {
                 let utf16Chars = Array(key.utf16)
                 keyEvent!.keyboardSetUnicodeString(stringLength: utf16Chars.count, unicodeString: utf16Chars)
