@@ -144,7 +144,7 @@ The structure argument structure is similar to moving the mouse cursor.
 - `button` is optional and refers to the mouse button to use when initiating the mouse drag. Supported values include
   `left`, `center`, and `right`. Defaults to `left`.
 - `modifiers` is an optional list of comma separated values that can include `command`, `shift`, `control`, and
-  `option`. Note that modifiers can only be used if `button` is explicitly set
+  `option`. Note that modifiers can only be used if `button` is explicitly set.
 
 Example usage:
 
