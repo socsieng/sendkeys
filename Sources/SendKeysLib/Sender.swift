@@ -17,7 +17,7 @@ public struct Sender: ParsableCommand {
     @Option(name: .shortAndLong, help: "Initial delay before sending commands in seconds.")
     var initialDelay: Double = 1
 
-    @Option(name: NameSpecification([.customShort("f"), .long ]), help: "File containing keystroke instructions.")
+    @Option(name: NameSpecification([.customShort("f"), .long]), help: "File containing keystroke instructions.")
     var inputFile: String?
 
     @Option(name: .shortAndLong, help: "String of characters to send.")
@@ -26,18 +26,22 @@ public struct Sender: ParsableCommand {
     @Option(help: "Number of seconds between animation updates.")
     var animationInterval: Double = 0.01
 
-    public init() { }
+    public init() {}
 
     public mutating func run() throws {
-        let accessEnabled = AXIsProcessTrustedWithOptions([kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String: true] as CFDictionary)
+        let accessEnabled = AXIsProcessTrustedWithOptions(
+            [kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String: true] as CFDictionary)
 
         if !accessEnabled {
-            fputs("WARNING: Accessibility preferences must be enabled to use this tool. If running from the terminal, make sure that your terminal app has accessibility permissiions enabled.\n\n", stderr)
+            fputs(
+                "WARNING: Accessibility preferences must be enabled to use this tool. If running from the terminal, make sure that your terminal app has accessibility permissiions enabled.\n\n",
+                stderr)
         }
 
         let keyPresser = KeyPresser()
         let mouseController = MouseController(animationRefreshInterval: animationInterval)
-        let commandProcessor = CommandsProcessor(defaultPause: delay, keyPresser: keyPresser, mouseController: mouseController)
+        let commandProcessor = CommandsProcessor(
+            defaultPause: delay, keyPresser: keyPresser, mouseController: mouseController)
         var commandString: String?
 
         if !(inputFile ?? "").isEmpty {
@@ -54,7 +58,7 @@ public struct Sender: ParsableCommand {
             try AppActivator(appName: applicationName!).activate()
         }
 
-        if (initialDelay > 0) {
+        if initialDelay > 0 {
             Sleeper.sleep(seconds: initialDelay)
         }
 

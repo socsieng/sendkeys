@@ -12,9 +12,7 @@ enum MouseButton: String, CustomStringConvertible {
     case other
 
     var description: String {
-        get {
-            return self.rawValue
-        }
+        return self.rawValue
     }
 }
 
@@ -36,10 +34,11 @@ struct MouseEvent: CustomStringConvertible {
     let startPoint: CGPoint
     let endPoint: CGPoint
     let duration: TimeInterval
-    
+
     static let numberFormatter = createNumberFormatter()
 
-    init(eventType: MouseEventType, button: MouseButton, startPoint: CGPoint, endPoint: CGPoint, duration: TimeInterval) {
+    init(eventType: MouseEventType, button: MouseButton, startPoint: CGPoint, endPoint: CGPoint, duration: TimeInterval)
+    {
         self.eventType = eventType
         self.button = button
         self.startPoint = startPoint
@@ -48,41 +47,38 @@ struct MouseEvent: CustomStringConvertible {
     }
 
     var description: String {
-        get {
-            switch eventType {
-            case .click:
-                var moveParts: [String] = []
-                var clickParts: [String] = []
+        switch eventType {
+        case .click:
+            var moveParts: [String] = []
+            var clickParts: [String] = []
 
-                moveParts.append(String(format: "%.0f,%.0f", endPoint.x, endPoint.y))
-                
-                if duration > 0 {
-                    moveParts.append(Self.numberFormatter.string(for: duration)!)
-                }
-                
-                clickParts.append(button.description)
-                
-                return "<m:\(moveParts.joined(separator: ":"))><m:\(clickParts.joined(separator: ":"))><\\>"
-            case .drag:
-                var parts: [String] = []
-                
-                parts.append(String(format: "%.0f,%.0f,%.0f,%.0f", startPoint.x, startPoint.y, endPoint.x, endPoint.y))
-                
-                if duration > 0 {
-                    parts.append(Self.numberFormatter.string(for: duration)!)
-                }
-                
-                parts.append(button.description)
-                
-                return "<d:\(parts.joined(separator: ":"))><\\>"
+            moveParts.append(String(format: "%.0f,%.0f", endPoint.x, endPoint.y))
+
+            if duration > 0 {
+                moveParts.append(Self.numberFormatter.string(for: duration)!)
             }
-            
+
+            clickParts.append(button.description)
+
+            return "<m:\(moveParts.joined(separator: ":"))><m:\(clickParts.joined(separator: ":"))><\\>"
+        case .drag:
+            var parts: [String] = []
+
+            parts.append(String(format: "%.0f,%.0f,%.0f,%.0f", startPoint.x, startPoint.y, endPoint.x, endPoint.y))
+
+            if duration > 0 {
+                parts.append(Self.numberFormatter.string(for: duration)!)
+            }
+
+            parts.append(button.description)
+
+            return "<d:\(parts.joined(separator: ":"))><\\>"
         }
     }
-    
+
     static func createNumberFormatter() -> NumberFormatter {
         let numberFormatter = NumberFormatter()
-        
+
         numberFormatter.usesSignificantDigits = true
         numberFormatter.minimumSignificantDigits = 1
         numberFormatter.maximumSignificantDigits = 3
@@ -94,7 +90,7 @@ struct MouseEvent: CustomStringConvertible {
 class MouseEventProcessor {
     var events: [RawMouseEvent] = []
     var lastDate: Date = Date()
-    
+
     func start() {
         lastDate = Date()
     }
@@ -108,9 +104,13 @@ class MouseEventProcessor {
         case .leftMouseUp, .rightMouseUp, .otherMouseUp:
             switch events.last?.eventType {
             case .leftMouseDown, .rightMouseDown, .otherMouseDown:
-                mouseEvent = MouseEvent(eventType: .click, button: button, startPoint: events.first!.point, endPoint: event.location, duration: -lastDate.timeIntervalSinceNow)
+                mouseEvent = MouseEvent(
+                    eventType: .click, button: button, startPoint: events.first!.point, endPoint: event.location,
+                    duration: -lastDate.timeIntervalSinceNow)
             case .leftMouseDragged, .rightMouseDragged, .otherMouseDragged:
-                mouseEvent = MouseEvent(eventType: .drag, button: button, startPoint: events.first!.point, endPoint: event.location, duration: -lastDate.timeIntervalSinceNow)
+                mouseEvent = MouseEvent(
+                    eventType: .drag, button: button, startPoint: events.first!.point, endPoint: event.location,
+                    duration: -lastDate.timeIntervalSinceNow)
             default:
                 events.append(rawEvent)
             }

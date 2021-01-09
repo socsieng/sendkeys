@@ -2,10 +2,11 @@ import Foundation
 
 public class MouseScrollCommand: MouseClickCommand {
     public override class var commandType: CommandType { return .mouseScroll }
-    
-    private static let _expression = try! NSRegularExpression(pattern: "\\<s:(-?\\d+),(-?\\d+)(:([.\\d]+))?(:([a-z,]+))?\\>")
+
+    private static let _expression = try! NSRegularExpression(
+        pattern: "\\<s:(-?\\d+),(-?\\d+)(:([.\\d]+))?(:([a-z,]+))?\\>")
     public override class var expression: NSRegularExpression { return _expression }
-    
+
     var x: Int
     var y: Int
     var duration: TimeInterval
@@ -14,7 +15,7 @@ public class MouseScrollCommand: MouseClickCommand {
         self.x = x
         self.y = y
         self.duration = duration
-        
+
         super.init()
         self.modifiers = modifiers
     }
@@ -35,19 +36,20 @@ public class MouseScrollCommand: MouseClickCommand {
             flags: try! KeyPresser.getModifierFlags(modifiers)
         )
     }
-    
+
     public override func describeMembers() -> String {
         return "x: \(x), y: \(y), duration: \(duration), modifiers: \(modifiers)"
     }
 
     public override func equals(_ comparison: Command) -> Bool {
-        return super.equals(comparison) && {
-            if let command = comparison as? MouseScrollCommand {
-                return x == command.x
-                    && y == command.y
-                    && duration == command.duration
-            }
-            return false
-        }()
+        return super.equals(comparison)
+            && {
+                if let command = comparison as? MouseScrollCommand {
+                    return x == command.x
+                        && y == command.y
+                        && duration == command.duration
+                }
+                return false
+            }()
     }
 }

@@ -3,7 +3,8 @@ import Foundation
 public class MouseMoveCommand: MouseClickCommand {
     public override class var commandType: CommandType { return .mouseMove }
 
-    private static let _expression = try! NSRegularExpression(pattern: "\\<m:((-?\\d+),(-?\\d+),)?(-?\\d+),(-?\\d+)(:([\\d.]+))?(:([a-z,]+))?\\>")
+    private static let _expression = try! NSRegularExpression(
+        pattern: "\\<m:((-?\\d+),(-?\\d+),)?(-?\\d+),(-?\\d+)(:([\\d.]+))?(:([a-z,]+))?\\>")
     public override class var expression: NSRegularExpression { return _expression }
 
     var x1: Int?
@@ -47,19 +48,21 @@ public class MouseMoveCommand: MouseClickCommand {
     }
 
     public override func equals(_ comparison: Command) -> Bool {
-        return super.equals(comparison) && {
-            if let command = comparison as? MouseMoveCommand {
-                return x1 == command.x1
-                    && y1 == command.y1
-                    && x2 == command.x2
-                    && y2 == command.y2
-                    && duration == command.duration
-            }
-            return false
-        }()
+        return super.equals(comparison)
+            && {
+                if let command = comparison as? MouseMoveCommand {
+                    return x1 == command.x1
+                        && y1 == command.y1
+                        && x2 == command.x2
+                        && y2 == command.y2
+                        && duration == command.duration
+                }
+                return false
+            }()
     }
-    
+
     public override func describeMembers() -> String {
-        return "x1: \(x1?.description ?? "nil")), y1: \(y1?.description ?? "nil"), x2: \(x2), y2: \(y2), duration: \(duration)"
+        return
+            "x1: \(x1?.description ?? "nil")), y1: \(y1?.description ?? "nil"), x2: \(x2), y2: \(y2), duration: \(duration)"
     }
 }

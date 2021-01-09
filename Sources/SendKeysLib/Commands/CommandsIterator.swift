@@ -5,8 +5,8 @@ public class CommandsIterator: IteratorProtocol {
 
     let commandString: String
     let commandFactory: CommandFactory
-    
-    var index = 0;
+
+    var index = 0
 
     public init(_ commandString: String, commandFactory: CommandFactory = CommandFactory()) {
         self.commandString = commandString
@@ -16,11 +16,12 @@ public class CommandsIterator: IteratorProtocol {
     public func next() -> Element? {
         let length = commandString.utf16.count
         if index < length {
-            var matchResult: NSTextCheckingResult?;
+            var matchResult: NSTextCheckingResult?
             if let commandType = CommandFactory.commands.first(where: { (commandType: Command.Type) -> Bool in
-                    matchResult = commandType.expression.firstMatch(in: commandString, options: .anchored, range: NSMakeRange(index, length - index))
-                    return matchResult != nil
-                }
+                matchResult = commandType.expression.firstMatch(
+                    in: commandString, options: .anchored, range: NSMakeRange(index, length - index))
+                return matchResult != nil
+            }
             ) {
                 let args = getArguments(commandString, matchResult!)
                 let command = commandFactory.create(commandType, arguments: args)
@@ -39,7 +40,7 @@ public class CommandsIterator: IteratorProtocol {
     }
 
     private func getArguments(_ commandString: String, _ matchResult: NSTextCheckingResult) -> [String?] {
-        var args: [String?] = [];
+        var args: [String?] = []
         let numberOfRanges = matchResult.numberOfRanges
 
         for i in 0..<numberOfRanges {

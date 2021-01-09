@@ -11,5 +11,5 @@ public struct SendKeysCli: ParsableCommand {
         defaultSubcommand: Sender.self
     )
 
-    public init() { }
+    public init() {}
 }
