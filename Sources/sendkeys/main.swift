@@ -1,5 +1,5 @@
-import SendKeysLib
 import Foundation
+import SendKeysLib
 
 if #available(OSX 10.11, *) {
     SendKeysCli.main()

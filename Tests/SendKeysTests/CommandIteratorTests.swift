@@ -1,6 +1,6 @@
-@testable import SendKeysLib
-
 import XCTest
+
+@testable import SendKeysLib
 
 final class CommandIteratorTests: XCTestCase {
     func testParsesCharacters() throws {
@@ -10,7 +10,7 @@ final class CommandIteratorTests: XCTestCase {
             [
                 DefaultCommand(key: "a"),
                 DefaultCommand(key: "b"),
-                DefaultCommand(key: "c")
+                DefaultCommand(key: "c"),
             ])
     }
 
@@ -120,7 +120,7 @@ final class CommandIteratorTests: XCTestCase {
             [
                 NewlineCommand(),
                 NewlineCommand(),
-                NewlineCommand()
+                NewlineCommand(),
             ])
     }
 
@@ -131,7 +131,7 @@ final class CommandIteratorTests: XCTestCase {
             [
                 NewlineCommand(),
                 NewlineCommand(),
-                NewlineCommand()
+                NewlineCommand(),
             ])
     }
 
@@ -141,7 +141,7 @@ final class CommandIteratorTests: XCTestCase {
             commands,
             [
                 KeyPressCommand(key: "a", modifiers: ["command"]),
-                KeyPressCommand(key: "c", modifiers: ["command"])
+                KeyPressCommand(key: "c", modifiers: ["command"]),
             ])
     }
 
@@ -294,7 +294,8 @@ final class CommandIteratorTests: XCTestCase {
         XCTAssertEqual(
             commands,
             [
-                MouseDragCommand(x1: 1, y1: 2, x2: 3, y2: 4, duration: 0, button: "right", modifiers: ["command", "shift"])
+                MouseDragCommand(
+                    x1: 1, y1: 2, x2: 3, y2: 4, duration: 0, button: "right", modifiers: ["command", "shift"])
             ])
     }
 

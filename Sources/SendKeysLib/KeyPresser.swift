@@ -66,19 +66,19 @@ class KeyPresser {
     private static func getModifierFlag(_ modifier: String) throws -> CGEventFlags {
         switch modifier {
         case "⌘",
-             "cmd",
-             "command":
+            "cmd",
+            "command":
             return CGEventFlags.maskCommand
         case "^",
-             "ctrl",
-             "control":
+            "ctrl",
+            "control":
             return CGEventFlags.maskControl
         case "⌥",
-             "alt",
-             "option":
+            "alt",
+            "option":
             return CGEventFlags.maskAlternate
         case "⇧",
-             "shift":
+            "shift":
             return CGEventFlags.maskShift
         default:
             throw RuntimeError("Unrecognized modifier: \(modifier)")

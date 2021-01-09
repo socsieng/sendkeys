@@ -9,9 +9,11 @@ class AppActivator: NSObject {
     }
 
     func activate() throws {
-        guard let app = NSWorkspace.shared.runningApplications.filter ({
-            return $0.localizedName == self.filterName || $0.bundleIdentifier?.contains(self.filterName) ?? false
-        }).first else {
+        guard
+            let app = NSWorkspace.shared.runningApplications.filter({
+                return $0.localizedName == self.filterName || $0.bundleIdentifier?.contains(self.filterName) ?? false
+            }).first
+        else {
             throw RuntimeError("Application \(self.filterName) not found")
         }
 
@@ -39,7 +41,10 @@ class AppActivator: NSObject {
         }
     }
 
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+    override func observeValue(
+        forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?,
+        context: UnsafeMutableRawPointer?
+    ) {
         if keyPath == "isHidden" {
             application.removeObserver(self, forKeyPath: "isHidden")
             activateAppIfNeeded()

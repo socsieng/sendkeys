@@ -42,16 +42,17 @@ public class MouseClickCommand: Command, RequiresMouseController {
     }
 
     public override func equals(_ comparison: Command) -> Bool {
-        return super.equals(comparison) && {
-            if let command = comparison as? MouseClickCommand {
-                return button == command.button
-                    && modifiers == command.modifiers
-                    && clicks == command.clicks
-            }
-            return false
-        }()
+        return super.equals(comparison)
+            && {
+                if let command = comparison as? MouseClickCommand {
+                    return button == command.button
+                        && modifiers == command.modifiers
+                        && clicks == command.clicks
+                }
+                return false
+            }()
     }
-    
+
     public override func describeMembers() -> String {
         return "button: \(button ?? "''")), modifiers: \(modifiers), clicks: \(clicks)"
     }
