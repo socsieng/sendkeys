@@ -11,7 +11,10 @@ files=`git diff --cached --name-only --diff-filter=ACM`
 
 for f in $files
 do
-  echo "Formatting $f"
-  $root_folder/scripts/format.sh $f
-  git add $f
+  if [[ $f == *.swift ]]
+  then
+    echo "Formatting $f"
+    $root_folder/scripts/format.sh $f
+    git add $f
+  fi
 done
