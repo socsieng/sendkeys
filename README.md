@@ -153,6 +153,8 @@ Example usage:
 - `<d:400,400:2:left:shift>`: Drag the mouse using the left mouse button to 400, 400 over 2 seconds with the `shift` key
   down.
 
+![mouse drag example](https://github.com/socsieng/sendkeys/raw/main/docs/images/mouse-drag.gif)
+
 #### Mouse scrolling
 
 A mouse scroll can be initiated with: `<s:x,y[:duration][:modifiers]>`
