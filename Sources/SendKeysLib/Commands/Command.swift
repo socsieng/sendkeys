@@ -11,6 +11,8 @@ public enum CommandType {
     case mouseClick
     case mouseDrag
     case mouseScroll
+    case mouseDown
+    case mouseUp
     case continuation
 }
 
