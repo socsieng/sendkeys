@@ -10,4 +10,4 @@ version=`echo $version | sed -E 's/^v//g'`
 
 echo "updating version to $version"
 
-sed -E -i ".bak" "s/version: \"[0-9]+\.[0-9]+\.[0-9]+\", \/\* auto-updated \*\//version: \"$version\", \/\* auto-updated \*\//g" $script_folder/../Sources/SendKeysLib/SendKeysCli.swift
+sed -E -i "" "s/version: \"[0-9]+\.[0-9]+\.[0-9]+\", \/\* auto-updated \*\//version: \"$version\", \/\* auto-updated \*\//g" $script_folder/../Sources/SendKeysLib/SendKeysCli.swift
