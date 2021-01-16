@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.0](https://www.github.com/socsieng/sendkeys/compare/v2.1.1...v2.2.0) (2021-01-16)
+
+
+### Features
+
+* add support for triggering mouse up and down events independently ([bee0fbe](https://www.github.com/socsieng/sendkeys/commit/bee0fbe5032a97fe63090fedf9cc7c9d537f60f6))
+
 ### [2.1.1](https://www.github.com/socsieng/sendkeys/compare/v2.1.0...v2.1.1) (2021-01-07)
 
 
