@@ -80,7 +80,7 @@ Example key combinations:
 - `command` + `a`: `<c:a:command>`
 - `option` + `shift` + `left arrow`: `<c:left:option,shift>`
 
-#### Key up and down
+#### Key down and up
 
 Some applications expect modifier keys to be pressed explicitly before invoking actions like mouse click. An example of
 this is Pixelmator which expect the `option` key to be pressed before executing the alternate click action. This can be
@@ -172,6 +172,16 @@ Example usage:
 - `<s:0,400:0.5>`: Scrolls down 400 pixels over 0.5 seconds.
 - `<s:0,-100:0.2>`: Scrolls up 400 pixels over 0.2 seconds.
 - `<s:100,0>`: Scrolls 100 pixel to the right instantly.
+
+#### Mouse down and up
+
+Mouse down and up events can be used to manually initiate a drag event or multiple mouse move commands while the mouse
+button is down. This can be achieved with mouse down `<md:button[:modifiers]>` and mouse up `<mu:button[:modifiers]>`.
+
+Note that the drag command is recommended for basic drag functionality..
+
+An example of how include multiple mouse movements while the mouse button is down:
+`<md:left><m:0,0,100,0:1><m:100,100:1><mu:left>`.
 
 ### Pauses
 

@@ -6,8 +6,16 @@ class MouseController {
         case vertical
     }
 
+    enum mouseEventType {
+        case up
+        case down
+        case move
+        case drag
+    }
+
     let animationRefreshInterval: TimeInterval
     let keyPresser = KeyPresser()
+    var downButtons = Set<CGMouseButton>()
 
     init(animationRefreshInterval: TimeInterval) {
         self.animationRefreshInterval = animationRefreshInterval
@@ -16,6 +24,8 @@ class MouseController {
     func move(start: CGPoint?, end: CGPoint, duration: TimeInterval, flags: CGEventFlags) {
         let resolvedStart = start ?? getLocation()!
         let eventSource = CGEventSource(event: nil)
+        let button = downButtons.first
+        let moveType = getEventType(.move, button)
 
         let animator = Animator(
             duration, animationRefreshInterval,
@@ -24,7 +34,7 @@ class MouseController {
                     x: (Double(end.x - resolvedStart.x) * progress) + Double(resolvedStart.x),
                     y: (Double(end.y - resolvedStart.y) * progress) + Double(resolvedStart.y)
                 )
-                self.setLocation(location, eventSource: eventSource, flags: flags)
+                self.setLocation(location, eventSource: eventSource, moveType: moveType, button: button, flags: flags)
             })
 
         animator.animate()
@@ -32,17 +42,8 @@ class MouseController {
 
     func click(_ location: CGPoint?, button: CGMouseButton, flags: CGEventFlags, clickCount: Int) {
         let resolvedLocation = location ?? getLocation()!
-
-        var downMouseType = CGEventType.leftMouseDown
-        var upMouseType = CGEventType.leftMouseUp
-
-        if button == .right {
-            downMouseType = CGEventType.rightMouseDown
-            upMouseType = CGEventType.rightMouseUp
-        } else if button != .left {
-            downMouseType = CGEventType.otherMouseDown
-            upMouseType = CGEventType.otherMouseUp
-        }
+        let downMouseType = getEventType(.down, button)
+        let upMouseType = getEventType(.up, button)
 
         let downEvent = CGEvent(
             mouseEventSource: nil, mouseType: downMouseType, mouseCursorPosition: resolvedLocation, mouseButton: button)
@@ -57,13 +58,35 @@ class MouseController {
         upEvent?.post(tap: CGEventTapLocation.cghidEventTap)
     }
 
+    func down(_ location: CGPoint?, button: CGMouseButton, flags: CGEventFlags) {
+        let resolvedLocation = location ?? getLocation()!
+        let downMouseType = getEventType(.down, button)
+
+        let downEvent = CGEvent(
+            mouseEventSource: nil, mouseType: downMouseType, mouseCursorPosition: resolvedLocation, mouseButton: button)
+        downEvent?.flags = flags
+        downEvent?.post(tap: CGEventTapLocation.cghidEventTap)
+
+        downButtons.insert(button)
+    }
+
+    func up(_ location: CGPoint?, button: CGMouseButton, flags: CGEventFlags) {
+        let resolvedLocation = location ?? getLocation()!
+        let upMouseType = getEventType(.up, button)
+
+        let upEvent = CGEvent(
+            mouseEventSource: nil, mouseType: upMouseType, mouseCursorPosition: resolvedLocation,
+            mouseButton: button)
+        upEvent?.post(tap: CGEventTapLocation.cghidEventTap)
+        downButtons.remove(button)
+    }
+
     func drag(start: CGPoint?, end: CGPoint, duration: TimeInterval, button: CGMouseButton, flags: CGEventFlags) {
         let resolvedStart = start ?? getLocation()!
+        let downMouseType = getEventType(.down, button)
+        let upMouseType = getEventType(.up, button)
+        let moveType = getEventType(.drag, button)
         var eventSource: CGEventSource?
-
-        var downMouseType = CGEventType.leftMouseDown
-        var upMouseType = CGEventType.leftMouseUp
-        var moveType = CGEventType.leftMouseDragged
 
         let animator = Animator(
             duration, animationRefreshInterval,
@@ -75,27 +98,22 @@ class MouseController {
                 self.setLocation(location, eventSource: eventSource, moveType: moveType, button: button, flags: flags)
             })
 
-        if button == .right {
-            downMouseType = CGEventType.rightMouseDown
-            upMouseType = CGEventType.rightMouseUp
-            moveType = CGEventType.rightMouseDragged
-        } else if button != .left {
-            downMouseType = CGEventType.otherMouseDown
-            upMouseType = CGEventType.otherMouseUp
-            moveType = CGEventType.otherMouseDragged
+        if !downButtons.contains(button) {
+            let downEvent = CGEvent(
+                mouseEventSource: nil, mouseType: downMouseType, mouseCursorPosition: resolvedStart, mouseButton: button
+            )
+            downEvent?.flags = flags
+            downEvent?.post(tap: CGEventTapLocation.cghidEventTap)
+            eventSource = CGEventSource(event: downEvent)
         }
-
-        let downEvent = CGEvent(
-            mouseEventSource: nil, mouseType: downMouseType, mouseCursorPosition: resolvedStart, mouseButton: button)
-        downEvent?.flags = flags
-        downEvent?.post(tap: CGEventTapLocation.cghidEventTap)
-        eventSource = CGEventSource(event: downEvent)
 
         animator.animate()
 
-        let upEvent = CGEvent(
-            mouseEventSource: eventSource, mouseType: upMouseType, mouseCursorPosition: end, mouseButton: button)
-        upEvent?.post(tap: CGEventTapLocation.cghidEventTap)
+        if !downButtons.contains(button) {
+            let upEvent = CGEvent(
+                mouseEventSource: eventSource, mouseType: upMouseType, mouseCursorPosition: end, mouseButton: button)
+            upEvent?.post(tap: CGEventTapLocation.cghidEventTap)
+        }
     }
 
     func scroll(_ delta: CGPoint, _ duration: TimeInterval, flags: CGEventFlags) {
@@ -147,15 +165,55 @@ class MouseController {
 
     private func setLocation(
         _ location: CGPoint, eventSource: CGEventSource?, moveType: CGEventType = CGEventType.mouseMoved,
-        button: CGMouseButton = CGMouseButton.left, flags: CGEventFlags = []
+        button: CGMouseButton? = nil, flags: CGEventFlags = []
     ) {
         let moveEvent = CGEvent(
-            mouseEventSource: eventSource, mouseType: moveType, mouseCursorPosition: location, mouseButton: button)
+            mouseEventSource: eventSource, mouseType: moveType, mouseCursorPosition: location,
+            mouseButton: button ?? CGMouseButton.left)
         moveEvent?.flags = flags
         moveEvent?.post(tap: CGEventTapLocation.cghidEventTap)
     }
 
-    func resolveLocation(_ location: CGPoint) -> CGPoint {
+    private func getEventType(_ mouseType: mouseEventType, _ button: CGMouseButton? = nil) -> CGEventType {
+        switch mouseType {
+        case .up:
+            if button == CGMouseButton.left {
+                return CGEventType.leftMouseUp
+            } else if button == CGMouseButton.right {
+                return CGEventType.rightMouseUp
+            } else {
+                return CGEventType.otherMouseUp
+            }
+        case .down:
+            if button == CGMouseButton.left {
+                return CGEventType.leftMouseDown
+            } else if button == CGMouseButton.right {
+                return CGEventType.rightMouseDown
+            } else {
+                return CGEventType.otherMouseDown
+            }
+        case .move:
+            if button == nil {
+                return CGEventType.mouseMoved
+            } else if button == CGMouseButton.left {
+                return CGEventType.leftMouseDragged
+            } else if button == CGMouseButton.right {
+                return CGEventType.rightMouseDragged
+            } else {
+                return CGEventType.otherMouseDragged
+            }
+        case .drag:
+            if button == CGMouseButton.left {
+                return CGEventType.leftMouseDragged
+            } else if button == CGMouseButton.right {
+                return CGEventType.rightMouseDragged
+            } else {
+                return CGEventType.otherMouseDragged
+            }
+        }
+    }
+
+    private func resolveLocation(_ location: CGPoint) -> CGPoint {
         let currentLocation = getLocation()
         return CGPoint(
             x: location.x < 0 ? (currentLocation?.x ?? 0) : location.x,

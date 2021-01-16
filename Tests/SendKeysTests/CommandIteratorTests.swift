@@ -407,6 +407,42 @@ final class CommandIteratorTests: XCTestCase {
             ])
     }
 
+    func testParsesMouseDown() throws {
+        let commands = getCommands(CommandsIterator("<md:right>"))
+        XCTAssertEqual(
+            commands,
+            [
+                MouseDownCommand(button: "right", modifiers: [])
+            ])
+    }
+
+    func testParsesMouseDownWithModifiers() throws {
+        let commands = getCommands(CommandsIterator("<md:left:shift,command>"))
+        XCTAssertEqual(
+            commands,
+            [
+                MouseDownCommand(button: "left", modifiers: ["shift", "command"])
+            ])
+    }
+
+    func testParsesMouseUp() throws {
+        let commands = getCommands(CommandsIterator("<mu:center>"))
+        XCTAssertEqual(
+            commands,
+            [
+                MouseUpCommand(button: "center", modifiers: [])
+            ])
+    }
+
+    func testParsesMouseUpWithModifiers() throws {
+        let commands = getCommands(CommandsIterator("<mu:right:option,command>"))
+        XCTAssertEqual(
+            commands,
+            [
+                MouseUpCommand(button: "right", modifiers: ["option", "command"])
+            ])
+    }
+
     private func getCommands(_ iterator: CommandsIterator) -> [Command] {
         var commands: [Command] = []
 
