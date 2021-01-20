@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.0](https://www.github.com/socsieng/sendkeys/compare/v2.2.0...v2.3.0) (2021-01-20)
+
+
+### Features
+
+* add mouse focus command ([1bbab2d](https://www.github.com/socsieng/sendkeys/commit/1bbab2d0a9377260d892a78cfbc41713064ac736))
+
 ## [2.2.0](https://www.github.com/socsieng/sendkeys/compare/v2.1.1...v2.2.0) (2021-01-16)
 
 
