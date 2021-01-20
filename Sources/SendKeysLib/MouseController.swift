@@ -141,6 +141,27 @@ class MouseController {
         animator.animate()
     }
 
+    func circle(_ center: CGPoint, _ radius: CGPoint, _ fromAngle: Double, _ toAngle: Double, _ duration: TimeInterval)
+    {
+        let eventSource = CGEventSource(event: nil)
+        let ANGLE_OFFSET: Double = -90
+        let button = downButtons.first
+        let moveType = getEventType(.move, button)
+
+        let animator = Animator(
+            duration, animationRefreshInterval,
+            { progress in
+                let angle = (toAngle - fromAngle) * progress + fromAngle + ANGLE_OFFSET
+                let location = CGPoint(
+                    x: cos(angle * Double.pi / 180) * Double(radius.x) + Double(center.x),
+                    y: sin(angle * Double.pi / 180) * Double(radius.y) + Double(center.y)
+                )
+                self.setLocation(location, eventSource: eventSource, moveType: moveType, button: .left, flags: [])
+            })
+
+        animator.animate()
+    }
+
     func scrollBy(_ amount: Int, _ axis: ScrollAxis, eventSource: CGEventSource?, flags: CGEventFlags) {
         if #available(OSX 10.13, *) {
             let event = CGEvent(

@@ -443,6 +443,42 @@ final class CommandIteratorTests: XCTestCase {
             ])
     }
 
+    func testParsesMouseFocus() throws {
+        let commands = getCommands(CommandsIterator("<mf:0,0:100,50:0,360:1>"))
+        XCTAssertEqual(
+            commands,
+            [
+                MouseFocusCommand(x: 0, y: 0, rx: 100, ry: 50, angleFrom: 0, angleTo: 360, duration: 1)
+            ])
+    }
+
+    func testParsesMouseFocusWithSingleRadius() throws {
+        let commands = getCommands(CommandsIterator("<mf:0,0:100:0,360:0.1>"))
+        XCTAssertEqual(
+            commands,
+            [
+                MouseFocusCommand(x: 0, y: 0, rx: 100, ry: 100, angleFrom: 0, angleTo: 360, duration: 0.1)
+            ])
+    }
+
+    func testParsesMouseFocusWithNegativeCoordinates() throws {
+        let commands = getCommands(CommandsIterator("<mf:-10,-20:100,50:0,360:1.5>"))
+        XCTAssertEqual(
+            commands,
+            [
+                MouseFocusCommand(x: -10, y: -20, rx: 100, ry: 50, angleFrom: 0, angleTo: 360, duration: 1.5)
+            ])
+    }
+
+    func testParsesMouseFocusWithNegativeAngles() throws {
+        let commands = getCommands(CommandsIterator("<mf:-10,-20:100,50:100,-360:1.5>"))
+        XCTAssertEqual(
+            commands,
+            [
+                MouseFocusCommand(x: -10, y: -20, rx: 100, ry: 50, angleFrom: 100, angleTo: -360, duration: 1.5)
+            ])
+    }
+
     private func getCommands(_ iterator: CommandsIterator) -> [Command] {
         var commands: [Command] = []
 

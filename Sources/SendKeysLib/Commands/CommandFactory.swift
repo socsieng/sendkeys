@@ -13,6 +13,7 @@ public class CommandFactory {
         MouseScrollCommand.self,
         MouseDownCommand.self,
         MouseUpCommand.self,
+        MouseFocusCommand.self,
         DefaultCommand.self,
     ]
 

@@ -173,6 +173,33 @@ Example usage:
 - `<s:0,-100:0.2>`: Scrolls up 400 pixels over 0.2 seconds.
 - `<s:100,0>`: Scrolls 100 pixel to the right instantly.
 
+#### Mouse focus
+
+The mouse focus command can be used to draw attention to an area of the screen by moving the cursor in a circular
+pattern. The mouse focus command uses the following markup:
+`<mf:centerX,centerY:radiusX[,radiusY]:angleFrom,angleTo:duration>`
+
+- `centerX` is required and represents the center x coordinate of the circular path.
+- `centerY` is required and represents the center y coordinate of the circular path.
+- `radiusX` is required and represents the size of the radius along the x axis of the circular path.
+- `radiusY` is optional and represents the size of the radius along the y axis of the circular path. If omitted,
+  `radiusX` will be used indicating that the circular path will be a regular circle. An elipse can be achieved by having
+  different values for `radiusX` and `radiusY`.
+- `angleFrom` is required and represents the start angle/position of the circular path. Angle is defined using degrees
+  where `0` represents 12 o'clock on an analog clock, and positive are applied in a clockwize direction. (e.g. 90
+  degrees is 3 o'clock).
+- `angleTo` is required and represents the end angle/position of the circular path.
+- `duration` is required and determines the number of seconds (supports partial seconds) used to complete the animation
+  between `angleFrom` to `angleTo`.
+
+Example usage:
+
+- `<mf:1000,200:50,20:180,900:2>`: Draws attention to position 1000, 200 by moving the mouse along an eliptical 50
+  pixels wide by 20 pixels high starting at the bottom (180 degrees) to 900 degrees (delta of 720 degrees) over a period
+  of 2 seconds.
+
+![mouse focus example](https://github.com/socsieng/sendkeys/raw/main/docs/images/mouse-focus.gif)
+
 #### Mouse down and up
 
 Mouse down and up events can be used to manually initiate a drag event or multiple mouse move commands while the mouse
