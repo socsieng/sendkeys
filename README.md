@@ -276,3 +276,12 @@ by navigating to System Preferences > Security & Privacy > Privacy > Accessibili
 there.
 
 ![accessibility settings](https://github.com/socsieng/sendkeys/raw/main/docs/images/accessibility.gif)
+
+## Installing previous versions
+
+A specific version of the package can be installed by targeting the appropriate release artifact. Here's an example of
+the command:
+
+```sh
+brew install --force-bottle https://github.com/socsieng/sendkeys/releases/download/v2.3.0/sendkeys-2.3.0.catalina.bottle.tar.gz
+```
