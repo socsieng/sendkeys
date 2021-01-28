@@ -236,13 +236,13 @@ compatibility with similar text editors.
 Example:
 
 ```sh
-sendkeys transform --input-file example.js
+sendkeys transform --input-file examples/node.js
 ```
 
 You can also pipe the output of the `transform` command directly to your editor of choice. Example:
 
 ```sh
-sendkeys transform --input-file example.js | sendkeys --application-name "Code"
+sendkeys transform --input-file examples/node.js | sendkeys --application-name "Code"
 ```
 
 ## Retrieving mouse position
