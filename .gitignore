@@ -10,3 +10,5 @@ xcuserdata/
 
 Formula/sendkeys.rb
 *.tar.gz
+
+/.output

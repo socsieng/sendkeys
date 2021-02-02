@@ -6,6 +6,11 @@ build:
 	@scripts/update-version.sh
 	@swift build -c release --disable-sandbox
 
+.PHONY: verify
+verify:
+	@swift test
+	@scripts/verify-output.sh
+
 .PHONY: install
 install: build
 	@install -d "$(bindir)"
