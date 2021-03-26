@@ -38,15 +38,41 @@ jobs:
   #         make install
   #         sendkeys --help
 
-  macos_catalina:
-    runs-on: macos-10.15
+  # macos_catalina:
+  #   runs-on: macos-10.15
 
-    strategy:
-      matrix:
-        xcode:
-          - '12'
+  #   strategy:
+  #     matrix:
+  #       xcode:
+  #         - '12'
 
-    name: macOS Catalina (Xcode ${{ matrix.xcode }})
+  #   name: macOS Catalina (Xcode ${{ matrix.xcode }})
+
+  #   steps:
+  #     - name: checkout
+  #       uses: actions/checkout@v2
+  #     - uses: actions/cache@v2
+  #       with:
+  #         path: .build
+  #         key: ${{ runner.os }}-xcode-${{ matrix.xcode }}-${{ hashFiles('**/Package.resolved') }}
+  #         restore-keys: |
+  #           ${{ runner.os }}-xcode-${{ matrix.xcode }}
+  #     - name: build
+  #       run: |
+  #         swift test
+  #       env:
+  #         DEVELOPER_DIR: /Applications/Xcode_${{ matrix.xcode }}.app/Contents/Developer
+  #     - name: install
+  #       run: |
+  #         make install
+  #         sendkeys --help
+  #       env:
+  #         DEVELOPER_DIR: /Applications/Xcode_${{ matrix.xcode }}.app/Contents/Developer
+
+  macos_arm64:
+    runs-on: [self-hosted, macOS, X64]
+
+    name: macOS arm64
 
     steps:
       - name: checkout
@@ -54,28 +80,28 @@ jobs:
       - uses: actions/cache@v2
         with:
           path: .build
-          key: ${{ runner.os }}-xcode-${{ matrix.xcode }}-${{ hashFiles('**/Package.resolved') }}
+          key: ${{ runner.os }}-xcode-${{ hashFiles('**/Package.resolved') }}
           restore-keys: |
-            ${{ runner.os }}-xcode-${{ matrix.xcode }}
-      - name: build
+            ${{ runner.os }}-xcode
+      - name: test
         run: |
           swift test
         env:
-          DEVELOPER_DIR: /Applications/Xcode_${{ matrix.xcode }}.app/Contents/Developer
-      - name: install
+          DEVELOPER_DIR: /Applications/Xcode.app/Contents/Developer
+      - name: build
         run: |
-          make install
-          sendkeys --help
+          make build
         env:
-          DEVELOPER_DIR: /Applications/Xcode_${{ matrix.xcode }}.app/Contents/Developer
+          DEVELOPER_DIR: /Applications/Xcode.app/Contents/Developer
 
   create_release:
     needs:
       # - macos_big_sur
-      - macos_catalina
+      # - macos_catalina
+      - macos_arm64
 
-    runs-on: macos-10.15
-    if: github.ref == 'refs/heads/main'
+    runs-on: [self-hosted, macOS, X64]
+    if: github.ref == 'refs/heads/arm64'
 
     name: Create release
 
