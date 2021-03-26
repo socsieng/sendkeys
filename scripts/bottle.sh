@@ -23,6 +23,9 @@ sed -E -i "" "s/url \"\"/url \"$sed_url\"/g" $formula
 sed -E -i "" "s/version \"[0-9]+\.[0-9]+\.[0-9]+\"/version \"$version\"/g" $formula
 
 brew install --force --build-bottle $formula
+
+echo "Done"
+
 brew bottle sendkeys --force-core-tap --root-url "https://github.com/socsieng/sendkeys/releases/download/v${version}"
 
 bottle=`ls sendkeys--$version.*.tar.gz`

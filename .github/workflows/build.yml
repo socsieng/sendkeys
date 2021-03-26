@@ -9,70 +9,70 @@ on:
       - main
 
 jobs:
-  # macos_big_sur:
-  #   runs-on: macos-11.0
+  macos_catalina:
+    runs-on: macos-10.15
 
-  #   strategy:
-  #     matrix:
-  #       xcode:
-  #         - '12.2'
+    strategy:
+      matrix:
+        xcode:
+          - '12'
 
-  #   name: macOS Big Sur (Xcode ${{ matrix.xcode }})
+    name: macOS Catalina (Xcode ${{ matrix.xcode }})
 
-  #   steps:
-  #     - name: checkout
-  #       uses: actions/checkout@v2
-  #     - uses: actions/cache@v2
-  #       with:
-  #         path: .build
-  #         key: ${{ runner.os }}-xcode-${{ matrix.xcode }}-${{ hashFiles('**/Package.resolved') }}
-  #         restore-keys: |
-  #           ${{ runner.os }}-xcode-${{ matrix.xcode }}
-  #     - name: build
-  #       run: |
-  #         swift test
-  #       env:
-  #         DEVELOPER_DIR: /Applications/Xcode_${{ matrix.xcode }}.app/Contents/Developer
-  #     - name: install
-  #       run: |
-  #         make install
-  #         sendkeys --help
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - uses: actions/cache@v2
+        with:
+          path: .build
+          key: ${{ runner.os }}-xcode-${{ matrix.xcode }}-${{ hashFiles('**/Package.resolved') }}
+          restore-keys: |
+            ${{ runner.os }}-xcode-${{ matrix.xcode }}
+      - name: build
+        run: |
+          make build
+        env:
+          DEVELOPER_DIR: /Applications/Xcode_${{ matrix.xcode }}.app/Contents/Developer
+      - name: test
+        run: |
+          swift test
+        env:
+          DEVELOPER_DIR: /Applications/Xcode_${{ matrix.xcode }}.app/Contents/Developer
 
-  # macos_catalina:
-  #   runs-on: macos-10.15
+  macos_big_sur:
+    runs-on: macos-11.0
 
-  #   strategy:
-  #     matrix:
-  #       xcode:
-  #         - '12'
+    strategy:
+      matrix:
+        xcode:
+          - '12.2'
 
-  #   name: macOS Catalina (Xcode ${{ matrix.xcode }})
+    name: macOS Big Sur (Xcode ${{ matrix.xcode }})
 
-  #   steps:
-  #     - name: checkout
-  #       uses: actions/checkout@v2
-  #     - uses: actions/cache@v2
-  #       with:
-  #         path: .build
-  #         key: ${{ runner.os }}-xcode-${{ matrix.xcode }}-${{ hashFiles('**/Package.resolved') }}
-  #         restore-keys: |
-  #           ${{ runner.os }}-xcode-${{ matrix.xcode }}
-  #     - name: build
-  #       run: |
-  #         swift test
-  #       env:
-  #         DEVELOPER_DIR: /Applications/Xcode_${{ matrix.xcode }}.app/Contents/Developer
-  #     - name: install
-  #       run: |
-  #         make install
-  #         sendkeys --help
-  #       env:
-  #         DEVELOPER_DIR: /Applications/Xcode_${{ matrix.xcode }}.app/Contents/Developer
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - uses: actions/cache@v2
+        with:
+          path: .build
+          key: ${{ runner.os }}-xcode-${{ matrix.xcode }}-${{ hashFiles('**/Package.resolved') }}
+          restore-keys: |
+            ${{ runner.os }}-xcode-${{ matrix.xcode }}
+      - name: build
+        run: |
+          make build
+        env:
+          DEVELOPER_DIR: /Applications/Xcode_${{ matrix.xcode }}.app/Contents/Developer
+      - name: test
+        run: |
+          swift test
+        env:
+          DEVELOPER_DIR: /Applications/Xcode_${{ matrix.xcode }}.app/Contents/Developer
 
   macos_arm64:
     runs-on: [self-hosted, macOS, X64]
 
-    name: macOS arm64
+    name: macOS Big Sur arm64
 
     steps:
       - name: checkout
@@ -83,27 +83,32 @@ jobs:
           key: ${{ runner.os }}-xcode-${{ hashFiles('**/Package.resolved') }}
           restore-keys: |
             ${{ runner.os }}-xcode
-      - name: test
-        run: |
-          swift test
-        env:
-          DEVELOPER_DIR: /Applications/Xcode.app/Contents/Developer
       - name: build
         run: |
           make build
         env:
           DEVELOPER_DIR: /Applications/Xcode.app/Contents/Developer
+      - name: test
+        run: |
+          swift test
+        env:
+          DEVELOPER_DIR: /Applications/Xcode.app/Contents/Developer
 
   create_release:
     needs:
-      # - macos_big_sur
-      # - macos_catalina
+      - macos_catalina
+      - macos_big_sur
       - macos_arm64
 
-    runs-on: [self-hosted, macOS, X64]
+    runs-on: macos-10.15
     if: github.ref == 'refs/heads/main'
 
     name: Create release
+
+    outputs:
+      release_created: ${{ steps.release.outputs.release_created }}
+      tag_name: ${{ steps.release.outputs.tag_name }}
+      sha: ${{ steps.release.outputs.sha }}
 
     steps:
       - id: release
@@ -120,29 +125,35 @@ jobs:
               {"type":"misc","section":"Miscellaneous","hidden":false}
             ]
 
+  create_release_catalina:
+    needs:
+      - create_release
+
+    runs-on: macos-10.15
+    if: ${{ needs.create_release.outputs.release_created }}
+
+    name: Create release Catalina
+
+    steps:
       - uses: actions/checkout@v2
-        if: ${{ steps.release.outputs.release_created }}
 
       - id: bottle
         name: Create bottle
-        if: ${{ steps.release.outputs.release_created }}
         run: |
-          ./scripts/update-version.sh ${{ steps.release.outputs.tag_name }}
-          ./scripts/bottle.sh ${{ steps.release.outputs.tag_name }}
+          ./scripts/update-version.sh ${{ needs.create_release.outputs.tag_name }}
+          ./scripts/bottle.sh ${{ needs.create_release.outputs.tag_name }}
 
       - name: Upload bottle
-        if: ${{ steps.release.outputs.release_created }}
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.release.outputs.upload_url }}
+          upload_url: ${{ needs.create_release.outputs.upload_url }}
           asset_path: ./${{ steps.bottle.outputs.file }}
           asset_name: ${{ steps.bottle.outputs.file }}
           asset_content_type: application/gzip
 
       - name: Update homebrew formula
-        if: ${{ steps.release.outputs.release_created }}
         run: |
           git config user.name github-actions[bot]
           git config user.email socsieng-github-actions[bot]@users.noreply.github.com
@@ -151,8 +162,8 @@ jobs:
 
           git checkout -B main
           formula='Formula/sendkeys.rb'
-          version=`echo '${{ steps.release.outputs.tag_name }}' | sed -E 's/^v//g'`
-          revision='${{ steps.release.outputs.sha }}'
+          version=`echo '${{ needs.create_release.outputs.tag_name }}' | sed -E 's/^v//g'`
+          revision='${{ needs.create_release.outputs.sha }}'
           sed_root_url=`echo '${{ steps.bottle.outputs.root_url }}' | sed 's/\\//\\\\\//g'`
           sha='${{ steps.bottle.outputs.sha }}'
 
@@ -160,7 +171,99 @@ jobs:
           sed -E -i "" "s/:revision => \"[^\"]+\"/:revision => \"$revision\"/g" $formula
           sed -E -i "" "s/version \"[^\"]+\"/version \"$version\"/g" $formula
           sed -E -i "" "s/root_url \"[^\"]+\"/root_url \"$sed_root_url\"/g" $formula
-          sed -E -i "" "s/sha256 \"[^\"]+\"/sha256 \"$sha\"/g" $formula
+          sed -E -i "" "s/(# )?sha256 \"[^\"]+\" => :catalina/sha256 \"$sha\" => :catalina/g" $formula
 
-          git commit -am "chore: update sendkeys to ${{ steps.release.outputs.tag_name }}"
+          git commit -am "chore: update catalina sendkeys to ${{ needs.create_release.outputs.tag_name }}"
+          git push origin main
+
+  create_release_big_sur:
+    needs:
+      - create_release_catalina
+
+    runs-on: macos-11.0
+    if: ${{ needs.create_release.outputs.release_created }}
+
+    name: Create release Big Sur
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - id: bottle
+        name: Create bottle
+        run: |
+          ./scripts/update-version.sh ${{ needs.create_release.outputs.tag_name }}
+          ./scripts/bottle.sh ${{ needs.create_release.outputs.tag_name }}
+
+      - name: Upload bottle
+        if: ${{ needs.create_release.outputs.release_created }}
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create_release.outputs.upload_url }}
+          asset_path: ./${{ steps.bottle.outputs.file }}
+          asset_name: ${{ steps.bottle.outputs.file }}
+          asset_content_type: application/gzip
+
+      - name: Update homebrew formula
+        if: ${{ needs.create_release.outputs.release_created }}
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email socsieng-github-actions[bot]@users.noreply.github.com
+          git clone "https://${{ secrets.PERSONAL_ACCESS_TOKEN }}@github.com/socsieng/homebrew-tap.git"
+          cd homebrew-tap
+
+          git checkout -B main
+          formula='Formula/sendkeys.rb'
+          sed_root_url=`echo '${{ steps.bottle.outputs.root_url }}' | sed 's/\\//\\\\\//g'`
+          sha='${{ steps.bottle.outputs.sha }}'
+
+          sed -E -i "" "s/(# )?sha256 \"[^\"]+\" => :big_sur/sha256 \"$sha\" => :big_sur/g" $formula
+
+          git commit -am "chore: update sendkeys to ${{ needs.create_release.outputs.tag_name }} (big sur)"
+          git push origin main
+
+  create_release_big_sur_arm64:
+    needs:
+      - create_release_big_sur
+
+    runs-on: [self-hosted, macOS, X64]
+    if: ${{ needs.create_release.outputs.release_created }}
+
+    name: Create release Big Sur (arm64)
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - id: bottle
+        name: Create bottle
+        run: |
+          ./scripts/update-version.sh ${{ needs.create_release.outputs.tag_name }}
+          ./scripts/bottle.sh ${{ needs.create_release.outputs.tag_name }}
+
+      - name: Upload bottle
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create_release.outputs.upload_url }}
+          asset_path: ./${{ steps.bottle.outputs.file }}
+          asset_name: ${{ steps.bottle.outputs.file }}
+          asset_content_type: application/gzip
+
+      - name: Update homebrew formula
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email socsieng-github-actions[bot]@users.noreply.github.com
+          git clone "https://${{ secrets.PERSONAL_ACCESS_TOKEN }}@github.com/socsieng/homebrew-tap.git"
+          cd homebrew-tap
+
+          git checkout -B main
+          formula='Formula/sendkeys.rb'
+          sed_root_url=`echo '${{ steps.bottle.outputs.root_url }}' | sed 's/\\//\\\\\//g'`
+          sha='${{ steps.bottle.outputs.sha }}'
+
+          sed -E -i "" "s/(# )?sha256 \"[^\"]+\" => :arm64_big_sur/sha256 \"$sha\" => :arm64_big_sur/g" $formula
+
+          git commit -am "chore: update sendkeys to ${{ needs.create_release.outputs.tag_name }} (big sur arm64)"
           git push origin main

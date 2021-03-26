@@ -4,9 +4,7 @@ bindir ?= $(prefix)/bin
 .PHONY: build
 build:
 	@scripts/update-version.sh
-	@swift build -c release --disable-sandbox --triple x86_64-apple-macosx
-	@swift build -c release --disable-sandbox --triple arm64-apple-macosx
-	@lipo -create -output .build/sendkeys .build/arm64-apple-macosx/release/sendkeys .build/x86_64-apple-macosx/release/sendkeys
+	@swift build -c release --disable-sandbox
 
 .PHONY: verify
 verify:
@@ -16,7 +14,7 @@ verify:
 .PHONY: install
 install: build
 	@install -d "$(bindir)"
-	@install ".build/sendkeys" "$(bindir)/sendkeys"
+	@install ".build/release/sendkeys" "$(bindir)/sendkeys"
 
 .PHONY: uninstall
 uninstall:
