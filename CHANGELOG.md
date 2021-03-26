@@ -1,5 +1,13 @@
 # Changelog
 
+### [2.3.1](https://www.github.com/socsieng/sendkeys/compare/v2.3.0...v2.3.1) (2021-03-26)
+
+
+### Documentation
+
+* add example file for using transform ([1a2c8e8](https://www.github.com/socsieng/sendkeys/commit/1a2c8e82cd6b04321aadb78979c73a120d340bf4))
+* update readme to include installation instructions for alternate versions ([72030ab](https://www.github.com/socsieng/sendkeys/commit/72030abc018a7bd81e31509ac7085e77620d6528))
+
 ## [2.3.0](https://www.github.com/socsieng/sendkeys/compare/v2.2.0...v2.3.0) (2021-01-20)
 
 
