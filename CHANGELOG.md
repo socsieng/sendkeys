@@ -1,5 +1,12 @@
 # Changelog
 
+### [2.3.2](https://www.github.com/socsieng/sendkeys/compare/v2.3.1...v2.3.2) (2021-03-26)
+
+
+### Bug Fixes
+
+* update builds for arm64 macs ([4b37ac7](https://www.github.com/socsieng/sendkeys/commit/4b37ac7ba21e2be64f90632c8a08def052cc6158))
+
 ### [2.3.1](https://www.github.com/socsieng/sendkeys/compare/v2.3.0...v2.3.1) (2021-03-26)
 
 
