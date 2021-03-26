@@ -1,5 +1,12 @@
 # Changelog
 
+### [2.3.4](https://www.github.com/socsieng/sendkeys/compare/v2.3.3...v2.3.4) (2021-03-26)
+
+
+### Bug Fixes
+
+* **build:** run bottle.sh with explicit arch flag ([6362ef1](https://www.github.com/socsieng/sendkeys/commit/6362ef154d7e9b6bb69fd04515dcaa6e87cedc7f))
+
 ### [2.3.3](https://www.github.com/socsieng/sendkeys/compare/v2.3.2...v2.3.3) (2021-03-26)
 
 
