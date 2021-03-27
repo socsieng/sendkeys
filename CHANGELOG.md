@@ -1,5 +1,12 @@
 # Changelog
 
+### [2.3.8](https://www.github.com/socsieng/sendkeys/compare/v2.3.7...v2.3.8) (2021-03-27)
+
+
+### Bug Fixes
+
+* **build:** add root_url to build output ([6538f4f](https://www.github.com/socsieng/sendkeys/commit/6538f4ff64933ec4a56801a6c51c21b44e8bd969))
+
 ### [2.3.7](https://www.github.com/socsieng/sendkeys/compare/v2.3.6...v2.3.7) (2021-03-27)
 
 
