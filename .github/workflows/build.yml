@@ -126,7 +126,7 @@ jobs:
               {"type":"misc","section":"Miscellaneous","hidden":false}
             ]
 
-  create_release_catalina:
+  create_bottle_catalina:
     needs:
       - create_release
 
@@ -158,7 +158,7 @@ jobs:
           asset_name: ${{ steps.bottle.outputs.file }}
           asset_content_type: application/gzip
 
-  create_release_big_sur:
+  create_bottle_big_sur:
     needs:
       - create_release
 
@@ -191,7 +191,7 @@ jobs:
           asset_name: ${{ steps.bottle.outputs.file }}
           asset_content_type: application/gzip
 
-  create_release_big_sur_arm64:
+  create_bottle_big_sur_arm64:
     needs:
       - create_release
 
@@ -225,9 +225,10 @@ jobs:
 
   homebrew:
     needs:
-      - create_release_catalina
-      - create_release_big_sur
-      - create_release_big_sur_arm64
+      - create_release
+      - create_bottle_catalina
+      - create_bottle_big_sur
+      - create_bottle_big_sur_arm64
 
     runs-on: macos-11.0
     if: ${{ needs.create_release.outputs.release_created }}
@@ -235,6 +236,7 @@ jobs:
     name: Update homebrew formula
 
     steps:
+      - uses: actions/checkout@v2
       - name: Update homebrew formula
         run: |
           git config user.name github-actions[bot]
@@ -247,9 +249,9 @@ jobs:
           version=`echo '${{ needs.create_release.outputs.tag_name }}' | sed -E 's/^v//g'`
           revision='${{ needs.create_release.outputs.sha }}'
           sed_root_url=`echo '${{ steps.bottle.outputs.root_url }}' | sed 's/\\//\\\\\//g'`
-          sha_catalina='${{ needs.create_release_catalina.outputs.sha }}'
-          sha_big_sur='${{ needs.create_release_big_sur.outputs.sha }}'
-          sha_big_sur_arm64='${{ needs.create_release_big_sur_arm64.outputs.sha }}'
+          sha_catalina='${{ needs.create_bottle_catalina.outputs.sha }}'
+          sha_big_sur='${{ needs.create_bottle_big_sur.outputs.sha }}'
+          sha_big_sur_arm64='${{ needs.create_bottle_big_sur_arm64.outputs.sha }}'
 
           sed -E -i "" "s/:tag => \"[^\"]+\"/:tag => \"v$version\"/g" $formula
           sed -E -i "" "s/:revision => \"[^\"]+\"/:revision => \"$revision\"/g" $formula
