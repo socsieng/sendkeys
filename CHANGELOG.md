@@ -3,69 +3,6 @@
 ### [2.3.10](https://www.github.com/socsieng/sendkeys/compare/v2.3.9...v2.3.10) (2021-03-27)
 
 
-### Bug Fixes
-
-* **build:** move root_url to catalina ([873f52b](https://www.github.com/socsieng/sendkeys/commit/873f52b3186baecb22314a2df6a2f94187a66570))
-
-### [2.3.9](https://www.github.com/socsieng/sendkeys/compare/v2.3.8...v2.3.9) (2021-03-27)
-
-
-### Bug Fixes
-
-* **build:** bump version number ([f2e1db5](https://www.github.com/socsieng/sendkeys/commit/f2e1db56b16a65ecf5371cb3c648da78a3ae8e43))
-
-### [2.3.8](https://www.github.com/socsieng/sendkeys/compare/v2.3.7...v2.3.8) (2021-03-27)
-
-
-### Bug Fixes
-
-* **build:** add root_url to build output ([6538f4f](https://www.github.com/socsieng/sendkeys/commit/6538f4ff64933ec4a56801a6c51c21b44e8bd969))
-
-### [2.3.7](https://www.github.com/socsieng/sendkeys/compare/v2.3.6...v2.3.7) (2021-03-27)
-
-
-### Bug Fixes
-
-* **build:** add checkout step to homebrew job ([14af081](https://www.github.com/socsieng/sendkeys/commit/14af081a03473bf50a2042a7aef3798d5b710b33))
-
-### [2.3.6](https://www.github.com/socsieng/sendkeys/compare/v2.3.5...v2.3.6) (2021-03-27)
-
-
-### Bug Fixes
-
-* **build:** move uninstall to bottle script ([5bee913](https://www.github.com/socsieng/sendkeys/commit/5bee9138cd1f95fc816fd7e586a659e8b0131e91))
-
-### [2.3.5](https://www.github.com/socsieng/sendkeys/compare/v2.3.4...v2.3.5) (2021-03-27)
-
-
-### Bug Fixes
-
-* **build:** uninstall brew package after bottling ([3cf4d7d](https://www.github.com/socsieng/sendkeys/commit/3cf4d7d4eb2aa2236065fa0d374d4e18bc501938))
-
-### [2.3.4](https://www.github.com/socsieng/sendkeys/compare/v2.3.3...v2.3.4) (2021-03-26)
-
-
-### Bug Fixes
-
-* **build:** run bottle.sh with explicit arch flag ([6362ef1](https://www.github.com/socsieng/sendkeys/commit/6362ef154d7e9b6bb69fd04515dcaa6e87cedc7f))
-
-### [2.3.3](https://www.github.com/socsieng/sendkeys/compare/v2.3.2...v2.3.3) (2021-03-26)
-
-
-### Bug Fixes
-
-* **build:** version bump ([8e64348](https://www.github.com/socsieng/sendkeys/commit/8e64348fa06887583bfeaabdb51a5617624e3dac))
-
-### [2.3.2](https://www.github.com/socsieng/sendkeys/compare/v2.3.1...v2.3.2) (2021-03-26)
-
-
-### Bug Fixes
-
-* update builds for arm64 macs ([4b37ac7](https://www.github.com/socsieng/sendkeys/commit/4b37ac7ba21e2be64f90632c8a08def052cc6158))
-
-### [2.3.1](https://www.github.com/socsieng/sendkeys/compare/v2.3.0...v2.3.1) (2021-03-26)
-
-
 ### Documentation
 
 * add example file for using transform ([1a2c8e8](https://www.github.com/socsieng/sendkeys/commit/1a2c8e82cd6b04321aadb78979c73a120d340bf4))
