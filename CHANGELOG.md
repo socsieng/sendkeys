@@ -1,5 +1,12 @@
 # Changelog
 
+### [2.3.6](https://www.github.com/socsieng/sendkeys/compare/v2.3.5...v2.3.6) (2021-03-27)
+
+
+### Bug Fixes
+
+* **build:** move uninstall to bottle script ([5bee913](https://www.github.com/socsieng/sendkeys/commit/5bee9138cd1f95fc816fd7e586a659e8b0131e91))
+
 ### [2.3.5](https://www.github.com/socsieng/sendkeys/compare/v2.3.4...v2.3.5) (2021-03-27)
 
 
