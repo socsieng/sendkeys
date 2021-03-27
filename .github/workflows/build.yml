@@ -212,6 +212,7 @@ jobs:
         run: |
           ./scripts/update-version.sh ${{ needs.create_release.outputs.tag_name }}
           arch -arm64 ./scripts/bottle.sh ${{ needs.create_release.outputs.tag_name }}
+          brew uninstall sendkeys
 
       - name: Upload bottle
         uses: actions/upload-release-asset@v1
