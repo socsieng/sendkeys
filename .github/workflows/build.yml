@@ -170,6 +170,7 @@ jobs:
     outputs:
       file: ${{ steps.bottle.outputs.file }}
       sha: ${{ steps.bottle.outputs.sha }}
+      root_url: ${{ steps.bottle.outputs.root_url }}
 
     steps:
       - uses: actions/checkout@v2
@@ -248,7 +249,7 @@ jobs:
           formula='Formula/sendkeys.rb'
           version=`echo '${{ needs.create_release.outputs.tag_name }}' | sed -E 's/^v//g'`
           revision='${{ needs.create_release.outputs.sha }}'
-          sed_root_url=`echo '${{ steps.bottle.outputs.root_url }}' | sed 's/\\//\\\\\//g'`
+          sed_root_url=`echo '${{ needs.create_bottle_catalina.outputs.root_url }}' | sed 's/\\//\\\\\//g'`
           sha_catalina='${{ needs.create_bottle_catalina.outputs.sha }}'
           sha_big_sur='${{ needs.create_bottle_big_sur.outputs.sha }}'
           sha_big_sur_arm64='${{ needs.create_bottle_big_sur_arm64.outputs.sha }}'
