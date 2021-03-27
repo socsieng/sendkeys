@@ -37,3 +37,5 @@ echo ::set-output name=file::$bottle_rename
 echo ::set-output name=root_url::"https://github.com/socsieng/sendkeys/releases/download/v${version}"
 echo ::set-output name=url::"https://github.com/socsieng/sendkeys/releases/download/v${version}/$bottle_rename"
 echo ::set-output name=sha::"$(shasum -a 256 $bottle_rename | awk '{printf $1}')"
+
+brew uninstall sendkeys
