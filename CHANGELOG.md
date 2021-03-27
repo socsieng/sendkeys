@@ -1,5 +1,12 @@
 # Changelog
 
+### [2.3.5](https://www.github.com/socsieng/sendkeys/compare/v2.3.4...v2.3.5) (2021-03-27)
+
+
+### Bug Fixes
+
+* **build:** uninstall brew package after bottling ([3cf4d7d](https://www.github.com/socsieng/sendkeys/commit/3cf4d7d4eb2aa2236065fa0d374d4e18bc501938))
+
 ### [2.3.4](https://www.github.com/socsieng/sendkeys/compare/v2.3.3...v2.3.4) (2021-03-26)
 
 
