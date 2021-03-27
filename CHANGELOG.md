@@ -1,5 +1,12 @@
 # Changelog
 
+### [2.3.10](https://www.github.com/socsieng/sendkeys/compare/v2.3.9...v2.3.10) (2021-03-27)
+
+
+### Bug Fixes
+
+* **build:** move root_url to catalina ([873f52b](https://www.github.com/socsieng/sendkeys/commit/873f52b3186baecb22314a2df6a2f94187a66570))
+
 ### [2.3.9](https://www.github.com/socsieng/sendkeys/compare/v2.3.8...v2.3.9) (2021-03-27)
 
 
