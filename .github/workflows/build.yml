@@ -138,6 +138,7 @@ jobs:
     outputs:
       file: ${{ steps.bottle.outputs.file }}
       sha: ${{ steps.bottle.outputs.sha }}
+      root_url: ${{ steps.bottle.outputs.root_url }}
 
     steps:
       - uses: actions/checkout@v2
@@ -170,7 +171,6 @@ jobs:
     outputs:
       file: ${{ steps.bottle.outputs.file }}
       sha: ${{ steps.bottle.outputs.sha }}
-      root_url: ${{ steps.bottle.outputs.root_url }}
 
     steps:
       - uses: actions/checkout@v2
