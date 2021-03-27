@@ -1,5 +1,12 @@
 # Changelog
 
+### [2.3.9](https://www.github.com/socsieng/sendkeys/compare/v2.3.8...v2.3.9) (2021-03-27)
+
+
+### Bug Fixes
+
+* **build:** bump version number ([f2e1db5](https://www.github.com/socsieng/sendkeys/commit/f2e1db56b16a65ecf5371cb3c648da78a3ae8e43))
+
 ### [2.3.8](https://www.github.com/socsieng/sendkeys/compare/v2.3.7...v2.3.8) (2021-03-27)
 
 
