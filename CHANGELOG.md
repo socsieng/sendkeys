@@ -1,6 +1,6 @@
 # Changelog
 
-### [2.3.10](https://www.github.com/socsieng/sendkeys/compare/v2.3.9...v2.3.10) (2021-03-27)
+### [2.3.10](https://www.github.com/socsieng/sendkeys/compare/v2.3.0...v2.3.10) (2021-03-27)
 
 
 ### Documentation
