@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.4.0](https://www.github.com/socsieng/sendkeys/compare/v2.3.10...v2.4.0) (2021-03-27)
+
+
+### Features
+
+* add support for apple m1 processors ([6706f85](https://www.github.com/socsieng/sendkeys/commit/6706f85b340168783ecb5e4fe56bde545c2bf86a))
+
 ### [2.3.10](https://www.github.com/socsieng/sendkeys/compare/v2.3.0...v2.3.10) (2021-03-27)
 
 
