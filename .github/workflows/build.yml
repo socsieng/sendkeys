@@ -254,13 +254,13 @@ jobs:
           sha_big_sur='${{ needs.create_bottle_big_sur.outputs.sha }}'
           sha_big_sur_arm64='${{ needs.create_bottle_big_sur_arm64.outputs.sha }}'
 
-          sed -E -i "" "s/:tag => \"[^\"]+\"/:tag => \"v$version\"/g" $formula
-          sed -E -i "" "s/:revision => \"[^\"]+\"/:revision => \"$revision\"/g" $formula
+          sed -E -i "" "s/tag: \"[^\"]+\"/tag: \"v$version\"/g" $formula
+          sed -E -i "" "s/revision: \"[^\"]+\"/revision: \"$revision\"/g" $formula
           sed -E -i "" "s/version \"[^\"]+\"/version \"$version\"/g" $formula
           sed -E -i "" "s/root_url \"[^\"]+\"/root_url \"$sed_root_url\"/g" $formula
-          sed -E -i "" "s/(# )?sha256 \"[^\"]+\" => :catalina/sha256 \"$sha_catalina\" => :catalina/g" $formula
-          sed -E -i "" "s/(# )?sha256 \"[^\"]+\" => :big_sur/sha256 \"$sha_big_sur\" => :big_sur/g" $formula
-          sed -E -i "" "s/(# )?sha256 \"[^\"]+\" => :arm64_big_sur/sha256 \"$sha_big_sur_arm64\" => :arm64_big_sur/g" $formula
+          sed -E -i "" "s/sha256 cellar: :any_skip_relocation, arm64_big_sur: \"[^\"]+\"/sha256 cellar: :any_skip_relocation, arm64_big_sur: \"$sha_big_sur_arm64\"/g" $formula
+          sed -E -i "" "s/sha256 cellar: :any_skip_relocation, catalina:      \"[^\"]+\"/sha256 cellar: :any_skip_relocation, catalina:      \"$sha_catalina\"/g" $formula
+          sed -E -i "" "s/sha256 cellar: :any_skip_relocation, big_sur:       \"[^\"]+\"/sha256 cellar: :any_skip_relocation, big_sur:       \"$sha_big_sur\"/g" $formula
 
           git commit -am "chore: update sendkeys to ${{ needs.create_release.outputs.tag_name }}"
           git push origin main
