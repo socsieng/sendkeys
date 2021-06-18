@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.5.0](https://www.github.com/socsieng/sendkeys/compare/v2.4.0...v2.5.0) (2021-06-18)
+
+
+### Features
+
+* add option to output mouse position commands with predefined duration ([f662869](https://www.github.com/socsieng/sendkeys/commit/f662869cf207bca9978407758eadef244c9d026f))
+
 ## [2.4.0](https://www.github.com/socsieng/sendkeys/compare/v2.3.10...v2.4.0) (2021-03-27)
 
 
