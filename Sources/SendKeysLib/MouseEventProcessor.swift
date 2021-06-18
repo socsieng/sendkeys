@@ -28,12 +28,12 @@ struct RawMouseEvent {
     }
 }
 
-struct MouseEvent: CustomStringConvertible {
+class MouseEvent: CustomStringConvertible {
     let eventType: MouseEventType
     let button: MouseButton
     let startPoint: CGPoint
     let endPoint: CGPoint
-    let duration: TimeInterval
+    var duration: TimeInterval
 
     static let numberFormatter = createNumberFormatter()
 

@@ -19,6 +19,13 @@ class MousePosition: ParsableCommand {
         help: "Displays results as either a series of coordinates or commands.")
     var mode = OutputMode.coordinates
 
+    @Option(
+        name: .shortAndLong,
+        help:
+            "Duration (in seconds) to output for mouse events. A negative value uses elapsed time between mouse events."
+    )
+    var duration: Double = -1
+
     static let eventProcessor = MouseEventProcessor()
 
     required init() {
@@ -93,6 +100,12 @@ class MousePosition: ParsableCommand {
                     let command: MousePosition = bridge(ptr: UnsafeRawPointer(refcon)!)
 
                     if let mouseEvent = MousePosition.eventProcessor.consumeEvent(type: eventType, event: event) {
+
+                        // if duration is set, override all mouse event durations
+                        if command.duration >= 0 {
+                            mouseEvent.duration = command.duration
+                        }
+
                         switch command.mode {
                         case .coordinates:
                             if mouseEvent.eventType == .click {
