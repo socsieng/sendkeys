@@ -1,5 +1,12 @@
 # Changelog
 
+### [2.5.2](https://www.github.com/socsieng/sendkeys/compare/v2.5.1...v2.5.2) (2021-06-19)
+
+
+### Bug Fixes
+
+* **build:** remove usage of realpath ([c9019d7](https://www.github.com/socsieng/sendkeys/commit/c9019d7d3ac9a3776b15a50708365de86d6f3b72))
+
 ### [2.5.1](https://www.github.com/socsieng/sendkeys/compare/v2.5.0...v2.5.1) (2021-06-19)
 
 
