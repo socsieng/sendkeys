@@ -5,8 +5,8 @@ set -e
 cwd=`pwd`
 script_folder=`cd $(dirname $0) && pwd`
 version=${1:-`cat $script_folder/../version.txt`}
-formula_template=`realpath $script_folder/../Formula/sendkeys_template.rb`
-formula=`realpath $script_folder/../Formula/sendkeys.rb`
+formula_template=$script_folder/../Formula/sendkeys_template.rb
+formula=$script_folder/../Formula/sendkeys.rb
 url="file://$cwd/sendkeys.tar.gz"
 sed_url=`echo $url | sed 's/\\//\\\\\//g'`
 
