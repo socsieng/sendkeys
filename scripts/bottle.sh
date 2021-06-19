@@ -5,8 +5,8 @@ set -e
 cwd=`pwd`
 script_folder=`cd $(dirname $0) && pwd`
 version=${1:-`cat $script_folder/../version.txt`}
-formula_template=$script_folder/../Formula/sendkeys_template.rb
-formula=$script_folder/../Formula/sendkeys.rb
+formula_template=`realpath $script_folder/../Formula/sendkeys_template.rb`
+formula=`realpath $script_folder/../Formula/sendkeys.rb`
 url="file://$cwd/sendkeys.tar.gz"
 sed_url=`echo $url | sed 's/\\//\\\\\//g'`
 
@@ -22,11 +22,11 @@ sed -E -i "" "s/url \"\"/url \"$sed_url\"/g" $formula
 # update version number
 sed -E -i "" "s/version \"[0-9]+\.[0-9]+\.[0-9]+\"/version \"$version\"/g" $formula
 
-brew install --force --build-bottle $formula
+brew install --force --formula --build-bottle $formula
 
-echo "Done"
+echo "Bottle built"
 
-brew bottle sendkeys --force-core-tap --root-url "https://github.com/socsieng/sendkeys/releases/download/v${version}"
+brew bottle sendkeys --force-core-tap --no-rebuild --root-url "https://github.com/socsieng/sendkeys/releases/download/v${version}"
 
 bottle=`ls sendkeys--$version.*.tar.gz`
 bottle_rename=`echo $bottle | sed 's/sendkeys--/sendkeys-/g'`
