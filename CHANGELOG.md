@@ -1,5 +1,12 @@
 # Changelog
 
+### [2.5.1](https://www.github.com/socsieng/sendkeys/compare/v2.5.0...v2.5.1) (2021-06-19)
+
+
+### Bug Fixes
+
+* **build:** apply changes to address broken homebrew build ([536603a](https://www.github.com/socsieng/sendkeys/commit/536603a0e4f224ffe87487954318f4b617264e87))
+
 ## [2.5.0](https://www.github.com/socsieng/sendkeys/compare/v2.4.0...v2.5.0) (2021-06-18)
 
 
