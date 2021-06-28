@@ -29,7 +29,8 @@ body:
     attributes:
       label: "Other information:"
       description: |
-        Include any other useful information that would help to reproduce/fix the issue. Example:
-
-        - Sendkeys version: 2.5.2
-        - Operating system: macOS Big Sur 11.4 (Apple M1)
+        Include any other useful information that would help to reproduce/fix the issue.
+      value: |
+        - Sendkeys version: ...
+        - Operating system: ...
+        - Processor (e.g. Intel, M1): ...
