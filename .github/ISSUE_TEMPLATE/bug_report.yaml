@@ -1,35 +1,35 @@
 name: Bug Report
 description: Report a bug you've found
 title: "[bug]: "
-labels: bug
+labels: [bug]
 body:
-- type: markdown
-  attributes:
-    values: |
-      Thanks for taking the time to file a bug.
-- type: textarea
-  attributes:
-    label: What went wrong?
-    description: Describe the issue including reproduction steps.
-    placeholder: |
-      Executing `sendkeys ...`
-      
-      Fails with error: ...
-  validations:
-    required: true
-- type: textarea
-  attributes:
-    label: "Expected result:"
-    description: Describe what you expected to happen.
-- type: textarea
-  attributes:
-    label: "Actual result:"
-    description: Describe what actually happened.
-- type: textarea
-  attributes:
-    label: "Other information:"
-    description: |
-      Include any other useful information that would help to reproduce/fix the issue. Example:
-      
-      - Sendkeys version: 2.5.2
-      - Operating system: macOS Big Sur 11.4 (Apple M1)
+  - type: markdown
+    attributes:
+      values: |
+        Thanks for taking the time to file a bug.
+  - type: textarea
+    attributes:
+      label: What went wrong?
+      description: Describe the issue including reproduction steps.
+      placeholder: |
+        Executing `sendkeys ...`
+
+        Fails with error: ...
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: "Expected result:"
+      description: Describe what you expected to happen.
+  - type: textarea
+    attributes:
+      label: "Actual result:"
+      description: Describe what actually happened.
+  - type: textarea
+    attributes:
+      label: "Other information:"
+      description: |
+        Include any other useful information that would help to reproduce/fix the issue. Example:
+
+        - Sendkeys version: 2.5.2
+        - Operating system: macOS Big Sur 11.4 (Apple M1)
