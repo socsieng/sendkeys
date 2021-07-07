@@ -135,7 +135,7 @@ Example usage:
 
 A mouse drag be initiated with: `<d:[x1,y1,]x2,y2[:duration][:button[:modifiers]]>`
 
-The structure argument structure is similar to moving the mouse cursor.
+The argument structure is similar to moving the mouse cursor.
 
 - `x1` and `y1` are optional x and y coordinates to start the drage. Defaults to the current mouse position.
 - `x2` and `y2` are x and y coordinates to end the drag. These values are required.
