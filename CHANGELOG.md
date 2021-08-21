@@ -1,5 +1,12 @@
 # Changelog
 
+### [2.6.1](https://www.github.com/socsieng/sendkeys/compare/v2.6.0...v2.6.1) (2021-08-21)
+
+
+### chore
+
+* bump version ([ee86888](https://www.github.com/socsieng/sendkeys/commit/ee86888368363598d51fbd5b1b49ca59a68ef541))
+
 ## [2.6.0](https://www.github.com/socsieng/sendkeys/compare/v2.5.2...v2.6.0) (2021-08-21)
 
 
