@@ -7,7 +7,7 @@ public struct SendKeysCli: ParsableCommand {
         commandName: "sendkeys",
         abstract: "Command line tool for automating keystrokes and mouse events.",
         version: "0.0.0", /* auto-updated */
-        subcommands: [Sender.self, MousePosition.self, Transformer.self],
+        subcommands: [Sender.self, AppLister.self, MousePosition.self, Transformer.self],
         defaultSubcommand: Sender.self
     )
 
