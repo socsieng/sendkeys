@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.6.0](https://www.github.com/socsieng/sendkeys/compare/v2.5.2...v2.6.0) (2021-08-21)
+
+
+### Features
+
+* display a list applications that can be used with sendkeys ([94626fa](https://www.github.com/socsieng/sendkeys/commit/94626fa39a30b9b51f03548aa0b8dbb62bd5cfb6)), closes [#46](https://www.github.com/socsieng/sendkeys/issues/46)
+
 ### [2.5.2](https://www.github.com/socsieng/sendkeys/compare/v2.5.1...v2.5.2) (2021-06-19)
 
 
