@@ -291,8 +291,9 @@ Safari           id:com.apple.Safari
 
 The first column includes the application name and the second column includes the application's bundle ID.
 
-SendKeys will use `--application-name` to activate the first application instance that either matches the full
-application name or partially matches the bundle id.
+SendKeys will use `--application-name` to activate the first application instance that matches either the application
+name or bundle id (case insensitive). If there are no exact matches, it will attempt to match on whole words for the
+application name, followed by the bundle id.
 
 ## Prerequisites
 
