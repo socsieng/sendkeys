@@ -38,6 +38,9 @@ cat example.txt | sendkeys --application-name "Notes"
 
 _Activates the Notes application and sends keystrokes piped from `stdout` of the preceeding command._
 
+Note that a list of applications that can be used in `--application-name` can be found using the
+[`apps` sub command](#list-of-applications-names)
+
 ## Installation
 
 ### Homebrew (recommended)
@@ -266,6 +269,30 @@ sendkeys mouse-position --watch --output commands > mouse_commands.txt
 # replay mouse commands
 sendkeys --input-file mouse_commands.txt
 ```
+
+## List of applications names
+
+A list of the current applications that can be activated by SendKeys (`--application-name`) can be displayed using the
+`apps` command.
+
+```sh
+# list apps that can be activated with --application-name
+sendkeys apps
+```
+
+Sample output:
+
+```
+Code             id:com.microsoft.VSCode
+Finder           id:com.apple.finder
+Google Chrome    id:com.google.Chrome
+Safari           id:com.apple.Safari
+```
+
+The first column includes the application name and the second column includes the application's bundle ID.
+
+SendKeys will use `--application-name` to activate the first application instance that either matches the full
+application name or partially matches the bundle id.
 
 ## Prerequisites
 
