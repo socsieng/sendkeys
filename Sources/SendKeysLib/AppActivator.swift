@@ -5,20 +5,49 @@ class AppActivator: NSObject {
     private let filterName: String
 
     init(appName: String) {
-        filterName = appName
+        filterName = appName.lowercased()
     }
 
     func activate() throws {
-        guard
-            let app = NSWorkspace.shared.runningApplications.filter({
-                return $0.localizedName == self.filterName || $0.bundleIdentifier?.contains(self.filterName) ?? false
-            }).first
-        else {
-            throw RuntimeError("Application \(self.filterName) not found")
+        let apps = NSWorkspace.shared.runningApplications.filter({ a in
+            return a.activationPolicy == .regular
+        })
+
+        // exact match (case insensitive)
+        var app = apps.filter({ a in
+            return a.localizedName?.lowercased() == self.filterName
+                || a.bundleIdentifier?.lowercased() == self.filterName
+        }).first
+
+        let expression = try! NSRegularExpression(
+            pattern: "\\b\(NSRegularExpression.escapedPattern(for: self.filterName))\\b", options: .caseInsensitive)
+
+        // partial name match
+        if app == nil {
+            app =
+                apps.filter({ a in
+                    let nameMatch = expression.firstMatch(
+                        in: a.localizedName ?? "", options: [], range: NSMakeRange(0, a.localizedName?.utf16.count ?? 0)
+                    )
+                    return nameMatch != nil
+                }).first
         }
 
-        guard app.activationPolicy != .prohibited else {
-            throw RuntimeError("Application \(self.filterName) prohibits activation")
+        // patial bundle id match
+        if app == nil {
+            app =
+                apps.filter({ a in
+                    let bundleMatch = expression.firstMatch(
+                        in: a.bundleIdentifier ?? "", options: [],
+                        range: NSMakeRange(0, a.bundleIdentifier?.utf16.count ?? 0))
+                    return bundleMatch != nil
+                }).first
+        }
+
+        if app == nil {
+            throw RuntimeError(
+                "Application \(self.filterName) could not be activated. Run `sendkeys apps` to see a list of applications that can be activated."
+            )
         }
 
         self.application = app
