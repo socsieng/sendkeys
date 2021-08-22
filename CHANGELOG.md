@@ -1,5 +1,17 @@
 # Changelog
 
+### [2.6.2](https://www.github.com/socsieng/sendkeys/compare/v2.6.1...v2.6.2) (2021-08-22)
+
+
+### Features
+
+* improve application name matching algorithm ([456586a](https://www.github.com/socsieng/sendkeys/commit/456586a746bea2294fd64db238cf595d9f7bf417)), closes [#50](https://www.github.com/socsieng/sendkeys/issues/50)
+
+
+### Documentation
+
+* update README to include details on  apps sub command ([40f49be](https://www.github.com/socsieng/sendkeys/commit/40f49bec4ce9574ee7e7ecafafd7facba067f64c))
+
 ### [2.6.1](https://www.github.com/socsieng/sendkeys/compare/v2.6.0...v2.6.1) (2021-08-21)
 
 
