@@ -8,6 +8,7 @@ public enum CommandType {
     case pause
     case stickyPause
     case mouseMove
+    case mousePath
     case mouseClick
     case mouseDrag
     case mouseScroll

@@ -30,10 +30,26 @@ class MouseController {
         let animator = Animator(
             duration, animationRefreshInterval,
             { progress in
-                let location = CGPoint(
-                    x: (Double(end.x - resolvedStart.x) * progress) + Double(resolvedStart.x),
-                    y: (Double(end.y - resolvedStart.y) * progress) + Double(resolvedStart.y)
-                )
+                let location = CGFloat(progress) * (end - resolvedStart) + resolvedStart
+                self.setLocation(location, eventSource: eventSource, moveType: moveType, button: button, flags: flags)
+            })
+
+        animator.animate()
+    }
+
+    func move(
+        start: CGPoint?, path: String, offset: CGPoint, scale: CGPoint, duration: TimeInterval, flags: CGEventFlags
+    ) {
+        let resolvedStart = start ?? getLocation()!
+        let eventSource = CGEventSource(event: nil)
+        let button = downButtons.first
+        let moveType = getEventType(.move, button)
+        let pathData = PathData(path, resolvedStart)
+
+        let animator = Animator(
+            duration, animationRefreshInterval,
+            { progress in
+                let location = offset + (pathData.getPointAtInterval(progress) * scale)
                 self.setLocation(location, eventSource: eventSource, moveType: moveType, button: button, flags: flags)
             })
 
@@ -91,10 +107,7 @@ class MouseController {
         let animator = Animator(
             duration, animationRefreshInterval,
             { progress in
-                let location = CGPoint(
-                    x: (Double(end.x - resolvedStart.x) * progress) + Double(resolvedStart.x),
-                    y: (Double(end.y - resolvedStart.y) * progress) + Double(resolvedStart.y)
-                )
+                let location = CGFloat(progress) * (end - resolvedStart) + resolvedStart
                 self.setLocation(location, eventSource: eventSource, moveType: moveType, button: button, flags: flags)
             })
 

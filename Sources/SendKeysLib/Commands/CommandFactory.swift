@@ -8,6 +8,7 @@ public class CommandFactory {
         ContinuationCommand.self,
         NewlineCommand.self,
         MouseMoveCommand.self,
+        MousePathCommand.self,
         MouseClickCommand.self,
         MouseDragCommand.self,
         MouseScrollCommand.self,
