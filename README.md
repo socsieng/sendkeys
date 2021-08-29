@@ -203,6 +203,25 @@ Example usage:
 
 ![mouse focus example](https://github.com/socsieng/sendkeys/raw/main/docs/images/mouse-focus.gif)
 
+#### Mouse path
+
+The mouse path command can be used move the mouse cursor along a path. The mouse path command uses the following markup:
+`<mpath:path[:ofssetX,offsetY[,scaleX,scaleY]]:duration>`
+
+- `path` is required and defines path for the mouse cursor to follow. The path is described using
+  [SVG Path data](https://www.w3.org/TR/SVG/paths.html#PathData)
+- `ofssetX` and `offsetY` are optional and can be used to offset path coordinates by their respective `x` and `y`
+  values.
+- `scaleX` and `scaleY` are also optional and can be used to scale path coordinates by their respective `x` and `y`
+  values.
+- `duration` is required and determines the number of seconds (supports partial seconds) used to complete the animation
+  along the `path`.
+
+Example usage:
+
+- `<mpath:c0,40 200,40 200,0:2>`: Moves the mouse from its current position along a cubic bezier path with control
+  points `0,40` and `200,40` to the final position of `200,1`.
+
 #### Mouse down and up
 
 Mouse down and up events can be used to manually initiate a drag event or multiple mouse move commands while the mouse

@@ -271,6 +271,16 @@ final class CommandIteratorTests: XCTestCase {
             ])
     }
 
+    func testParsesMousePath() throws {
+        let commands = getCommands(CommandsIterator("<mpath:L 200 400:2>"))
+        XCTAssertEqual(
+            commands,
+            [
+                MousePathCommand(
+                    path: "L 200 400", offsetX: 0, offsetY: 0, scaleX: 1, scaleY: 1, duration: 2, modifiers: [])
+            ])
+    }
+
     func testParsesMouseDrag() throws {
         let commands = getCommands(CommandsIterator("<d:1,2,3,4>"))
         XCTAssertEqual(
