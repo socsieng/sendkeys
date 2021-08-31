@@ -269,11 +269,9 @@ public class ArcPathCommand: PathCommand<ArchCommandValue> {
 
     override public func makeAbsolute(_ point: CGPoint) {
         if isRelative {
-            print("arc relative point: \(description)")
             super.makeAbsolute(point)
 
             value.point = point + value.point
-            print("arc absolute point: \(description)")
         }
     }
 
