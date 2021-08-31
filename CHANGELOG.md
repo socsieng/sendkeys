@@ -1,5 +1,12 @@
 # Changelog
 
+### [2.7.1](https://www.github.com/socsieng/sendkeys/compare/v2.7.0...v2.7.1) (2021-08-31)
+
+
+### Bug Fixes
+
+* remove debug print statements ([5109a12](https://www.github.com/socsieng/sendkeys/commit/5109a12045bb65d18fe570db53c9ce88e6fa4d3d))
+
 ## [2.7.0](https://www.github.com/socsieng/sendkeys/compare/v2.6.2...v2.7.0) (2021-08-31)
 
 
