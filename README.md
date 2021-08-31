@@ -222,6 +222,8 @@ Example usage:
 - `<mpath:c0,40 200,40 200,0:2>`: Moves the mouse from its current position along a cubic bezier path with control
   points `0,40` and `200,40` to the final position of `200,1`.
 
+![mouse path example](https://github.com/socsieng/sendkeys/raw/main/docs/images/mouse-path.gif)
+
 #### Mouse down and up
 
 Mouse down and up events can be used to manually initiate a drag event or multiple mouse move commands while the mouse
