@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.7.0](https://www.github.com/socsieng/sendkeys/compare/v2.6.2...v2.7.0) (2021-08-31)
+
+
+### Features
+
+* add mouse path command ([6c5c0b9](https://www.github.com/socsieng/sendkeys/commit/6c5c0b9ab5e25d795ee470884a25de2b28d5988d))
+
+
+### Documentation
+
+* add example animation for mouse path command ([2c49b8d](https://www.github.com/socsieng/sendkeys/commit/2c49b8d16735d60186c1b1c842ff31607ec265bb))
+
 ### [2.6.2](https://www.github.com/socsieng/sendkeys/compare/v2.6.1...v2.6.2) (2021-08-22)
 
 
