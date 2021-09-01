@@ -28,6 +28,14 @@ class MousePosition: ParsableCommand {
 
     static let eventProcessor = MouseEventProcessor()
 
+    private static func createNumberFormatter() -> NumberFormatter {
+        let numberFormatter = NumberFormatter()
+
+        numberFormatter.maximumFractionDigits = 2
+
+        return numberFormatter
+    }
+
     required init() {
     }
 
@@ -35,13 +43,15 @@ class MousePosition: ParsableCommand {
         if watch {
             watchMouseInput()
         } else {
-            printMousePosition()
+            printMousePosition(nil)
         }
     }
 
-    func printMousePosition() {
-        let location = MouseController(animationRefreshInterval: 0.01).getLocation()!
-        print(String(format: "%.0f,%.0f", location.x, location.y))
+    func printMousePosition(_ position: CGPoint?) {
+        let numberFormatter = Self.createNumberFormatter()
+        let location = position ?? MouseController(animationRefreshInterval: 0.01).getLocation()!
+
+        printAndFlush("\(numberFormatter.string(for: location.x)!),\(numberFormatter.string(for: location.y)!)")
     }
 
     func listenForInput() {
@@ -50,7 +60,7 @@ class MousePosition: ParsableCommand {
             stderr)
 
         waitForCharInput { _ in
-            printMousePosition()
+            printMousePosition(nil)
         }
     }
 
@@ -109,8 +119,7 @@ class MousePosition: ParsableCommand {
                         switch command.mode {
                         case .coordinates:
                             if mouseEvent.eventType == .click {
-                                command.printAndFlush(
-                                    String(format: "%.0f,%.0f", mouseEvent.endPoint.x, mouseEvent.endPoint.y))
+                                command.printMousePosition(mouseEvent.endPoint)
                             }
                         case .commands:
                             command.printAndFlush(mouseEvent.description)
@@ -139,11 +148,11 @@ class MousePosition: ParsableCommand {
     {
         switch mode {
         case .coordinates:
-            printMousePosition()
+            printMousePosition(nil)
         case .commands:
-            printMousePosition()
+            printMousePosition(nil)
         }
-        print("Event \(type) \(type.rawValue)")
+        printAndFlush("Event \(type) \(type.rawValue)")
 
         return Unmanaged.passRetained(event)
     }

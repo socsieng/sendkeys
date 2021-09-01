@@ -52,7 +52,8 @@ class MouseEvent: CustomStringConvertible {
             var moveParts: [String] = []
             var clickParts: [String] = []
 
-            moveParts.append(String(format: "%.0f,%.0f", endPoint.x, endPoint.y))
+            moveParts.append(
+                "\(Self.numberFormatter.string(for: endPoint.x)!),\(Self.numberFormatter.string(for: endPoint.y)!)")
 
             if duration > 0 {
                 moveParts.append(Self.numberFormatter.string(for: duration)!)
@@ -64,7 +65,9 @@ class MouseEvent: CustomStringConvertible {
         case .drag:
             var parts: [String] = []
 
-            parts.append(String(format: "%.0f,%.0f,%.0f,%.0f", startPoint.x, startPoint.y, endPoint.x, endPoint.y))
+            parts.append(
+                "\(Self.numberFormatter.string(for: startPoint.x)!),\(Self.numberFormatter.string(for: startPoint.y)!),\(Self.numberFormatter.string(for: endPoint.x)!),\(Self.numberFormatter.string(for: endPoint.y)!)"
+            )
 
             if duration > 0 {
                 parts.append(Self.numberFormatter.string(for: duration)!)
@@ -79,9 +82,7 @@ class MouseEvent: CustomStringConvertible {
     static func createNumberFormatter() -> NumberFormatter {
         let numberFormatter = NumberFormatter()
 
-        numberFormatter.usesSignificantDigits = true
-        numberFormatter.minimumSignificantDigits = 1
-        numberFormatter.maximumSignificantDigits = 3
+        numberFormatter.maximumFractionDigits = 2
 
         return numberFormatter
     }
