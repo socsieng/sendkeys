@@ -1,5 +1,19 @@
 # Changelog
 
+## [2.8.0](https://www.github.com/socsieng/sendkeys/compare/v2.7.1...v2.8.0) (2021-09-01)
+
+
+### Features
+
+* convert mouse coordinates from integers to doubles ([bbd4534](https://www.github.com/socsieng/sendkeys/commit/bbd45342cf0f1974ed2a2365d386b44b3225841d))
+* make scaleY option in path command ([f1fe840](https://www.github.com/socsieng/sendkeys/commit/f1fe8406a13c7abee8844123d0d5aeda903b6620))
+* output mouse positions as decimals ([d723082](https://www.github.com/socsieng/sendkeys/commit/d723082a068f4806bad9363098727af287c067d7))
+
+
+### Documentation
+
+* add sample command for mouse path command ([9c9e6cb](https://www.github.com/socsieng/sendkeys/commit/9c9e6cbe0b4c7ca313116eb4b7966824c681ed17))
+
 ### [2.7.1](https://www.github.com/socsieng/sendkeys/compare/v2.7.0...v2.7.1) (2021-08-31)
 
 
