@@ -114,11 +114,8 @@ Example usage:
 - `<m:400,400,0,0:2>`: Move mouse cursor from 400, 400 position to 0, 0 over 2 seconds.
 - `<m:400,400>`: Move mouse cursor to 400, 400 instantly.
 
-```sh
-sendkeys -c "<m:100,300,300,300:0.5><p:0.5><m:100,300:0.5>"
-```
-
-![mouse move example](https://github.com/socsieng/sendkeys/raw/main/docs/images/mouse.gif)
+![mouse move example](https://github.com/socsieng/sendkeys/raw/main/docs/images/mouse.gif) <br>_Sample command:
+`sendkeys -c "<m:100,300,300,300:0.5><p:0.5><m:100,300:0.5>"`_
 
 #### Mouse click
 
@@ -222,7 +219,8 @@ Example usage:
 - `<mpath:c0,40 200,40 200,0:2>`: Moves the mouse from its current position along a cubic bezier path with control
   points `0,40` and `200,40` to the final position of `200,1`.
 
-![mouse path example](https://github.com/socsieng/sendkeys/raw/main/docs/images/mouse-path.gif)
+![mouse path example](https://github.com/socsieng/sendkeys/raw/main/docs/images/mouse-path.gif) <br>_Sample command:
+`sendkeys -c "<mpath:M100,100 h 100 l5,30 10,-60 5,30 h 100:2><mpath:c0,40 -220,40 -220,0:1.5>"`_
 
 #### Mouse down and up
 
