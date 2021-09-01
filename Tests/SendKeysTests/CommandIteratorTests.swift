@@ -173,11 +173,11 @@ final class CommandIteratorTests: XCTestCase {
     }
 
     func testParsesMouseMove() throws {
-        let commands = getCommands(CommandsIterator("<m:1,2,3,4>"))
+        let commands = getCommands(CommandsIterator("<m:1.5,2.5,3.5,4.5>"))
         XCTAssertEqual(
             commands,
             [
-                MouseMoveCommand(x1: 1, y1: 2, x2: 3, y2: 4, duration: 0, modifiers: [])
+                MouseMoveCommand(x1: 1.5, y1: 2.5, x2: 3.5, y2: 4.5, duration: 0, modifiers: [])
             ])
     }
 
@@ -282,11 +282,11 @@ final class CommandIteratorTests: XCTestCase {
     }
 
     func testParsesMouseDrag() throws {
-        let commands = getCommands(CommandsIterator("<d:1,2,3,4>"))
+        let commands = getCommands(CommandsIterator("<d:1.5,2.5,3.5,4.5>"))
         XCTAssertEqual(
             commands,
             [
-                MouseDragCommand(x1: 1, y1: 2, x2: 3, y2: 4, duration: 0, button: "left", modifiers: [])
+                MouseDragCommand(x1: 1.5, y1: 2.5, x2: 3.5, y2: 4.5, duration: 0, button: "left", modifiers: [])
             ])
     }
 
@@ -319,11 +319,11 @@ final class CommandIteratorTests: XCTestCase {
     }
 
     func testParsesMouseDragWithDurationWithNegativeCoordinates() throws {
-        let commands = getCommands(CommandsIterator("<d:-1,-2,-3,-4:0.1>"))
+        let commands = getCommands(CommandsIterator("<d:-1.5,-2,-3,-4:0.1>"))
         XCTAssertEqual(
             commands,
             [
-                MouseDragCommand(x1: -1, y1: -2, x2: -3, y2: -4, duration: 0.1, button: "left", modifiers: [])
+                MouseDragCommand(x1: -1.5, y1: -2, x2: -3, y2: -4, duration: 0.1, button: "left", modifiers: [])
             ])
     }
 
@@ -373,11 +373,11 @@ final class CommandIteratorTests: XCTestCase {
     }
 
     func testParsesMouseScroll() throws {
-        let commands = getCommands(CommandsIterator("<s:0,10>"))
+        let commands = getCommands(CommandsIterator("<s:0,10.5>"))
         XCTAssertEqual(
             commands,
             [
-                MouseScrollCommand(x: 0, y: 10, duration: 0, modifiers: [])
+                MouseScrollCommand(x: 0, y: 10.5, duration: 0, modifiers: [])
             ])
     }
 
@@ -454,11 +454,11 @@ final class CommandIteratorTests: XCTestCase {
     }
 
     func testParsesMouseFocus() throws {
-        let commands = getCommands(CommandsIterator("<mf:0,0:100,50:0,360:1>"))
+        let commands = getCommands(CommandsIterator("<mf:0.5,0.5:100.5,50.5:0.5,360.5:1>"))
         XCTAssertEqual(
             commands,
             [
-                MouseFocusCommand(x: 0, y: 0, rx: 100, ry: 50, angleFrom: 0, angleTo: 360, duration: 1)
+                MouseFocusCommand(x: 0.5, y: 0.5, rx: 100.5, ry: 50.5, angleFrom: 0.5, angleTo: 360.5, duration: 1)
             ])
     }
 

@@ -4,14 +4,14 @@ public class MouseScrollCommand: MouseClickCommand {
     public override class var commandType: CommandType { return .mouseScroll }
 
     private static let _expression = try! NSRegularExpression(
-        pattern: "\\<s:(-?\\d+),(-?\\d+)(:([.\\d]+))?(:([a-z,]+))?\\>")
+        pattern: "\\<s:(-?[.\\d]+),(-?[.\\d]+)(:([.\\d]+))?(:([a-z,]+))?\\>")
     public override class var expression: NSRegularExpression { return _expression }
 
-    var x: Int
-    var y: Int
+    var x: Double
+    var y: Double
     var duration: TimeInterval
 
-    public init(x: Int, y: Int, duration: TimeInterval, modifiers: [String]) {
+    public init(x: Double, y: Double, duration: TimeInterval, modifiers: [String]) {
         self.x = x
         self.y = y
         self.duration = duration
@@ -21,8 +21,8 @@ public class MouseScrollCommand: MouseClickCommand {
     }
 
     required public init(arguments: [String?]) {
-        self.x = Int(arguments[1]!)!
-        self.y = Int(arguments[2]!)!
+        self.x = Double(arguments[1]!)!
+        self.y = Double(arguments[2]!)!
         self.duration = TimeInterval(arguments[4] ?? "0")!
 
         super.init()

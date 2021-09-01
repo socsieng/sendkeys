@@ -4,20 +4,20 @@ public class MouseMoveCommand: MouseClickCommand {
     public override class var commandType: CommandType { return .mouseMove }
 
     private static let _expression = try! NSRegularExpression(
-        pattern: "\\<m:((-?\\d+),(-?\\d+),)?(-?\\d+),(-?\\d+)(:([\\d.]+))?(:([a-z,]+))?\\>")
+        pattern: "\\<m:((-?[.\\d]+),(-?[.\\d]+),)?(-?[.\\d]+),(-?[.\\d]+)(:([\\d.]+))?(:([a-z,]+))?\\>")
     public override class var expression: NSRegularExpression { return _expression }
 
-    var x1: Int?
-    var y1: Int?
-    var x2: Int = 0
-    var y2: Int = 0
+    var x1: Double?
+    var y1: Double?
+    var x2: Double = 0
+    var y2: Double = 0
     var duration: TimeInterval = 0
 
     override init() {
         super.init()
     }
 
-    public init(x1: Int?, y1: Int?, x2: Int, y2: Int, duration: TimeInterval, modifiers: [String]) {
+    public init(x1: Double?, y1: Double?, x2: Double, y2: Double, duration: TimeInterval, modifiers: [String]) {
         super.init()
 
         self.x1 = x1
@@ -30,10 +30,10 @@ public class MouseMoveCommand: MouseClickCommand {
 
     required public init(arguments: [String?]) {
         super.init()
-        self.x1 = Int(arguments[2] ?? "")
-        self.y1 = Int(arguments[3] ?? "")
-        self.x2 = Int(arguments[4]!)!
-        self.y2 = Int(arguments[5]!)!
+        self.x1 = Double(arguments[2] ?? "")
+        self.y1 = Double(arguments[3] ?? "")
+        self.x2 = Double(arguments[4]!)!
+        self.y2 = Double(arguments[5]!)!
         self.duration = TimeInterval(arguments[7] ?? "0")!
         self.modifiers = arguments[9]?.components(separatedBy: ",").filter({ !$0.isEmpty }) ?? []
     }

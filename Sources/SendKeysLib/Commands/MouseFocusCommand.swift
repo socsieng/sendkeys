@@ -5,18 +5,20 @@ public class MouseFocusCommand: MouseClickCommand {
 
     // <mf:centerX,centerY:radiusX[,radiusY]:angleFrom,angleTo:duration>
     private static let _expression = try! NSRegularExpression(
-        pattern: "\\<mf:(-?\\d+),(-?\\d+):(\\d+)(,(\\d+))?:(-?[.\\d]+),(-?[.\\d]+):([.\\d]+)\\>")
+        pattern: "\\<mf:(-?[.\\d]+),(-?[.\\d]+):([.\\d]+)(,([.\\d]+))?:(-?[.\\d]+),(-?[.\\d]+):([.\\d]+)\\>")
     public override class var expression: NSRegularExpression { return _expression }
 
-    var x: Int
-    var y: Int
-    var rx: Int
-    var ry: Int
+    var x: Double
+    var y: Double
+    var rx: Double
+    var ry: Double
     var from: Double
     var to: Double
     var duration: TimeInterval
 
-    public init(x: Int, y: Int, rx: Int, ry: Int, angleFrom: Double, angleTo: Double, duration: TimeInterval) {
+    public init(
+        x: Double, y: Double, rx: Double, ry: Double, angleFrom: Double, angleTo: Double, duration: TimeInterval
+    ) {
         self.x = x
         self.y = y
         self.rx = rx
@@ -29,10 +31,10 @@ public class MouseFocusCommand: MouseClickCommand {
     }
 
     required public init(arguments: [String?]) {
-        self.x = Int(arguments[1]!)!
-        self.y = Int(arguments[2]!)!
-        self.rx = Int(arguments[3]!)!
-        self.ry = Int(arguments[5] ?? arguments[3]!)!
+        self.x = Double(arguments[1]!)!
+        self.y = Double(arguments[2]!)!
+        self.rx = Double(arguments[3]!)!
+        self.ry = Double(arguments[5] ?? arguments[3]!)!
         self.from = Double(arguments[6]!)!
         self.to = Double(arguments[7]!)!
         self.duration = TimeInterval(arguments[8]!)!
