@@ -4,7 +4,8 @@ public class MousePathCommand: MouseClickCommand {
     public override class var commandType: CommandType { return .mousePath }
 
     private static let _expression = try! NSRegularExpression(
-        pattern: "\\<mpath:([^:\\>]+)(:(-?[\\d.]+),(-?[\\d.]+)(,(-?[\\d.]+),(-?[\\d.]+))?)?:([\\d.]+)(:([a-z,]+))?\\>")
+        pattern:
+            "\\<mpath:([^:\\>]+)(:(-?[\\d.]+),(-?[\\d.]+)(,(-?[\\d.]+)(,(-?[\\d.]+))?)?)?:([\\d.]+)(:([a-z,]+))?\\>")
     public override class var expression: NSRegularExpression { return _expression }
 
     var path: String
@@ -34,11 +35,11 @@ public class MousePathCommand: MouseClickCommand {
         self.offsetX = Double(arguments[3] ?? "0")!
         self.offsetY = Double(arguments[4] ?? "0")!
         self.scaleX = Double(arguments[6] ?? "1")!
-        self.scaleY = Double(arguments[7] ?? "1")!
-        self.duration = TimeInterval(arguments[8] ?? "0")!
+        self.scaleY = Double(arguments[8] ?? arguments[6] ?? "1")!
+        self.duration = TimeInterval(arguments[9] ?? "0")!
 
         super.init()
-        self.modifiers = arguments[9]?.components(separatedBy: ",").filter({ !$0.isEmpty }) ?? []
+        self.modifiers = arguments[10]?.components(separatedBy: ",").filter({ !$0.isEmpty }) ?? []
     }
 
     public override func execute() throws {

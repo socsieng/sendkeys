@@ -281,6 +281,36 @@ final class CommandIteratorTests: XCTestCase {
             ])
     }
 
+    func testParsesMousePathWithOffset() throws {
+        let commands = getCommands(CommandsIterator("<mpath:L 200 400:100,200:2>"))
+        XCTAssertEqual(
+            commands,
+            [
+                MousePathCommand(
+                    path: "L 200 400", offsetX: 100, offsetY: 200, scaleX: 1, scaleY: 1, duration: 2, modifiers: [])
+            ])
+    }
+
+    func testParsesMousePathWithOffsetAndScale() throws {
+        let commands = getCommands(CommandsIterator("<mpath:L 200 400:100,200,0.5,2.5:2>"))
+        XCTAssertEqual(
+            commands,
+            [
+                MousePathCommand(
+                    path: "L 200 400", offsetX: 100, offsetY: 200, scaleX: 0.5, scaleY: 2.5, duration: 2, modifiers: [])
+            ])
+    }
+
+    func testParsesMousePathWithOffsetAndPartialScale() throws {
+        let commands = getCommands(CommandsIterator("<mpath:L 200 400:100,200,0.4:2>"))
+        XCTAssertEqual(
+            commands,
+            [
+                MousePathCommand(
+                    path: "L 200 400", offsetX: 100, offsetY: 200, scaleX: 0.4, scaleY: 0.4, duration: 2, modifiers: [])
+            ])
+    }
+
     func testParsesMouseDrag() throws {
         let commands = getCommands(CommandsIterator("<d:1.5,2.5,3.5,4.5>"))
         XCTAssertEqual(
