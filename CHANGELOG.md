@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.9.0](https://www.github.com/socsieng/sendkeys/compare/v2.8.0...v2.9.0) (2023-04-15)
+
+
+### Features
+
+* add support for activating application by process id ([0a44470](https://www.github.com/socsieng/sendkeys/commit/0a4447044d2acddba176db74d9698cbef4dfc872)), closes [#63](https://www.github.com/socsieng/sendkeys/issues/63)
+
 ## [2.8.0](https://www.github.com/socsieng/sendkeys/compare/v2.7.1...v2.8.0) (2021-09-01)
 
 
