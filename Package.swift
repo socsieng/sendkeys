@@ -1,4 +1,4 @@
-// swift-tools-version:5.1
+// swift-tools-version:5.3
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -15,10 +15,15 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages which this package depends on.
         .target(
             name: "sendkeys",
-            dependencies: ["SendKeysLib", "ArgumentParser"]),
+            dependencies: [
+                .product(name: "ArgumentParser", package: "swift-argument-parser"),
+                "SendKeysLib",
+            ]),
         .target(
             name: "SendKeysLib",
-            dependencies: ["ArgumentParser"]),
+            dependencies: [
+                .product(name: "ArgumentParser", package: "swift-argument-parser"),
+            ]),
         .testTarget(
             name: "SendKeysTests",
             dependencies: ["sendkeys", "SendKeysLib"]),

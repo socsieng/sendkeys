@@ -1,4 +1,5 @@
 import ArgumentParser
+import Cocoa
 import Foundation
 
 @available(OSX 10.11, *)
