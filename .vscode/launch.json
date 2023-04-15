@@ -1,0 +1,24 @@
+{
+  "configurations": [
+    {
+      "type": "lldb",
+      "request": "launch",
+      "sourceLanguages": ["swift"],
+      "name": "Debug sendkeys",
+      "program": "${workspaceFolder:sendkeys}/.build/debug/sendkeys",
+      "args": [],
+      "cwd": "${workspaceFolder:sendkeys}",
+      "preLaunchTask": "swift: Build Debug sendkeys"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
+      "sourceLanguages": ["swift"],
+      "name": "Release sendkeys",
+      "program": "${workspaceFolder:sendkeys}/.build/release/sendkeys",
+      "args": [],
+      "cwd": "${workspaceFolder:sendkeys}",
+      "preLaunchTask": "swift: Build Release sendkeys"
+    }
+  ]
+}

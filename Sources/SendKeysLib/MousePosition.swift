@@ -1,4 +1,5 @@
 import ArgumentParser
+import Cocoa
 import Foundation
 
 enum OutputMode: String, Codable, ExpressibleByArgument {
