@@ -12,6 +12,11 @@ public struct Sender: ParsableCommand {
     @Option(name: .shortAndLong, help: "Name of a running application to send keys to.")
     var applicationName: String?
 
+    @Option(
+        name: NameSpecification([.short, .customLong("pid")]),
+        help: "Process id of a running application to send keys to.")
+    var processId: Int?
+
     @Option(name: .shortAndLong, help: "Default delay between keystrokes in seconds.")
     var delay: Double = 0.1
 
@@ -55,9 +60,7 @@ public struct Sender: ParsableCommand {
             commandString = characters
         }
 
-        if !(applicationName ?? "").isEmpty {
-            try AppActivator(appName: applicationName!).activate()
-        }
+        try AppActivator(appName: applicationName, processId: processId).activate()
 
         if initialDelay > 0 {
             Sleeper.sleep(seconds: initialDelay)

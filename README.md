@@ -36,10 +36,12 @@ Input can also be piped to `stdin`:
 cat example.txt | sendkeys --application-name "Notes"
 ```
 
-_Activates the Notes application and sends keystrokes piped from `stdout` of the preceeding command._
+_Activates the Notes application and sends keystrokes piped from `stdout` of the preceding command._
 
 Note that a list of applications that can be used in `--application-name` can be found using the
-[`apps` sub command](#list-of-applications-names)
+[`apps` sub command](#list-of-applications-names).
+
+Applications can also be activated using the running process id (`--pid` or `-p` option).
 
 ## Installation
 
@@ -302,7 +304,7 @@ sendkeys apps
 
 Sample output:
 
-```
+```text
 Code             id:com.microsoft.VSCode
 Finder           id:com.apple.finder
 Google Chrome    id:com.google.Chrome
