@@ -4,7 +4,8 @@ set -e
 
 cwd=`pwd`
 script_folder=`cd $(dirname $0) && pwd`
-version=${1:-`cat $script_folder/../version.txt`}
+version=$1
+target=$2
 formula_template=$script_folder/../Formula/sendkeys_template.rb
 formula=$script_folder/../Formula/sendkeys.rb
 url="file://$cwd/sendkeys.tar.gz"
@@ -29,7 +30,7 @@ echo "Bottle built"
 brew bottle sendkeys --force-core-tap --no-rebuild --root-url "https://github.com/socsieng/sendkeys/releases/download/v${version}"
 
 bottle=`ls sendkeys--$version.*.tar.gz`
-bottle_rename=`echo $bottle | sed 's/sendkeys--/sendkeys-/g'`
+bottle_rename="sendkeys-$version.$target.bottle.tar.gz"
 
 mv $bottle $bottle_rename
 

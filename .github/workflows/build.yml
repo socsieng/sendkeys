@@ -149,7 +149,7 @@ jobs:
         name: Create bottle
         run: |
           ./scripts/update-version.sh ${{ needs.create_release.outputs.tag_name }}
-          ./scripts/bottle.sh ${{ needs.create_release.outputs.tag_name }}
+          ./scripts/bottle.sh ${{ needs.create_release.outputs.tag_name }} catalina
 
       - name: Upload bottle
         uses: actions/upload-release-asset@v1
@@ -181,7 +181,7 @@ jobs:
         name: Create bottle
         run: |
           ./scripts/update-version.sh ${{ needs.create_release.outputs.tag_name }}
-          ./scripts/bottle.sh ${{ needs.create_release.outputs.tag_name }}
+          ./scripts/bottle.sh ${{ needs.create_release.outputs.tag_name }} big_sur
 
       - name: Upload bottle
         if: ${{ needs.create_release.outputs.release_created }}
@@ -214,7 +214,7 @@ jobs:
         name: Create bottle
         run: |
           ./scripts/update-version.sh ${{ needs.create_release.outputs.tag_name }}
-          arch -arm64 ./scripts/bottle.sh ${{ needs.create_release.outputs.tag_name }}
+          arch -arm64 ./scripts/bottle.sh ${{ needs.create_release.outputs.tag_name }} arm64_big_sur
 
       - name: Upload bottle
         uses: actions/upload-release-asset@v1
