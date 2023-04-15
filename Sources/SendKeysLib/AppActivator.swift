@@ -2,10 +2,12 @@ import Cocoa
 
 class AppActivator: NSObject {
     private var application: NSRunningApplication!
-    private let filterName: String
+    private let appName: String?
+    private let processId: Int?
 
-    init(appName: String) {
-        filterName = appName.lowercased()
+    init(appName: String?, processId: Int?) {
+        self.appName = appName?.lowercased()
+        self.processId = processId
     }
 
     func activate() throws {
@@ -13,47 +15,66 @@ class AppActivator: NSObject {
             return a.activationPolicy == .regular
         })
 
-        // exact match (case insensitive)
-        var app = apps.filter({ a in
-            return a.localizedName?.lowercased() == self.filterName
-                || a.bundleIdentifier?.lowercased() == self.filterName
-        }).first
+        var app: NSRunningApplication?
 
-        let expression = try! NSRegularExpression(
-            pattern: "\\b\(NSRegularExpression.escapedPattern(for: self.filterName))\\b", options: .caseInsensitive)
-
-        // partial name match
-        if app == nil {
+        if processId != nil {
             app =
                 apps.filter({ a in
-                    let nameMatch = expression.firstMatch(
-                        in: a.localizedName ?? "", options: [], range: NSMakeRange(0, a.localizedName?.utf16.count ?? 0)
-                    )
-                    return nameMatch != nil
+                    return a.processIdentifier == pid_t(processId!)
                 }).first
-        }
 
-        // patial bundle id match
-        if app == nil {
+            if app == nil {
+                throw RuntimeError(
+                    "Application with process id \(processId!) could not be found."
+                )
+            }
+        } else if appName != nil {
+            // exact match (case insensitive)
             app =
                 apps.filter({ a in
-                    let bundleMatch = expression.firstMatch(
-                        in: a.bundleIdentifier ?? "", options: [],
-                        range: NSMakeRange(0, a.bundleIdentifier?.utf16.count ?? 0))
-                    return bundleMatch != nil
+                    return a.localizedName?.lowercased() == appName
+                        || a.bundleIdentifier?.lowercased() == appName
                 }).first
+
+            let expression = try! NSRegularExpression(
+                pattern: "\\b\(NSRegularExpression.escapedPattern(for: appName!))\\b", options: .caseInsensitive)
+
+            // partial name match
+            if app == nil {
+                app =
+                    apps.filter({ a in
+                        let nameMatch = expression.firstMatch(
+                            in: a.localizedName ?? "", options: [],
+                            range: NSMakeRange(0, a.localizedName?.utf16.count ?? 0)
+                        )
+                        return nameMatch != nil
+                    }).first
+            }
+
+            // patial bundle id match
+            if app == nil {
+                app =
+                    apps.filter({ a in
+                        let bundleMatch = expression.firstMatch(
+                            in: a.bundleIdentifier ?? "", options: [],
+                            range: NSMakeRange(0, a.bundleIdentifier?.utf16.count ?? 0))
+                        return bundleMatch != nil
+                    }).first
+            }
+
+            if app == nil {
+                throw RuntimeError(
+                    "Application \(appName!) cannot be activated. Run `sendkeys apps` to see a list of applications that can be activated."
+                )
+            }
         }
 
-        if app == nil {
-            throw RuntimeError(
-                "Application \(self.filterName) could not be activated. Run `sendkeys apps` to see a list of applications that can be activated."
-            )
+        if app != nil {
+            self.application = app
+
+            self.unhideAppIfNeeded()
+            self.activateAppIfNeeded()
         }
-
-        self.application = app
-
-        self.unhideAppIfNeeded()
-        self.activateAppIfNeeded()
     }
 
     private func unhideAppIfNeeded() {
