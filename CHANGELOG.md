@@ -1,5 +1,12 @@
 # Changelog
 
+### [2.9.1](https://www.github.com/socsieng/sendkeys/compare/v2.9.0...v2.9.1) (2023-04-15)
+
+
+### Bug Fixes
+
+* fix homebrew update script ([dac393f](https://www.github.com/socsieng/sendkeys/commit/dac393fe982b7b5ce39a9450277a36b0ea46d58e))
+
 ## [2.9.0](https://www.github.com/socsieng/sendkeys/compare/v2.8.0...v2.9.0) (2023-04-15)
 
 
