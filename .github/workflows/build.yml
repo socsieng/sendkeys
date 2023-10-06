@@ -9,37 +9,6 @@ on:
       - main
 
 jobs:
-  macos_catalina:
-    runs-on: macos-10.15
-
-    strategy:
-      matrix:
-        xcode:
-          - '12'
-
-    name: macOS Catalina (Xcode ${{ matrix.xcode }})
-
-    steps:
-      - name: checkout
-        uses: actions/checkout@v2
-      - uses: actions/cache@v2
-        with:
-          path: .build
-          key: ${{ runner.os }}-xcode-${{ matrix.xcode }}-${{ hashFiles('**/Package.resolved') }}
-          restore-keys: |
-            ${{ runner.os }}-xcode-${{ matrix.xcode }}
-      - name: build
-        run: |
-          ls -n /Applications/ | grep Xcode*
-          make build
-        env:
-          DEVELOPER_DIR: /Applications/Xcode_${{ matrix.xcode }}.app/Contents/Developer
-      - name: test
-        run: |
-          swift test
-        env:
-          DEVELOPER_DIR: /Applications/Xcode_${{ matrix.xcode }}.app/Contents/Developer
-
   macos_big_sur:
     runs-on: macos-11.0
 
@@ -98,7 +67,6 @@ jobs:
 
   create_release:
     needs:
-      - macos_catalina
       - macos_big_sur
       - macos_arm64
 
@@ -128,39 +96,6 @@ jobs:
               {"type":"misc","section":"Miscellaneous","hidden":false}
             ]
 
-  create_bottle_catalina:
-    needs:
-      - create_release
-
-    runs-on: macos-10.15
-    if: ${{ needs.create_release.outputs.release_created }}
-
-    name: Create bottle Catalina
-
-    outputs:
-      file: ${{ steps.bottle.outputs.file }}
-      sha: ${{ steps.bottle.outputs.sha }}
-      root_url: ${{ steps.bottle.outputs.root_url }}
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - id: bottle
-        name: Create bottle
-        run: |
-          ./scripts/update-version.sh ${{ needs.create_release.outputs.tag_name }}
-          ./scripts/bottle.sh ${{ needs.create_release.outputs.tag_name }} catalina
-
-      - name: Upload bottle
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ needs.create_release.outputs.upload_url }}
-          asset_path: ./${{ steps.bottle.outputs.file }}
-          asset_name: ${{ steps.bottle.outputs.file }}
-          asset_content_type: application/gzip
-
   create_bottle_big_sur:
     needs:
       - create_release
@@ -173,6 +108,7 @@ jobs:
     outputs:
       file: ${{ steps.bottle.outputs.file }}
       sha: ${{ steps.bottle.outputs.sha }}
+      root_url: ${{ steps.bottle.outputs.root_url }}
 
     steps:
       - uses: actions/checkout@v2
@@ -206,6 +142,7 @@ jobs:
     outputs:
       file: ${{ steps.bottle.outputs.file }}
       sha: ${{ steps.bottle.outputs.sha }}
+      root_url: ${{ steps.bottle.outputs.root_url }}
 
     steps:
       - uses: actions/checkout@v2
@@ -229,7 +166,6 @@ jobs:
   homebrew:
     needs:
       - create_release
-      - create_bottle_catalina
       - create_bottle_big_sur
       - create_bottle_big_sur_arm64
 
@@ -251,8 +187,7 @@ jobs:
           formula='Formula/sendkeys.rb'
           version=`echo '${{ needs.create_release.outputs.tag_name }}' | sed -E 's/^v//g'`
           revision='${{ needs.create_release.outputs.sha }}'
-          sed_root_url=`echo '${{ needs.create_bottle_catalina.outputs.root_url }}' | sed 's/\\//\\\\\//g'`
-          sha_catalina='${{ needs.create_bottle_catalina.outputs.sha }}'
+          sed_root_url=`echo '${{ needs.create_bottle_big_sur.outputs.root_url }}' | sed 's/\\//\\\\\//g'`
           sha_big_sur='${{ needs.create_bottle_big_sur.outputs.sha }}'
           sha_big_sur_arm64='${{ needs.create_bottle_big_sur_arm64.outputs.sha }}'
 
@@ -261,7 +196,6 @@ jobs:
           sed -E -i "" "s/version \"[^\"]+\"/version \"$version\"/g" $formula
           sed -E -i "" "s/root_url \"[^\"]+\"/root_url \"$sed_root_url\"/g" $formula
           sed -E -i "" "s/sha256 cellar: :any_skip_relocation, arm64_big_sur: \"[^\"]+\"/sha256 cellar: :any_skip_relocation, arm64_big_sur: \"$sha_big_sur_arm64\"/g" $formula
-          sed -E -i "" "s/sha256 cellar: :any_skip_relocation, catalina:      \"[^\"]+\"/sha256 cellar: :any_skip_relocation, catalina:      \"$sha_catalina\"/g" $formula
           sed -E -i "" "s/sha256 cellar: :any_skip_relocation, big_sur:       \"[^\"]+\"/sha256 cellar: :any_skip_relocation, big_sur:       \"$sha_big_sur\"/g" $formula
 
           git commit -am "chore: update sendkeys to ${{ needs.create_release.outputs.tag_name }}"
