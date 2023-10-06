@@ -34,9 +34,9 @@ bottle_rename="sendkeys-$version.$target.bottle.tar.gz"
 
 mv $bottle $bottle_rename
 
-echo ::set-output name=file::$bottle_rename
-echo ::set-output name=root_url::"https://github.com/socsieng/sendkeys/releases/download/v${version}"
-echo ::set-output name=url::"https://github.com/socsieng/sendkeys/releases/download/v${version}/$bottle_rename"
-echo ::set-output name=sha::"$(shasum -a 256 $bottle_rename | awk '{printf $1}')"
+echo "file=$bottle_rename" >> $GITHUB_OUTPUT
+echo "root_url=https://github.com/socsieng/sendkeys/releases/download/v${version}" >> $GITHUB_OUTPUT
+echo "url=https://github.com/socsieng/sendkeys/releases/download/v${version}/$bottle_rename" >> $GITHUB_OUTPUT
+echo "sha=$(shasum -a 256 $bottle_rename | awk '{printf $1}')" >> $GITHUB_OUTPUT
 
 brew uninstall sendkeys
