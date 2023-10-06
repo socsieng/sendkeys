@@ -66,7 +66,8 @@ public class KeyPresser {
     private func createKeyEvent(key: String, modifiers: [String], keyDown: Bool) throws -> CGEvent? {
         let keycode = KeyCodes.getKeyCode(key)
         let flags = try! KeyPresser.getModifierFlags(modifiers)
-        let keyEvent = CGEvent(keyboardEventSource: nil, virtualKey: keycode ?? 0, keyDown: keyDown)
+        let eventSource = CGEventSource(stateID: .hidSystemState)
+        let keyEvent = CGEvent(keyboardEventSource: eventSource, virtualKey: keycode ?? 0, keyDown: keyDown)
 
         if keycode == nil {
             if key.count == 1 {
