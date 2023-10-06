@@ -90,6 +90,7 @@ public struct Sender: ParsableCommand {
 
         if !(commandString ?? "").isEmpty {
             commandProcessor.process(commandString!)
+            Sleeper.sleep(seconds: 0.01)
         } else if !isTty() {
             var data: Data
 
