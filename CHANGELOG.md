@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.0.1](https://github.com/socsieng/sendkeys/compare/v3.0.0...v3.0.1) (2023-10-06)
+
+
+### Bug Fixes
+
+* update key handling to use keyboardEventSource ([c26bbfa](https://github.com/socsieng/sendkeys/commit/c26bbfaaab700a6063b8fbb967622241595eb5a0))
+
 ## [3.0.0](https://www.github.com/socsieng/sendkeys/compare/v2.9.1...v3.0.0) (2023-10-06)
 
 
