@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.0.2](https://github.com/socsieng/sendkeys/compare/v3.0.1...v3.0.2) (2023-10-06)
+
+
+### Bug Fixes
+
+* introduce a small delay to allow commands to be processed before terminating ([9ffc2b2](https://github.com/socsieng/sendkeys/commit/9ffc2b2a012314d983c7e2a94385747abce8ef24)), closes [#60](https://github.com/socsieng/sendkeys/issues/60)
+
 ## [3.0.1](https://github.com/socsieng/sendkeys/compare/v3.0.0...v3.0.1) (2023-10-06)
 
 
