@@ -16,7 +16,8 @@ final class CommandProcessorTests: XCTestCase {
 
     override func setUp() {
         commandExecutor = CommandExecutorSpy()
-        commandsProcessor = CommandsProcessor(defaultPause: 0.1, commandExecutor: commandExecutor)
+        commandsProcessor = CommandsProcessor(
+            defaultPause: 0.1, keyPresser: KeyPresser(app: nil), commandExecutor: commandExecutor)
     }
 
     func testExecutesSingleKeyPress() {

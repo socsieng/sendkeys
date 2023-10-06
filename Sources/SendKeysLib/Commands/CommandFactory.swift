@@ -26,8 +26,10 @@ public class CommandFactory {
         self.mouseController = mouseController
     }
 
-    convenience public init() {
-        self.init(keyPresser: KeyPresser(), mouseController: MouseController(animationRefreshInterval: 0.01))
+    convenience public init(keyPresser: KeyPresser) {
+        self.init(
+            keyPresser: keyPresser,
+            mouseController: MouseController(animationRefreshInterval: 0.01, keyPresser: keyPresser))
     }
 
     public func create(_ commandType: Command.Type, arguments: [String?]) -> Command {

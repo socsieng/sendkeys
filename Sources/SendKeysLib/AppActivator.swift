@@ -10,7 +10,7 @@ class AppActivator: NSObject {
         self.processId = processId
     }
 
-    func activate() throws {
+    func find() throws -> NSRunningApplication? {
         let apps = NSWorkspace.shared.runningApplications.filter({ a in
             return a.activationPolicy == .regular
         })
@@ -61,12 +61,18 @@ class AppActivator: NSObject {
                         return bundleMatch != nil
                     }).first
             }
+        }
 
-            if app == nil {
-                throw RuntimeError(
-                    "Application \(appName!) cannot be activated. Run `sendkeys apps` to see a list of applications that can be activated."
-                )
-            }
+        return app
+    }
+
+    func activate() throws {
+        let app = try self.find()
+
+        if app == nil {
+            throw RuntimeError(
+                "Application \(appName!) cannot be activated. Run `sendkeys apps` to see a list of applications that can be activated."
+            )
         }
 
         if app != nil {

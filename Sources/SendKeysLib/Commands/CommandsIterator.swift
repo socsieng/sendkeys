@@ -8,7 +8,7 @@ public class CommandsIterator: IteratorProtocol {
 
     var index = 0
 
-    public init(_ commandString: String, commandFactory: CommandFactory = CommandFactory()) {
+    public init(_ commandString: String, commandFactory: CommandFactory) {
         self.commandString = commandString
         self.commandFactory = commandFactory
     }

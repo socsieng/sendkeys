@@ -50,7 +50,8 @@ class MousePosition: ParsableCommand {
 
     func printMousePosition(_ position: CGPoint?) {
         let numberFormatter = Self.createNumberFormatter()
-        let location = position ?? MouseController(animationRefreshInterval: 0.01).getLocation()!
+        let location =
+            position ?? MouseController(animationRefreshInterval: 0.01, keyPresser: KeyPresser(app: nil)).getLocation()!
 
         printAndFlush("\(numberFormatter.string(for: location.x)!),\(numberFormatter.string(for: location.y)!)")
     }
