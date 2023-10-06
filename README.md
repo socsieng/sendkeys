@@ -38,10 +38,23 @@ cat example.txt | sendkeys --application-name "Notes"
 
 _Activates the Notes application and sends keystrokes piped from `stdout` of the preceding command._
 
-Note that a list of applications that can be used in `--application-name` can be found using the
-[`apps` sub command](#list-of-applications-names).
+### Arguments
 
-Applications can also be activated using the running process id (`--pid` or `-p` option).
+- `--application-name <application-name>`: The application name to activate or target when sending commands. Note that a
+  list of applications that can be used in `--application-name` can be found using the
+  [`apps` sub command](#list-of-applications-names).
+- `--pid <process-id>`: The process id of the application to target when sending commands. Note that this if this
+  argument is supplied with `--application-name`, `--pid` takes precedence.
+- `--targeted`: If supplied, the application keystrokes will only be sent to the targeted application.
+- `--no-activate`: If supplied, the specified application will not be activated before sending commands.
+- `--input-file <file-name>`: The path to a file containing the commands to send to the application.
+- `--characters <characters>`: The characters to send to the application. Note that this argument is ignored if
+  `--input-file` is supplied.
+- `--delay <delay>`: The delay between keystrokes and instructions. Defaults to `0.1` seconds.
+- `--initial-delay <initial-delay>`: The initial delay before sending the first keystroke or instruction. Defaults to
+  `1` second.
+- `--animation-interval <interval-in-seconds>`: The time between mouse movements when animating mouse commands. Lower
+  values results in smoother animations. Defaults to `0.01` seconds.
 
 ## Installation
 

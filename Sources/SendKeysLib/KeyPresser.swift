@@ -1,7 +1,13 @@
 import Cocoa
 import Foundation
 
-class KeyPresser {
+public class KeyPresser {
+    private var application: NSRunningApplication?
+
+    init(app: NSRunningApplication?) {
+        self.application = app
+    }
+
     func keyPress(key: String, modifiers: [String]) throws {
         if let keyDownEvent = try! keyDown(key: key, modifiers: modifiers) {
             let _ = keyUp(event: keyDownEvent)
@@ -11,7 +17,15 @@ class KeyPresser {
     func keyDown(key: String, modifiers: [String]) throws -> CGEvent? {
         let keyDownEvent = try! createKeyEvent(key: key, modifiers: modifiers, keyDown: true)
 
-        keyDownEvent?.post(tap: CGEventTapLocation.cghidEventTap)
+        if self.application == nil {
+            keyDownEvent?.post(tap: CGEventTapLocation.cghidEventTap)
+        } else {
+            if #available(OSX 10.11, *) {
+                keyDownEvent?.postToPid(self.application!.processIdentifier)
+            } else {
+                keyDownEvent?.post(tap: CGEventTapLocation.cghidEventTap)
+            }
+        }
 
         return keyDownEvent
     }
@@ -19,7 +33,15 @@ class KeyPresser {
     func keyUp(key: String, modifiers: [String]) throws -> CGEvent? {
         let keyUpEvent = try! createKeyEvent(key: key, modifiers: modifiers, keyDown: false)
 
-        keyUpEvent?.post(tap: CGEventTapLocation.cghidEventTap)
+        if self.application == nil {
+            keyUpEvent?.post(tap: CGEventTapLocation.cghidEventTap)
+        } else {
+            if #available(OSX 10.11, *) {
+                keyUpEvent?.postToPid(self.application!.processIdentifier)
+            } else {
+                keyUpEvent?.post(tap: CGEventTapLocation.cghidEventTap)
+            }
+        }
 
         return keyUpEvent
     }
@@ -27,7 +49,16 @@ class KeyPresser {
     func keyUp(event: CGEvent) -> CGEvent? {
         let keyCode = UInt16(event.getIntegerValueField(.keyboardEventKeycode))
         let keyUpEvent = CGEvent(keyboardEventSource: CGEventSource(event: event), virtualKey: keyCode, keyDown: false)
-        keyUpEvent?.post(tap: CGEventTapLocation.cghidEventTap)
+
+        if self.application == nil {
+            keyUpEvent?.post(tap: CGEventTapLocation.cghidEventTap)
+        } else {
+            if #available(OSX 10.11, *) {
+                keyUpEvent?.postToPid(self.application!.processIdentifier)
+            } else {
+                keyUpEvent?.post(tap: CGEventTapLocation.cghidEventTap)
+            }
+        }
 
         return keyUpEvent
     }

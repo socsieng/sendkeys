@@ -3,8 +3,17 @@ import XCTest
 @testable import SendKeysLib
 
 final class CommandIteratorTests: XCTestCase {
+    var commandFactory: CommandFactory!
+
+    override func setUp() {
+        let keyPresser = KeyPresser(app: nil)
+        commandFactory = CommandFactory(
+            keyPresser: keyPresser,
+            mouseController: MouseController(animationRefreshInterval: 0.01, keyPresser: keyPresser))
+    }
+
     func testParsesCharacters() throws {
-        let commands = getCommands(CommandsIterator("abc"))
+        let commands = getCommands(CommandsIterator("abc", commandFactory: commandFactory))
         XCTAssertEqual(
             commands,
             [
@@ -15,7 +24,7 @@ final class CommandIteratorTests: XCTestCase {
     }
 
     func testParsesKeyPress() throws {
-        let commands = getCommands(CommandsIterator("<c:a>"))
+        let commands = getCommands(CommandsIterator("<c:a>", commandFactory: commandFactory))
         XCTAssertEqual(
             commands,
             [
@@ -24,7 +33,7 @@ final class CommandIteratorTests: XCTestCase {
     }
 
     func testParsesKeyPressDelete() throws {
-        let commands = getCommands(CommandsIterator("<c:delete>"))
+        let commands = getCommands(CommandsIterator("<c:delete>", commandFactory: commandFactory))
         XCTAssertEqual(
             commands,
             [
@@ -33,7 +42,7 @@ final class CommandIteratorTests: XCTestCase {
     }
 
     func testParsesKeyPressesWithModifierKey() throws {
-        let commands = getCommands(CommandsIterator("<c:a:command>"))
+        let commands = getCommands(CommandsIterator("<c:a:command>", commandFactory: commandFactory))
         XCTAssertEqual(
             commands,
             [
@@ -42,7 +51,7 @@ final class CommandIteratorTests: XCTestCase {
     }
 
     func testParsesKeyPressesWithModifierKeys() throws {
-        let commands = getCommands(CommandsIterator("<c:a:command,shift>"))
+        let commands = getCommands(CommandsIterator("<c:a:command,shift>", commandFactory: commandFactory))
         XCTAssertEqual(
             commands,
             [
@@ -51,7 +60,7 @@ final class CommandIteratorTests: XCTestCase {
     }
 
     func testParsesKeyPressAlias() throws {
-        let commands = getCommands(CommandsIterator("<k:a>"))
+        let commands = getCommands(CommandsIterator("<k:a>", commandFactory: commandFactory))
         XCTAssertEqual(
             commands,
             [
@@ -60,7 +69,7 @@ final class CommandIteratorTests: XCTestCase {
     }
 
     func testParsesKeyDown() throws {
-        let commands = getCommands(CommandsIterator("<kd:a>"))
+        let commands = getCommands(CommandsIterator("<kd:a>", commandFactory: commandFactory))
         XCTAssertEqual(
             commands,
             [
@@ -69,7 +78,7 @@ final class CommandIteratorTests: XCTestCase {
     }
 
     func testParsesKeyDownWithModifierKey() throws {
-        let commands = getCommands(CommandsIterator("<kd:a:shift>"))
+        let commands = getCommands(CommandsIterator("<kd:a:shift>", commandFactory: commandFactory))
         XCTAssertEqual(
             commands,
             [
@@ -78,7 +87,7 @@ final class CommandIteratorTests: XCTestCase {
     }
 
     func testParsesKeyDownAsModifierKey() throws {
-        let commands = getCommands(CommandsIterator("<kd:shift>"))
+        let commands = getCommands(CommandsIterator("<kd:shift>", commandFactory: commandFactory))
         XCTAssertEqual(
             commands,
             [
@@ -87,7 +96,7 @@ final class CommandIteratorTests: XCTestCase {
     }
 
     func testParsesKeyUp() throws {
-        let commands = getCommands(CommandsIterator("<ku:a>"))
+        let commands = getCommands(CommandsIterator("<ku:a>", commandFactory: commandFactory))
         XCTAssertEqual(
             commands,
             [
@@ -96,7 +105,7 @@ final class CommandIteratorTests: XCTestCase {
     }
 
     func testParsesKeyUpWithModifierKey() throws {
-        let commands = getCommands(CommandsIterator("<ku:a:shift>"))
+        let commands = getCommands(CommandsIterator("<ku:a:shift>", commandFactory: commandFactory))
         XCTAssertEqual(
             commands,
             [
@@ -105,7 +114,7 @@ final class CommandIteratorTests: XCTestCase {
     }
 
     func testParsesKeyUpAsModifierKey() throws {
-        let commands = getCommands(CommandsIterator("<ku:shift>"))
+        let commands = getCommands(CommandsIterator("<ku:shift>", commandFactory: commandFactory))
         XCTAssertEqual(
             commands,
             [
@@ -114,7 +123,7 @@ final class CommandIteratorTests: XCTestCase {
     }
 
     func testParsesNewLines() throws {
-        let commands = getCommands(CommandsIterator("\n\n\n"))
+        let commands = getCommands(CommandsIterator("\n\n\n", commandFactory: commandFactory))
         XCTAssertEqual(
             commands,
             [
@@ -125,7 +134,7 @@ final class CommandIteratorTests: XCTestCase {
     }
 
     func testParsesNewLinesWithCarriageReturns() throws {
-        let commands = getCommands(CommandsIterator("\r\n\r\n\n"))
+        let commands = getCommands(CommandsIterator("\r\n\r\n\n", commandFactory: commandFactory))
         XCTAssertEqual(
             commands,
             [
@@ -136,7 +145,7 @@ final class CommandIteratorTests: XCTestCase {
     }
 
     func testParsesMultipleKeyPresses() throws {
-        let commands = getCommands(CommandsIterator("<c:a:command><c:c:command>"))
+        let commands = getCommands(CommandsIterator("<c:a:command><c:c:command>", commandFactory: commandFactory))
         XCTAssertEqual(
             commands,
             [
@@ -146,7 +155,7 @@ final class CommandIteratorTests: XCTestCase {
     }
 
     func testParsesContinuation() throws {
-        let commands = getCommands(CommandsIterator("<\\>"))
+        let commands = getCommands(CommandsIterator("<\\>", commandFactory: commandFactory))
         XCTAssertEqual(
             commands,
             [
@@ -155,7 +164,7 @@ final class CommandIteratorTests: XCTestCase {
     }
 
     func testParsesPause() throws {
-        let commands = getCommands(CommandsIterator("<p:0.2>"))
+        let commands = getCommands(CommandsIterator("<p:0.2>", commandFactory: commandFactory))
         XCTAssertEqual(
             commands,
             [
@@ -164,7 +173,7 @@ final class CommandIteratorTests: XCTestCase {
     }
 
     func testParsesStickyPause() throws {
-        let commands = getCommands(CommandsIterator("<P:0.2>"))
+        let commands = getCommands(CommandsIterator("<P:0.2>", commandFactory: commandFactory))
         XCTAssertEqual(
             commands,
             [
@@ -173,7 +182,7 @@ final class CommandIteratorTests: XCTestCase {
     }
 
     func testParsesMouseMove() throws {
-        let commands = getCommands(CommandsIterator("<m:1.5,2.5,3.5,4.5>"))
+        let commands = getCommands(CommandsIterator("<m:1.5,2.5,3.5,4.5>", commandFactory: commandFactory))
         XCTAssertEqual(
             commands,
             [
@@ -182,7 +191,7 @@ final class CommandIteratorTests: XCTestCase {
     }
 
     func testParsesMouseMoveWithModifier() throws {
-        let commands = getCommands(CommandsIterator("<m:1,2,3,4:command>"))
+        let commands = getCommands(CommandsIterator("<m:1,2,3,4:command>", commandFactory: commandFactory))
         XCTAssertEqual(
             commands,
             [
@@ -191,7 +200,7 @@ final class CommandIteratorTests: XCTestCase {
     }
 
     func testParsesMouseMoveWithDuration() throws {
-        let commands = getCommands(CommandsIterator("<m:1,2,3,4:0.1>"))
+        let commands = getCommands(CommandsIterator("<m:1,2,3,4:0.1>", commandFactory: commandFactory))
         XCTAssertEqual(
             commands,
             [
@@ -200,7 +209,7 @@ final class CommandIteratorTests: XCTestCase {
     }
 
     func testParsesMouseMoveWithNegativeCoordinates() throws {
-        let commands = getCommands(CommandsIterator("<m:-1,-2,-3,-4:0.1>"))
+        let commands = getCommands(CommandsIterator("<m:-1,-2,-3,-4:0.1>", commandFactory: commandFactory))
         XCTAssertEqual(
             commands,
             [
@@ -209,7 +218,7 @@ final class CommandIteratorTests: XCTestCase {
     }
 
     func testParsesMouseMoveWithDurationAndModifiers() throws {
-        let commands = getCommands(CommandsIterator("<m:1,2,3,4:0.1:shift,command>"))
+        let commands = getCommands(CommandsIterator("<m:1,2,3,4:0.1:shift,command>", commandFactory: commandFactory))
         XCTAssertEqual(
             commands,
             [
@@ -218,7 +227,7 @@ final class CommandIteratorTests: XCTestCase {
     }
 
     func testParsesPartialMouseMove() throws {
-        let commands = getCommands(CommandsIterator("<m:3,4>"))
+        let commands = getCommands(CommandsIterator("<m:3,4>", commandFactory: commandFactory))
         XCTAssertEqual(
             commands,
             [
@@ -227,7 +236,7 @@ final class CommandIteratorTests: XCTestCase {
     }
 
     func testParsesPartialMouseMoveWithDuration() throws {
-        let commands = getCommands(CommandsIterator("<m:3,4:2>"))
+        let commands = getCommands(CommandsIterator("<m:3,4:2>", commandFactory: commandFactory))
         XCTAssertEqual(
             commands,
             [
@@ -236,7 +245,7 @@ final class CommandIteratorTests: XCTestCase {
     }
 
     func testParsesMouseClick() throws {
-        let commands = getCommands(CommandsIterator("<m:left>"))
+        let commands = getCommands(CommandsIterator("<m:left>", commandFactory: commandFactory))
         XCTAssertEqual(
             commands,
             [
@@ -245,7 +254,7 @@ final class CommandIteratorTests: XCTestCase {
     }
 
     func testParsesMouseClickWithModifiers() throws {
-        let commands = getCommands(CommandsIterator("<m:left:shift,command>"))
+        let commands = getCommands(CommandsIterator("<m:left:shift,command>", commandFactory: commandFactory))
         XCTAssertEqual(
             commands,
             [
@@ -254,7 +263,7 @@ final class CommandIteratorTests: XCTestCase {
     }
 
     func testParsesMouseClickWithClickCount() throws {
-        let commands = getCommands(CommandsIterator("<m:right:2>"))
+        let commands = getCommands(CommandsIterator("<m:right:2>", commandFactory: commandFactory))
         XCTAssertEqual(
             commands,
             [
@@ -263,7 +272,7 @@ final class CommandIteratorTests: XCTestCase {
     }
 
     func testParsesMouseClickWithModifiersAndClickCount() throws {
-        let commands = getCommands(CommandsIterator("<m:right:command:2>"))
+        let commands = getCommands(CommandsIterator("<m:right:command:2>", commandFactory: commandFactory))
         XCTAssertEqual(
             commands,
             [
@@ -272,7 +281,7 @@ final class CommandIteratorTests: XCTestCase {
     }
 
     func testParsesMousePath() throws {
-        let commands = getCommands(CommandsIterator("<mpath:L 200 400:2>"))
+        let commands = getCommands(CommandsIterator("<mpath:L 200 400:2>", commandFactory: commandFactory))
         XCTAssertEqual(
             commands,
             [
@@ -282,7 +291,7 @@ final class CommandIteratorTests: XCTestCase {
     }
 
     func testParsesMousePathWithOffset() throws {
-        let commands = getCommands(CommandsIterator("<mpath:L 200 400:100,200:2>"))
+        let commands = getCommands(CommandsIterator("<mpath:L 200 400:100,200:2>", commandFactory: commandFactory))
         XCTAssertEqual(
             commands,
             [
@@ -292,7 +301,8 @@ final class CommandIteratorTests: XCTestCase {
     }
 
     func testParsesMousePathWithOffsetAndScale() throws {
-        let commands = getCommands(CommandsIterator("<mpath:L 200 400:100,200,0.5,2.5:2>"))
+        let commands = getCommands(
+            CommandsIterator("<mpath:L 200 400:100,200,0.5,2.5:2>", commandFactory: commandFactory))
         XCTAssertEqual(
             commands,
             [
@@ -302,7 +312,7 @@ final class CommandIteratorTests: XCTestCase {
     }
 
     func testParsesMousePathWithOffsetAndPartialScale() throws {
-        let commands = getCommands(CommandsIterator("<mpath:L 200 400:100,200,0.4:2>"))
+        let commands = getCommands(CommandsIterator("<mpath:L 200 400:100,200,0.4:2>", commandFactory: commandFactory))
         XCTAssertEqual(
             commands,
             [
@@ -312,7 +322,7 @@ final class CommandIteratorTests: XCTestCase {
     }
 
     func testParsesMouseDrag() throws {
-        let commands = getCommands(CommandsIterator("<d:1.5,2.5,3.5,4.5>"))
+        let commands = getCommands(CommandsIterator("<d:1.5,2.5,3.5,4.5>", commandFactory: commandFactory))
         XCTAssertEqual(
             commands,
             [
@@ -321,7 +331,7 @@ final class CommandIteratorTests: XCTestCase {
     }
 
     func testParsesMouseDragWithButton() throws {
-        let commands = getCommands(CommandsIterator("<d:1,2,3,4:right>"))
+        let commands = getCommands(CommandsIterator("<d:1,2,3,4:right>", commandFactory: commandFactory))
         XCTAssertEqual(
             commands,
             [
@@ -330,7 +340,7 @@ final class CommandIteratorTests: XCTestCase {
     }
 
     func testParsesMouseDragWithButtonAndModifiers() throws {
-        let commands = getCommands(CommandsIterator("<d:1,2,3,4:right:command,shift>"))
+        let commands = getCommands(CommandsIterator("<d:1,2,3,4:right:command,shift>", commandFactory: commandFactory))
         XCTAssertEqual(
             commands,
             [
@@ -340,7 +350,7 @@ final class CommandIteratorTests: XCTestCase {
     }
 
     func testParsesMouseDragWithDuration() throws {
-        let commands = getCommands(CommandsIterator("<d:1,2,3,4:0.1>"))
+        let commands = getCommands(CommandsIterator("<d:1,2,3,4:0.1>", commandFactory: commandFactory))
         XCTAssertEqual(
             commands,
             [
@@ -349,7 +359,7 @@ final class CommandIteratorTests: XCTestCase {
     }
 
     func testParsesMouseDragWithDurationWithNegativeCoordinates() throws {
-        let commands = getCommands(CommandsIterator("<d:-1.5,-2,-3,-4:0.1>"))
+        let commands = getCommands(CommandsIterator("<d:-1.5,-2,-3,-4:0.1>", commandFactory: commandFactory))
         XCTAssertEqual(
             commands,
             [
@@ -358,7 +368,7 @@ final class CommandIteratorTests: XCTestCase {
     }
 
     func testParsesMouseDragWithDurationAndButton() throws {
-        let commands = getCommands(CommandsIterator("<d:1,2,3,4:0.1:right>"))
+        let commands = getCommands(CommandsIterator("<d:1,2,3,4:0.1:right>", commandFactory: commandFactory))
         XCTAssertEqual(
             commands,
             [
@@ -367,7 +377,7 @@ final class CommandIteratorTests: XCTestCase {
     }
 
     func testParsesMouseDragWithDurationAndButtonAndModifier() throws {
-        let commands = getCommands(CommandsIterator("<d:1,2,3,4:0.1:right:command>"))
+        let commands = getCommands(CommandsIterator("<d:1,2,3,4:0.1:right:command>", commandFactory: commandFactory))
         XCTAssertEqual(
             commands,
             [
@@ -376,7 +386,7 @@ final class CommandIteratorTests: XCTestCase {
     }
 
     func testParsesPartialMouseDrag() throws {
-        let commands = getCommands(CommandsIterator("<d:3,4>"))
+        let commands = getCommands(CommandsIterator("<d:3,4>", commandFactory: commandFactory))
         XCTAssertEqual(
             commands,
             [
@@ -385,7 +395,7 @@ final class CommandIteratorTests: XCTestCase {
     }
 
     func testParsesPartialMouseDragWithDuration() throws {
-        let commands = getCommands(CommandsIterator("<d:3,4:2>"))
+        let commands = getCommands(CommandsIterator("<d:3,4:2>", commandFactory: commandFactory))
         XCTAssertEqual(
             commands,
             [
@@ -394,7 +404,7 @@ final class CommandIteratorTests: XCTestCase {
     }
 
     func testParsesPartialMouseDragWithDurationAndButton() throws {
-        let commands = getCommands(CommandsIterator("<d:3,4:2:center>"))
+        let commands = getCommands(CommandsIterator("<d:3,4:2:center>", commandFactory: commandFactory))
         XCTAssertEqual(
             commands,
             [
@@ -403,7 +413,7 @@ final class CommandIteratorTests: XCTestCase {
     }
 
     func testParsesMouseScroll() throws {
-        let commands = getCommands(CommandsIterator("<s:0,10.5>"))
+        let commands = getCommands(CommandsIterator("<s:0,10.5>", commandFactory: commandFactory))
         XCTAssertEqual(
             commands,
             [
@@ -412,7 +422,7 @@ final class CommandIteratorTests: XCTestCase {
     }
 
     func testParsesMouseScrollWithNegativeAmount() throws {
-        let commands = getCommands(CommandsIterator("<s:-100,10>"))
+        let commands = getCommands(CommandsIterator("<s:-100,10>", commandFactory: commandFactory))
         XCTAssertEqual(
             commands,
             [
@@ -421,7 +431,7 @@ final class CommandIteratorTests: XCTestCase {
     }
 
     func testParsesMouseScrollWithDuration() throws {
-        let commands = getCommands(CommandsIterator("<s:0,10:0.5>"))
+        let commands = getCommands(CommandsIterator("<s:0,10:0.5>", commandFactory: commandFactory))
         XCTAssertEqual(
             commands,
             [
@@ -430,7 +440,7 @@ final class CommandIteratorTests: XCTestCase {
     }
 
     func testParsesMouseScrollWithDurationAndModifiers() throws {
-        let commands = getCommands(CommandsIterator("<s:0,10:0.5:shift>"))
+        let commands = getCommands(CommandsIterator("<s:0,10:0.5:shift>", commandFactory: commandFactory))
         XCTAssertEqual(
             commands,
             [
@@ -439,7 +449,7 @@ final class CommandIteratorTests: XCTestCase {
     }
 
     func testParsesMouseScrollWithNegativeAmountAndDuration() throws {
-        let commands = getCommands(CommandsIterator("<s:0,-10:0.5>"))
+        let commands = getCommands(CommandsIterator("<s:0,-10:0.5>", commandFactory: commandFactory))
         XCTAssertEqual(
             commands,
             [
@@ -448,7 +458,7 @@ final class CommandIteratorTests: XCTestCase {
     }
 
     func testParsesMouseDown() throws {
-        let commands = getCommands(CommandsIterator("<md:right>"))
+        let commands = getCommands(CommandsIterator("<md:right>", commandFactory: commandFactory))
         XCTAssertEqual(
             commands,
             [
@@ -457,7 +467,7 @@ final class CommandIteratorTests: XCTestCase {
     }
 
     func testParsesMouseDownWithModifiers() throws {
-        let commands = getCommands(CommandsIterator("<md:left:shift,command>"))
+        let commands = getCommands(CommandsIterator("<md:left:shift,command>", commandFactory: commandFactory))
         XCTAssertEqual(
             commands,
             [
@@ -466,7 +476,7 @@ final class CommandIteratorTests: XCTestCase {
     }
 
     func testParsesMouseUp() throws {
-        let commands = getCommands(CommandsIterator("<mu:center>"))
+        let commands = getCommands(CommandsIterator("<mu:center>", commandFactory: commandFactory))
         XCTAssertEqual(
             commands,
             [
@@ -475,7 +485,7 @@ final class CommandIteratorTests: XCTestCase {
     }
 
     func testParsesMouseUpWithModifiers() throws {
-        let commands = getCommands(CommandsIterator("<mu:right:option,command>"))
+        let commands = getCommands(CommandsIterator("<mu:right:option,command>", commandFactory: commandFactory))
         XCTAssertEqual(
             commands,
             [
@@ -484,7 +494,8 @@ final class CommandIteratorTests: XCTestCase {
     }
 
     func testParsesMouseFocus() throws {
-        let commands = getCommands(CommandsIterator("<mf:0.5,0.5:100.5,50.5:0.5,360.5:1>"))
+        let commands = getCommands(
+            CommandsIterator("<mf:0.5,0.5:100.5,50.5:0.5,360.5:1>", commandFactory: commandFactory))
         XCTAssertEqual(
             commands,
             [
@@ -493,7 +504,7 @@ final class CommandIteratorTests: XCTestCase {
     }
 
     func testParsesMouseFocusWithSingleRadius() throws {
-        let commands = getCommands(CommandsIterator("<mf:0,0:100:0,360:0.1>"))
+        let commands = getCommands(CommandsIterator("<mf:0,0:100:0,360:0.1>", commandFactory: commandFactory))
         XCTAssertEqual(
             commands,
             [
@@ -502,7 +513,7 @@ final class CommandIteratorTests: XCTestCase {
     }
 
     func testParsesMouseFocusWithNegativeCoordinates() throws {
-        let commands = getCommands(CommandsIterator("<mf:-10,-20:100,50:0,360:1.5>"))
+        let commands = getCommands(CommandsIterator("<mf:-10,-20:100,50:0,360:1.5>", commandFactory: commandFactory))
         XCTAssertEqual(
             commands,
             [
@@ -511,7 +522,7 @@ final class CommandIteratorTests: XCTestCase {
     }
 
     func testParsesMouseFocusWithNegativeAngles() throws {
-        let commands = getCommands(CommandsIterator("<mf:-10,-20:100,50:100,-360:1.5>"))
+        let commands = getCommands(CommandsIterator("<mf:-10,-20:100,50:100,-360:1.5>", commandFactory: commandFactory))
         XCTAssertEqual(
             commands,
             [

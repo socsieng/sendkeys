@@ -15,11 +15,12 @@ class MouseController {
     }
 
     let animationRefreshInterval: TimeInterval
-    let keyPresser = KeyPresser()
+    let keyPresser: KeyPresser
     var downButtons = Set<CGMouseButton>()
 
-    init(animationRefreshInterval: TimeInterval) {
+    init(animationRefreshInterval: TimeInterval, keyPresser: KeyPresser) {
         self.animationRefreshInterval = animationRefreshInterval
+        self.keyPresser = keyPresser
     }
 
     func move(start: CGPoint?, end: CGPoint, duration: TimeInterval, flags: CGEventFlags) {

@@ -22,10 +22,13 @@ public class CommandsProcessor {
         numberFormatter.maximumSignificantDigits = 3
     }
 
-    convenience public init(defaultPause: Double, commandExecutor: CommandExecutorProtocol? = nil) {
+    convenience public init(
+        defaultPause: Double, keyPresser: KeyPresser, commandExecutor: CommandExecutorProtocol? = nil
+    ) {
         self.init(
-            defaultPause: defaultPause, keyPresser: KeyPresser(),
-            mouseController: MouseController(animationRefreshInterval: 0.01), commandExecutor: commandExecutor)
+            defaultPause: defaultPause, keyPresser: keyPresser,
+            mouseController: MouseController(animationRefreshInterval: 0.01, keyPresser: keyPresser),
+            commandExecutor: commandExecutor)
     }
 
     private func getDefaultPauseCommand() -> Command {

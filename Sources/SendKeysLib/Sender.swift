@@ -17,6 +17,14 @@ public struct Sender: ParsableCommand {
         help: "Process id of a running application to send keys to.")
     var processId: Int?
 
+    @Flag(
+        name: .long, inversion: FlagInversion.prefixedNo,
+        help: "Activate the specified app or process before sending commands.")
+    var activate: Bool = true
+
+    @Flag(name: .long, help: "Only send keystrokes to the targeted app or process.")
+    var targeted: Bool = false
+
     @Option(name: .shortAndLong, help: "Default delay between keystrokes in seconds.")
     var delay: Double = 0.1
 
@@ -44,8 +52,20 @@ public struct Sender: ParsableCommand {
                 stderr)
         }
 
-        let keyPresser = KeyPresser()
-        let mouseController = MouseController(animationRefreshInterval: animationInterval)
+        let activator = AppActivator(appName: applicationName, processId: processId)
+        let app: NSRunningApplication? = try activator.find()
+        let keyPresser: KeyPresser
+
+        if targeted {
+            if app == nil {
+                throw RuntimeError("Application could not be found.")
+            }
+            keyPresser = KeyPresser(app: app)
+        } else {
+            keyPresser = KeyPresser(app: nil)
+        }
+
+        let mouseController = MouseController(animationRefreshInterval: animationInterval, keyPresser: keyPresser)
         let commandProcessor = CommandsProcessor(
             defaultPause: delay, keyPresser: keyPresser, mouseController: mouseController)
         var commandString: String?
@@ -60,7 +80,9 @@ public struct Sender: ParsableCommand {
             commandString = characters
         }
 
-        try AppActivator(appName: applicationName, processId: processId).activate()
+        if activate {
+            try activator.activate()
+        }
 
         if initialDelay > 0 {
             Sleeper.sleep(seconds: initialDelay)
