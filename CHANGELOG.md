@@ -1,5 +1,26 @@
 # Changelog
 
+## [3.0.0](https://www.github.com/socsieng/sendkeys/compare/v2.9.1...v3.0.0) (2023-10-06)
+
+
+### ⚠ BREAKING CHANGES
+
+* drop support for building on macOS catalina
+
+### Features
+
+* add support for sending keys to an application without activation ([b42d4bc](https://www.github.com/socsieng/sendkeys/commit/b42d4bc347d1800068e8753bc6daa13b255319b2)), closes [#67](https://www.github.com/socsieng/sendkeys/issues/67)
+
+
+### Bug Fixes
+
+* remove dependency on macos-10.15 ([14aa5a8](https://www.github.com/socsieng/sendkeys/commit/14aa5a82ba2fd34e2fa49d5b749b0fb941d1f902))
+
+
+### Miscellaneous
+
+* drop support for building on macOS catalina ([8c027cb](https://www.github.com/socsieng/sendkeys/commit/8c027cb14e4ca9bfe1515a41191c1ecfa4499112))
+
 ### [2.9.1](https://www.github.com/socsieng/sendkeys/compare/v2.9.0...v2.9.1) (2023-04-15)
 
 
