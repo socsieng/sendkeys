@@ -10,7 +10,7 @@ on:
 
 jobs:
   macos_big_sur:
-    runs-on: macos-11.0
+    runs-on: macos-11
 
     strategy:
       matrix:
@@ -70,7 +70,7 @@ jobs:
       - macos_big_sur
       - macos_arm64
 
-    runs-on: macos-10.15
+    runs-on: macos-11
     if: github.ref == 'refs/heads/main'
 
     name: Create release
@@ -100,7 +100,7 @@ jobs:
     needs:
       - create_release
 
-    runs-on: macos-11.0
+    runs-on: macos-11
     if: ${{ needs.create_release.outputs.release_created }}
 
     name: Create bottle Big Sur
@@ -169,7 +169,7 @@ jobs:
       - create_bottle_big_sur
       - create_bottle_big_sur_arm64
 
-    runs-on: macos-11.0
+    runs-on: macos-11
     if: ${{ needs.create_release.outputs.release_created }}
 
     name: Update homebrew formula
