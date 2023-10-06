@@ -21,8 +21,8 @@ jobs:
 
     steps:
       - name: checkout
-        uses: actions/checkout@v2
-      - uses: actions/cache@v2
+        uses: actions/checkout@v4
+      - uses: actions/cache@v3
         with:
           path: .build
           key: ${{ runner.os }}-xcode-${{ matrix.xcode }}-${{ hashFiles('**/Package.resolved') }}
@@ -47,8 +47,8 @@ jobs:
 
     steps:
       - name: checkout
-        uses: actions/checkout@v2
-      - uses: actions/cache@v2
+        uses: actions/checkout@v4
+      - uses: actions/cache@v3
         with:
           path: .build
           key: ${{ runner.os }}-xcode-${{ hashFiles('**/Package.resolved') }}
@@ -111,7 +111,7 @@ jobs:
       root_url: ${{ steps.bottle.outputs.root_url }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - id: bottle
         name: Create bottle
@@ -145,7 +145,7 @@ jobs:
       root_url: ${{ steps.bottle.outputs.root_url }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - id: bottle
         name: Create bottle
@@ -175,7 +175,7 @@ jobs:
     name: Update homebrew formula
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Update homebrew formula
         run: |
           git config user.name github-actions[bot]
