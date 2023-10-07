@@ -1,5 +1,17 @@
 # Changelog
 
+## [4.0.0](https://github.com/socsieng/sendkeys/compare/v3.0.2...v4.0.0) (2023-10-07)
+
+
+### ⚠ BREAKING CHANGES
+
+* fix handling of key strokes to use shift key when appropriate
+
+### Bug Fixes
+
+* fix handling of key strokes to use shift key when appropriate ([beb535b](https://github.com/socsieng/sendkeys/commit/beb535b2693085cf50bc479276a4d806e55d288c)), closes [#62](https://github.com/socsieng/sendkeys/issues/62)
+* fix issue with unspecified application name ([440153d](https://github.com/socsieng/sendkeys/commit/440153d073c10888fd33990197434d9565b430d1))
+
 ## [3.0.2](https://github.com/socsieng/sendkeys/compare/v3.0.1...v3.0.2) (2023-10-06)
 
 
