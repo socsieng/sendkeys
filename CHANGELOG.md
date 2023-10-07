@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.0.4](https://github.com/socsieng/sendkeys/compare/v4.0.3...v4.0.4) (2023-10-07)
+
+
+### Bug Fixes
+
+* **build:** add cache busting parameter ([c2a4f59](https://github.com/socsieng/sendkeys/commit/c2a4f598f0677a0dd490339eddbfaf22083e5b30))
+
 ## [4.0.3](https://github.com/socsieng/sendkeys/compare/v4.0.2...v4.0.3) (2023-10-07)
 
 
