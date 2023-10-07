@@ -67,7 +67,7 @@ class AppActivator: NSObject {
     }
 
     func activate() throws {
-        let app = try self.find()
+        let app = try! self.find()
 
         if app == nil {
             throw RuntimeError(
