@@ -8,7 +8,7 @@ version=$1
 target=$2
 formula_template=$script_folder/../Formula/sendkeys_template.rb
 formula=$script_folder/../Formula/sendkeys.rb
-url="file://$cwd/sendkeys.tar.gz"
+url="file://$cwd/sendkeys.tar.gz?date=`date +%s`"
 sed_url=`echo $url | sed 's/\\//\\\\\//g'`
 
 version=`echo $version | sed -E 's/^v//g'`
