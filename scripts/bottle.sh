@@ -39,4 +39,5 @@ echo "root_url=https://github.com/socsieng/sendkeys/releases/download/v${version
 echo "url=https://github.com/socsieng/sendkeys/releases/download/v${version}/$bottle_rename" >> $GITHUB_OUTPUT
 echo "sha=$(shasum -a 256 $bottle_rename | awk '{printf $1}')" >> $GITHUB_OUTPUT
 
+rm sendkeys*.tar.gz
 brew uninstall sendkeys
