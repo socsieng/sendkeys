@@ -13,7 +13,7 @@ sed_url=`echo $url | sed 's/\\//\\\\\//g'`
 
 version=`echo $version | sed -E 's/^v//g'`
 
-rm sendkeys*.tar.gz
+rm sendkeys*.tar.gz || true
 tar zcvf sendkeys.tar.gz --exclude=".git" --exclude=".build" ./
 
 cp $formula_template $formula
