@@ -13,6 +13,7 @@ sed_url=`echo $url | sed 's/\\//\\\\\//g'`
 
 version=`echo $version | sed -E 's/^v//g'`
 
+rm sendkeys*.tar.gz
 tar zcvf sendkeys.tar.gz --exclude=".git" --exclude=".build" ./
 
 cp $formula_template $formula
@@ -39,5 +40,4 @@ echo "root_url=https://github.com/socsieng/sendkeys/releases/download/v${version
 echo "url=https://github.com/socsieng/sendkeys/releases/download/v${version}/$bottle_rename" >> $GITHUB_OUTPUT
 echo "sha=$(shasum -a 256 $bottle_rename | awk '{printf $1}')" >> $GITHUB_OUTPUT
 
-rm sendkeys*.tar.gz
 brew uninstall sendkeys
