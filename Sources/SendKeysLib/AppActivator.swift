@@ -69,7 +69,7 @@ class AppActivator: NSObject {
     func activate() throws {
         let app = try! self.find()
 
-        if app == nil {
+        if app == nil && appName != nil {
             throw RuntimeError(
                 "Application \(appName!) cannot be activated. Run `sendkeys apps` to see a list of applications that can be activated."
             )
