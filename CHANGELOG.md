@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.0.3](https://github.com/socsieng/sendkeys/compare/v4.0.2...v4.0.3) (2023-10-07)
+
+
+### Bug Fixes
+
+* **build:** ignore errors if archive does not exist ([7f2fc4b](https://github.com/socsieng/sendkeys/commit/7f2fc4b5cd5c865228f5455892d7f1cabdad2612))
+
 ## [4.0.2](https://github.com/socsieng/sendkeys/compare/v4.0.1...v4.0.2) (2023-10-07)
 
 
