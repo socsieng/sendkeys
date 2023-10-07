@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.0.2](https://github.com/socsieng/sendkeys/compare/v4.0.1...v4.0.2) (2023-10-07)
+
+
+### Bug Fixes
+
+* **build:** clean up archives before bottling ([408db73](https://github.com/socsieng/sendkeys/commit/408db7323ab29733552fe7140405804bb4207e51))
+
 ## [4.0.1](https://github.com/socsieng/sendkeys/compare/v4.0.0...v4.0.1) (2023-10-07)
 
 
