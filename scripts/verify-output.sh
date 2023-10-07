@@ -25,4 +25,3 @@ if [[ "$expected_output" != "$result" ]]; then
   echo "transform test failed."
   exit 1
 fi
-

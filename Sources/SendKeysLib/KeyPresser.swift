@@ -10,7 +10,7 @@ public class KeyPresser {
 
     func keyPress(key: String, modifiers: [String]) throws {
         if let keyDownEvent = try! keyDown(key: key, modifiers: modifiers) {
-            let _ = keyUp(event: keyDownEvent)
+            let _ = keyUp(key: key, modifiers: modifiers, event: keyDownEvent)
         }
     }
 
@@ -46,9 +46,9 @@ public class KeyPresser {
         return keyUpEvent
     }
 
-    func keyUp(event: CGEvent) -> CGEvent? {
-        let keyCode = UInt16(event.getIntegerValueField(.keyboardEventKeycode))
-        let keyUpEvent = CGEvent(keyboardEventSource: CGEventSource(event: event), virtualKey: keyCode, keyDown: false)
+    func keyUp(key: String, modifiers: [String], event: CGEvent) -> CGEvent? {
+        let keyUpEvent = try! createKeyEvent(
+            key: key, modifiers: modifiers, keyDown: false, parentEventSource: CGEventSource(event: event))
 
         if self.application == nil {
             keyUpEvent?.post(tap: CGEventTapLocation.cghidEventTap)
@@ -63,13 +63,16 @@ public class KeyPresser {
         return keyUpEvent
     }
 
-    private func createKeyEvent(key: String, modifiers: [String], keyDown: Bool) throws -> CGEvent? {
-        let keycode = KeyCodes.getKeyCode(key)
+    private func createKeyEvent(
+        key: String, modifiers: [String], keyDown: Bool, parentEventSource: CGEventSource? = nil
+    ) throws -> CGEvent? {
+        let info = KeyCodes.getKeyInfo(key)
         let flags = try! KeyPresser.getModifierFlags(modifiers)
-        let eventSource = CGEventSource(stateID: .hidSystemState)
-        let keyEvent = CGEvent(keyboardEventSource: eventSource, virtualKey: keycode ?? 0, keyDown: keyDown)
+        let mergedFlags = flags.union(CGEventFlags(info?.flags ?? []))
+        let eventSource = parentEventSource ?? CGEventSource(stateID: .hidSystemState)
+        let keyEvent = CGEvent(keyboardEventSource: eventSource, virtualKey: info?.keyCode ?? 0, keyDown: keyDown)
 
-        if keycode == nil {
+        if info == nil {
             if key.count == 1 {
                 let utf16Chars = Array(key.utf16)
                 keyEvent!.keyboardSetUnicodeString(stringLength: utf16Chars.count, unicodeString: utf16Chars)
@@ -78,8 +81,10 @@ public class KeyPresser {
             }
         }
 
-        if !modifiers.isEmpty {
-            keyEvent?.flags = flags
+        if !mergedFlags.isEmpty {
+            keyEvent?.flags = mergedFlags
+        } else {
+            keyEvent?.flags = []
         }
 
         return keyEvent
