@@ -6,26 +6,44 @@
         "repositoryURL": "https://github.com/apple/swift-argument-parser",
         "state": {
           "branch": null,
-          "revision": "9564d61b08a5335ae0a36f789a7d71493eacadfc",
-          "version": "0.3.2"
+          "revision": "41982a3656a71c768319979febd796c6fd111d5c",
+          "version": "1.5.0"
+        }
+      },
+      {
+        "package": "cmark-gfm",
+        "repositoryURL": "https://github.com/apple/swift-cmark.git",
+        "state": {
+          "branch": null,
+          "revision": "3ccff77b2dc5b96b77db3da0d68d28068593fa53",
+          "version": "0.5.0"
         }
       },
       {
         "package": "swift-format",
         "repositoryURL": "https://github.com/apple/swift-format.git",
         "state": {
-          "branch": "swift-5.3-branch",
-          "revision": "12089179aa1668a2478b2b2111d98fa37f3531e3",
-          "version": null
+          "branch": null,
+          "revision": "65f9da9aad84adb7e2028eb32ca95164aa590e3b",
+          "version": "600.0.0"
         }
       },
       {
-        "package": "SwiftSyntax",
-        "repositoryURL": "https://github.com/apple/swift-syntax",
+        "package": "swift-markdown",
+        "repositoryURL": "https://github.com/apple/swift-markdown.git",
         "state": {
           "branch": null,
-          "revision": "844574d683f53d0737a9c6d706c3ef31ed2955eb",
-          "version": "0.50300.0"
+          "revision": "8f79cb175981458a0a27e76cb42fee8e17b1a993",
+          "version": "0.5.0"
+        }
+      },
+      {
+        "package": "swift-syntax",
+        "repositoryURL": "https://github.com/swiftlang/swift-syntax.git",
+        "state": {
+          "branch": null,
+          "revision": "0687f71944021d616d34d922343dcef086855920",
+          "version": "600.0.1"
         }
       }
     ]
