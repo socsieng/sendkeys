@@ -9,20 +9,20 @@ on:
       - main
 
 jobs:
-  macos_big_sur:
-    runs-on: macos-11
+  build:
+    runs-on: macos-14
 
     strategy:
       matrix:
         xcode:
-          - '12.5'
+          - '16.0'
 
-    name: macOS Big Sur (Xcode ${{ matrix.xcode }})
+    name: Build
 
     steps:
       - name: checkout
         uses: actions/checkout@v4
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         with:
           path: .build
           key: ${{ runner.os }}-xcode-${{ matrix.xcode }}-${{ hashFiles('**/Package.resolved') }}
@@ -40,37 +40,11 @@ jobs:
         env:
           DEVELOPER_DIR: /Applications/Xcode_${{ matrix.xcode }}.app/Contents/Developer
 
-  macos_arm64:
-    runs-on: [self-hosted, macOS, X64]
-
-    name: macOS Big Sur arm64
-
-    steps:
-      - name: checkout
-        uses: actions/checkout@v4
-      - uses: actions/cache@v3
-        with:
-          path: .build
-          key: ${{ runner.os }}-xcode-${{ hashFiles('**/Package.resolved') }}
-          restore-keys: |
-            ${{ runner.os }}-xcode
-      - name: build
-        run: |
-          make build
-        env:
-          DEVELOPER_DIR: /Applications/Xcode.app/Contents/Developer
-      - name: test
-        run: |
-          swift test
-        env:
-          DEVELOPER_DIR: /Applications/Xcode.app/Contents/Developer
-
   create_release:
     needs:
-      - macos_big_sur
-      - macos_arm64
+      - build
 
-    runs-on: macos-11
+    runs-on: macos-14
     if: github.ref == 'refs/heads/main'
 
     name: Create release
@@ -96,11 +70,11 @@ jobs:
               {"type":"misc","section":"Miscellaneous","hidden":false}
             ]
 
-  create_bottle_big_sur:
+  create_bottle:
     needs:
       - create_release
 
-    runs-on: macos-11
+    runs-on: macos-14
     if: ${{ needs.create_release.outputs.release_created }}
 
     name: Create bottle Big Sur
@@ -130,46 +104,12 @@ jobs:
           asset_name: ${{ steps.bottle.outputs.file }}
           asset_content_type: application/gzip
 
-  create_bottle_big_sur_arm64:
-    needs:
-      - create_release
-
-    runs-on: [self-hosted, macOS, X64]
-    if: ${{ needs.create_release.outputs.release_created }}
-
-    name: Create bottle Big Sur (arm64)
-
-    outputs:
-      file: ${{ steps.bottle.outputs.file }}
-      sha: ${{ steps.bottle.outputs.sha }}
-      root_url: ${{ steps.bottle.outputs.root_url }}
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - id: bottle
-        name: Create bottle
-        run: |
-          ./scripts/update-version.sh ${{ needs.create_release.outputs.tag_name }}
-          arch -arm64 ./scripts/bottle.sh ${{ needs.create_release.outputs.tag_name }} arm64_big_sur
-
-      - name: Upload bottle
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ needs.create_release.outputs.upload_url }}
-          asset_path: ./${{ steps.bottle.outputs.file }}
-          asset_name: ${{ steps.bottle.outputs.file }}
-          asset_content_type: application/gzip
-
   homebrew:
     needs:
       - create_release
-      - create_bottle_big_sur
-      - create_bottle_big_sur_arm64
+      - create_bottle
 
-    runs-on: macos-11
+    runs-on: macos-14
     if: ${{ needs.create_release.outputs.release_created }}
 
     name: Update homebrew formula
@@ -187,16 +127,14 @@ jobs:
           formula='Formula/sendkeys.rb'
           version=`echo '${{ needs.create_release.outputs.tag_name }}' | sed -E 's/^v//g'`
           revision='${{ needs.create_release.outputs.sha }}'
-          sed_root_url=`echo '${{ needs.create_bottle_big_sur.outputs.root_url }}' | sed 's/\\//\\\\\//g'`
-          sha_big_sur='${{ needs.create_bottle_big_sur.outputs.sha }}'
-          sha_big_sur_arm64='${{ needs.create_bottle_big_sur_arm64.outputs.sha }}'
+          sed_root_url=`echo '${{ needs.create_bottle.outputs.root_url }}' | sed 's/\\//\\\\\//g'`
+          sha='${{ needs.create_bottle.outputs.sha }}'
 
           sed -E -i "" "s/tag: \"[^\"]+\"/tag: \"v$version\"/g" $formula
           sed -E -i "" "s/revision: \"[^\"]+\"/revision: \"$revision\"/g" $formula
           sed -E -i "" "s/version \"[^\"]+\"/version \"$version\"/g" $formula
           sed -E -i "" "s/root_url \"[^\"]+\"/root_url \"$sed_root_url\"/g" $formula
-          sed -E -i "" "s/sha256 cellar: :any_skip_relocation, arm64_big_sur: \"[^\"]+\"/sha256 cellar: :any_skip_relocation, arm64_big_sur: \"$sha_big_sur_arm64\"/g" $formula
-          sed -E -i "" "s/sha256 cellar: :any_skip_relocation, big_sur:       \"[^\"]+\"/sha256 cellar: :any_skip_relocation, big_sur:       \"$sha_big_sur\"/g" $formula
+          sed -E -i "" "s/sha256 cellar: :any_skip_relocation, big_sur:       \"[^\"]+\"/sha256 cellar: :any_skip_relocation, big_sur:       \"$sha\"/g" $formula
 
           git commit -am "chore: update sendkeys to ${{ needs.create_release.outputs.tag_name }}"
           git push origin main
