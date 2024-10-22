@@ -55,6 +55,8 @@ _Activates the Notes application and sends keystrokes piped from `stdout` of the
   `1` second.
 - `--animation-interval <interval-in-seconds>`: The time between mouse movements when animating mouse commands. Lower
   values results in smoother animations. Defaults to `0.01` seconds.
+- `--terminate-command <command>`: The command that should be used to terminate the application. Not set by default.
+  Follows a similar convention to `--characters`. (e.g. `f12:command,shift`).
 
 ## Installation
 

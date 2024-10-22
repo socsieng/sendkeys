@@ -40,6 +40,9 @@ public struct Sender: ParsableCommand {
     @Option(help: "Number of seconds between animation updates.")
     var animationInterval: Double = 0.01
 
+    @Option(name: .shortAndLong, help: "Character sequence to use to terminate execution (e.g. f12:command).")
+    var terminateCommand: String?
+
     public init() {}
 
     public mutating func run() throws {
@@ -80,6 +83,14 @@ public struct Sender: ParsableCommand {
             commandString = characters
         }
 
+        var listener: TerminationListener?
+        if (terminateCommand != nil) {
+            listener = TerminationListener(sequence: terminateCommand!) {
+                Sender.exit()
+            }
+            listener!.listen()
+        }
+
         if activate {
             try activator.activate()
         }
@@ -104,6 +115,10 @@ public struct Sender: ParsableCommand {
             } while data.count > 0
         } else {
             print(SendKeysCli.helpMessage(for: Self.self))
+        }
+
+        if listener != nil {
+            listener!.stop()
         }
     }
 }

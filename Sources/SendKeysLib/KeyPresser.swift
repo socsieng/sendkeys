@@ -101,7 +101,7 @@ public class KeyPresser {
         return flags
     }
 
-    private static func getModifierFlag(_ modifier: String) throws -> CGEventFlags {
+    static func getModifierFlag(_ modifier: String) throws -> CGEventFlags {
         switch modifier {
         case "⌘",
             "cmd",
