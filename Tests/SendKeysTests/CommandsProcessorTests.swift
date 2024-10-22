@@ -31,6 +31,72 @@ final class CommandProcessorTests: XCTestCase {
             ])
     }
 
+    func testExecutesColonKeyPress() {
+        commandsProcessor!.process("<c::>")
+        let commands = commandExecutor!.commands
+
+        XCTAssertEqual(
+            commands,
+            [
+                KeyPressCommand(key: ":", modifiers: [])
+            ])
+    }
+
+    func testExecutesCommandOpenKeyPress() {
+        commandsProcessor!.process("<c:<>")
+        let commands = commandExecutor!.commands
+
+        XCTAssertEqual(
+            commands,
+            [
+                KeyPressCommand(key: "<", modifiers: [])
+            ])
+    }
+
+    func testExecutesCommandCloseKeyPress() {
+        commandsProcessor!.process("<c:>>")
+        let commands = commandExecutor!.commands
+
+        XCTAssertEqual(
+            commands,
+            [
+                KeyPressCommand(key: ">", modifiers: [])
+            ])
+    }
+
+    func testExecutesColonKeyPressWithModifier() {
+        commandsProcessor!.process("<c:::control>")
+        let commands = commandExecutor!.commands
+
+        XCTAssertEqual(
+            commands,
+            [
+                KeyPressCommand(key: ":", modifiers: ["control"])
+            ])
+    }
+
+    func testExecutesCommandOpenKeyPressWithModifier() {
+        commandsProcessor!.process("<c:<:shift>")
+        let commands = commandExecutor!.commands
+
+        XCTAssertEqual(
+            commands,
+            [
+                KeyPressCommand(key: "<", modifiers: ["shift"])
+            ])
+    }
+
+    func testExecutesCommandCloseKeyPressWithModifier() {
+        commandsProcessor!.process("<c:>:shift>")
+        let commands = commandExecutor!.commands
+
+        XCTAssertEqual(
+            commands,
+            [
+                KeyPressCommand(key: ">", modifiers: ["shift"])
+            ])
+    }
+
     func testExecutesSpecialKeyPress() {
         commandsProcessor!.process("<c:tab>")
         let commands = commandExecutor!.commands
