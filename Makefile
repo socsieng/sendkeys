@@ -14,7 +14,7 @@ verify:
 .PHONY: install
 install: build
 	@install -d "$(bindir)"
-	@install ".build/release/sendkeys" "$(bindir)/sendkeys"
+	@install ".build/apple/Products/Release/sendkeys" "$(bindir)/sendkeys"
 
 .PHONY: uninstall
 uninstall:
