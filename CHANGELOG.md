@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.1.1](https://github.com/socsieng/sendkeys/compare/v4.1.0...v4.1.1) (2024-10-22)
+
+
+### Bug Fixes
+
+* **build:** fix broken build ([234b441](https://github.com/socsieng/sendkeys/commit/234b441a210bf038b6cfcd60e9ac691d9dcc0d6c))
+
 ## [4.1.0](https://github.com/socsieng/sendkeys/compare/v4.0.4...v4.1.0) (2024-10-22)
 
 
