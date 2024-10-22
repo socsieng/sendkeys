@@ -35,7 +35,7 @@ jobs:
 
       - name: test
         run: |
-          swift test --enable-code-coverage
+          ./scripts/code-coverage.sh
 
   create_release:
     needs:
