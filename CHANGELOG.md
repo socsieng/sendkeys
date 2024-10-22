@@ -1,5 +1,18 @@
 # Changelog
 
+## [4.1.0](https://github.com/socsieng/sendkeys/compare/v4.0.4...v4.1.0) (2024-10-22)
+
+
+### Features
+
+* add argument to terminate execution ([1b8c1f1](https://github.com/socsieng/sendkeys/commit/1b8c1f1aa2ceb9ae666aaa74142df150d7a85b67)), closes [#79](https://github.com/socsieng/sendkeys/issues/79)
+
+
+### Bug Fixes
+
+* **build:** update macos runners ([2af43cd](https://github.com/socsieng/sendkeys/commit/2af43cda3362757dc1fb2404bd456ae34292e955))
+* update package versions ([b1e1319](https://github.com/socsieng/sendkeys/commit/b1e1319259cef524e5c83632eabecdbcd353b0bb))
+
 ## [4.0.4](https://github.com/socsieng/sendkeys/compare/v4.0.3...v4.0.4) (2023-10-07)
 
 
