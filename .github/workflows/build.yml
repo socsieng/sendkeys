@@ -12,33 +12,30 @@ jobs:
   build:
     runs-on: macos-14
 
-    strategy:
-      matrix:
-        xcode:
-          - '16.0'
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_16.0.app/Contents/Developer
 
     name: Build
 
     steps:
       - name: checkout
         uses: actions/checkout@v4
+
       - uses: actions/cache@v4
         with:
           path: .build
-          key: ${{ runner.os }}-xcode-${{ matrix.xcode }}-${{ hashFiles('**/Package.resolved') }}
+          key: ${{ runner.os }}-xcode-${{ hashFiles('**/Package.resolved') }}
           restore-keys: |
-            ${{ runner.os }}-xcode-${{ matrix.xcode }}
+            ${{ runner.os }}-xcode-
+
       - name: build
         run: |
           ls -n /Applications/ | grep Xcode*
           make build
-        env:
-          DEVELOPER_DIR: /Applications/Xcode_${{ matrix.xcode }}.app/Contents/Developer
+
       - name: test
         run: |
-          swift test
-        env:
-          DEVELOPER_DIR: /Applications/Xcode_${{ matrix.xcode }}.app/Contents/Developer
+          swift test --enable-code-coverage
 
   create_release:
     needs:
@@ -116,6 +113,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
       - name: Update homebrew formula
         run: |
           git config user.name github-actions[bot]
