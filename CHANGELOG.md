@@ -1,5 +1,13 @@
 # Changelog
 
+## [4.1.2](https://github.com/socsieng/sendkeys/compare/v4.1.1...v4.1.2) (2024-10-24)
+
+
+### Bug Fixes
+
+* add support for function modifier key ([db36c92](https://github.com/socsieng/sendkeys/commit/db36c9200f2bb982c2e0077df42436b3f7a1086e))
+* **build:** restore arm64 binary in homebrew formula ([e38451a](https://github.com/socsieng/sendkeys/commit/e38451aad1f9a2b8c8d4ab5afb25c9de26147d8f))
+
 ## [4.1.1](https://github.com/socsieng/sendkeys/compare/v4.1.0...v4.1.1) (2024-10-22)
 
 
