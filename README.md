@@ -91,8 +91,8 @@ Support for special key codes and modifier keys is provided with the following m
   `f7`, `f8`, `f9`, `f10`, `f11`, `f12`, `esc`, `return`, `enter`, `delete`, `space`, `tab`, `up`, `down`, `left`,
   `right`, `home`, `end`, `pgup`, and `pgdown`. See list of
   [mapped keys](https://github.com/socsieng/sendkeys/blob/main/Sources/SendKeysLib/KeyCodes.swift#L127) for a full list.
-- `modifiers` is an optional list of comma separated values that can include `command`, `shift`, `control`, and
-  `option`.
+- `modifiers` is an optional list of comma separated values that can include `command`, `shift`, `control`, `option`,
+  and `function`.
 
 Example key combinations:
 

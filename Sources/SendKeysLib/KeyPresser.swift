@@ -118,6 +118,9 @@ public class KeyPresser {
         case "⇧",
             "shift":
             return CGEventFlags.maskShift
+        case "fn",
+            "function":
+            return CGEventFlags.maskSecondaryFn
         default:
             throw RuntimeError("Unrecognized modifier: \(modifier)")
         }
