@@ -77,7 +77,6 @@ jobs:
     name: Create bottle
 
     outputs:
-      file: ${{ steps.bottle.outputs.file }}
       sha: ${{ steps.bottle.outputs.sha }}
       root_url: ${{ steps.bottle.outputs.root_url }}
 
@@ -88,17 +87,28 @@ jobs:
         name: Create bottle
         run: |
           ./scripts/update-version.sh ${{ needs.create_release.outputs.tag_name }}
-          ./scripts/bottle.sh ${{ needs.create_release.outputs.tag_name }} big_sur
+          ./scripts/bottle.sh ${{ needs.create_release.outputs.tag_name }}
 
-      - name: Upload bottle
+      - name: Upload bottle big_sur
         if: ${{ needs.create_release.outputs.release_created }}
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ needs.create_release.outputs.upload_url }}
-          asset_path: ./${{ steps.bottle.outputs.file }}
-          asset_name: ${{ steps.bottle.outputs.file }}
+          asset_path: ./${{ steps.bottle.outputs.big_sur }}
+          asset_name: ${{ steps.bottle.outputs.big_sur }}
+          asset_content_type: application/gzip
+
+      - name: Upload bottle arm64_big_sur
+        if: ${{ needs.create_release.outputs.release_created }}
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create_release.outputs.upload_url }}
+          asset_path: ./${{ steps.bottle.outputs.arm64_big_sur }}
+          asset_name: ${{ steps.bottle.outputs.arm64_big_sur }}
           asset_content_type: application/gzip
 
   homebrew:
@@ -132,6 +142,7 @@ jobs:
           sed -E -i "" "s/revision: \"[^\"]+\"/revision: \"$revision\"/g" $formula
           sed -E -i "" "s/version \"[^\"]+\"/version \"$version\"/g" $formula
           sed -E -i "" "s/root_url \"[^\"]+\"/root_url \"$sed_root_url\"/g" $formula
+          sed -E -i "" "s/sha256 cellar: :any_skip_relocation, arm64_big_sur: \"[^\"]+\"/sha256 cellar: :any_skip_relocation, arm64_big_sur: \"$sha\"/g" $formula
           sed -E -i "" "s/sha256 cellar: :any_skip_relocation, big_sur:       \"[^\"]+\"/sha256 cellar: :any_skip_relocation, big_sur:       \"$sha\"/g" $formula
 
           git commit -am "chore: update sendkeys to ${{ needs.create_release.outputs.tag_name }}"
