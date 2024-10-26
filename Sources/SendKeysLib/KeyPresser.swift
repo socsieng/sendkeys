@@ -1,3 +1,4 @@
+import Carbon
 import Cocoa
 import Foundation
 
@@ -88,6 +89,10 @@ public class KeyPresser {
         }
 
         return keyEvent
+    }
+
+    static func setKeyboardLayout(_ layout: KeyMappings.Layouts) {
+        KeyCodes.updateMapping(KeyMappings.Mappings[layout]!)
     }
 
     static func getModifierFlags(_ modifiers: [String]) throws -> CGEventFlags {

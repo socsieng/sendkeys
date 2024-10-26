@@ -57,6 +57,8 @@ _Activates the Notes application and sends keystrokes piped from `stdout` of the
   values results in smoother animations. Defaults to `0.01` seconds.
 - `--terminate-command <command>`: The command that should be used to terminate the application. Not set by default.
   Follows a similar convention to `--characters`. (e.g. `f12:command,shift`).
+- `--keyboard-layout <layout>`: Use alternate keyboard layout. Defaults to `qwerty`. (`colemak` and `dvorak` are also
+  supported).
 
 ## Installation
 

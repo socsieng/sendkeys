@@ -43,6 +43,9 @@ public struct Sender: ParsableCommand {
     @Option(name: .shortAndLong, help: "Character sequence to use to terminate execution (e.g. f12:command).")
     var terminateCommand: String?
 
+    @Option(name: .long, help: "Keyboard layout to use for sending keystrokes.")
+    var keyboardLayout: KeyMappings.Layouts = .qwerty
+
     public init() {}
 
     public mutating func run() throws {
@@ -58,6 +61,8 @@ public struct Sender: ParsableCommand {
         let activator = AppActivator(appName: applicationName, processId: processId)
         let app: NSRunningApplication? = try activator.find()
         let keyPresser: KeyPresser
+
+        KeyPresser.setKeyboardLayout(keyboardLayout)
 
         if targeted {
             if app == nil {
@@ -84,7 +89,7 @@ public struct Sender: ParsableCommand {
         }
 
         var listener: TerminationListener?
-        if (terminateCommand != nil) {
+        if terminateCommand != nil {
             listener = TerminationListener(sequence: terminateCommand!) {
                 Sender.exit()
             }
