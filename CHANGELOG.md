@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.2.0](https://github.com/socsieng/sendkeys/compare/v4.1.2...v4.2.0) (2024-10-26)
+
+
+### Features
+
+* add support for alternate keyboard layouts ([7db41a8](https://github.com/socsieng/sendkeys/commit/7db41a829d1f403dc77206f6c737db11c2bb064e))
+
 ## [4.1.2](https://github.com/socsieng/sendkeys/compare/v4.1.1...v4.1.2) (2024-10-24)
 
 
