@@ -51,7 +51,7 @@ public struct Sender: ParsableCommand {
 
     public init() {
         self.config = SendConfig(
-            activate: true, animationInterval: 0.01, delay: 0.1, initialDelay: 1, keyboardLayout: .qwerty,
+            activate: true, animationInterval: 0.01, delay: 0.1, initialDelay: 1,
             targeted: false, terminateCommand: nil)
     }
 
@@ -82,9 +82,15 @@ public struct Sender: ParsableCommand {
         let initialDelay = initialDelay ?? self.config.initialDelay!
         let animationInterval = animationInterval ?? self.config.animationInterval!
         let terminateCommand = terminateCommand ?? self.config.terminateCommand
-        let keyboardLayout = keyboardLayout ?? self.config.keyboardLayout!
+        let keyboardLayout = keyboardLayout ?? self.config.keyboardLayout
 
-        KeyPresser.setKeyboardLayout(keyboardLayout)
+        if keyboardLayout != nil {
+            KeyPresser.setKeyboardLayout(keyboardLayout!)
+        }
+
+        if self.config.remap != nil {
+            KeyCodes.updateMapping(self.config.remap!)
+        }
 
         if targeted {
             if app == nil {

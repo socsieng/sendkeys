@@ -7,6 +7,43 @@ send:
   keyboardLayout: qwerty
   targeted: false
   terminateCommand: "c:control"
+  remap:
+    # Example of custom key mapping to support dvorak keyboard layout
+    "[": "-"
+    "]": "="
+    "'": "q"
+    ",": "w"
+    ".": "e"
+    "p": "r"
+    "y": "t"
+    "f": "y"
+    "g": "u"
+    "c": "i"
+    "r": "o"
+    "l": "p"
+    "/": "["
+    "=": "]"
+    "a": "a"
+    "o": "s"
+    "e": "d"
+    "u": "f"
+    "i": "g"
+    "d": "h"
+    "h": "j"
+    "t": "k"
+    "n": "l"
+    "s": ":"
+    "-": "'"
+    ";": "z"
+    "q": "x"
+    "j": "c"
+    "k": "v"
+    "x": "b"
+    "b": "n"
+    "m": "m"
+    "w": ","
+    "v": "."
+    "z": "/"
 
 mousePosition:
   watch: true
