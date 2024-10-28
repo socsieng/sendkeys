@@ -321,7 +321,8 @@ struct KeyCodes {
     private static var remappingDictionary: [String: String] = [:]
 
     static func updateMapping(_ newOldMapping: [String: String]) {
-        remappingDictionary = newOldMapping
+        // Merge the new mapping with the existing one
+        remappingDictionary.merge(newOldMapping) { current, new in new }
     }
 
     private static func getRemappedKey(_ key: String) -> String {

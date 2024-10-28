@@ -57,8 +57,10 @@ _Activates the Notes application and sends keystrokes piped from `stdout` of the
   values results in smoother animations. Defaults to `0.01` seconds.
 - `--terminate-command <command>`: The command that should be used to terminate the application. Not set by default.
   Follows a similar convention to `--characters`. (e.g. `f12:command,shift`).
-- `--keyboard-layout <layout>`: Use alternate keyboard layout. Defaults to `qwerty`. (`colemak` and `dvorak` are also
-  supported).
+- `--keyboard-layout <layout>`: Use alternate keyboard layout. Defaults to `qwerty`. `colemak` and `dvorak` are also
+  supported, pull requests for other common keyboard layouts may be considered. If a specific keyboard layout is not
+  supported, a custom layout can be defined in the [`~/.sendkeysrc.yml`](./examples/.sendkeysrc.yml) configuration file
+  (`send.remap`).
 
 ## Installation
 
@@ -336,8 +338,8 @@ application name, followed by the bundle id.
 
 ## Configuration
 
-Common arguments can be stored in the [`~/.sendkeysrc.yml`](./docs/examples/.senkeysrc.yml) configuration file.
-Configuration values are applied in the following priority order:
+Common arguments can be stored in the [`~/.sendkeysrc.yml`](./examples/.senkeysrc.yml) configuration file. Configuration
+values are applied in the following priority order:
 
 1. Command line arguments
 2. Configuration file
