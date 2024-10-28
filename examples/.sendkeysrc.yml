@@ -1,0 +1,18 @@
+# All properties are optional
+send:
+  activate: true
+  animationInterval: 0.01
+  delay: 0.1
+  initialDelay: 1
+  keyboardLayout: qwerty
+  targeted: false
+  terminateCommand: "c:control"
+
+mousePosition:
+  watch: true
+  output: commands
+  duration: 1
+
+transform:
+  indent: true
+  autoClose: "}])"

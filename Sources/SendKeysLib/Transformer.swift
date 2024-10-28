@@ -9,15 +9,17 @@ class Transformer: ParsableCommand {
             "Transforms raw text input into application friendly character sequences. Examples include accounting for applications that automatically indent source code and insert closing brackets."
     )
 
-    @Option(name: .shortAndLong, help: "Determines if the application automatically inserts indentation.")
-    var indent = true
+    @Flag(
+        name: .shortAndLong, inversion: FlagInversion.prefixedNo,
+        help: "Determines if the application automatically inserts indentation.")
+    var indent: Bool?
 
     @Option(
         name: .shortAndLong,
         help:
             "Specifies which brackets are automatically closed by the application and don't need to be explicitly closed."
     )
-    var autoClose = "}])"
+    var autoClose: String?
 
     @Option(
         name: NameSpecification([.customShort("f"), .long]),
@@ -27,16 +29,21 @@ class Transformer: ParsableCommand {
     @Option(name: .shortAndLong, help: "String of characters to transform.")
     var characters: String?
 
+    var config: TransformerConfig
+
     public init(indent: Bool, autoClose: String = "}])") {
-        self.indent = indent
-        self.autoClose = autoClose
+        self.config = TransformerConfig(indent: indent, autoClose: autoClose)
     }
 
     required init() {
+        self.config = TransformerConfig(indent: true, autoClose: "}])")
     }
 
     func run() {
         var commandString: String?
+        self.config = self.config
+            .merge(with: ConfigLoader.loadConfig().transformer)
+            .merge(with: TransformerConfig(indent: indent, autoClose: autoClose))
 
         if !(inputFile ?? "").isEmpty {
             if let data = FileManager.default.contents(atPath: inputFile!) {
@@ -69,17 +76,17 @@ class Transformer: ParsableCommand {
     func transform(_ input: String) -> String {
         var output = input
 
-        if indent {
+        if self.config.indent! {
             let removeIndentExpression = try! NSRegularExpression(pattern: "^[\\t ]+", options: .anchorsMatchLines)
             let range = NSRange(location: 0, length: output.count)
             output = removeIndentExpression.stringByReplacingMatches(
                 in: output, options: [], range: range, withTemplate: "")
         }
 
-        if !autoClose.isEmpty {
+        if !self.config.autoClose!.isEmpty {
             let removeBracketExpression = try! NSRegularExpression(
                 pattern:
-                    "\\n[\\t ]*[\(NSRegularExpression.escapedPattern(for: autoClose).replacingOccurrences(of: "]", with: "\\]"))]+"
+                    "\\n[\\t ]*[\(NSRegularExpression.escapedPattern(for: self.config.autoClose!).replacingOccurrences(of: "]", with: "\\]"))]+"
             )
             let range = NSRange(location: 0, length: output.count)
             output = removeBracketExpression.stringByReplacingMatches(

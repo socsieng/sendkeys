@@ -6,7 +6,8 @@ func isTty() -> Bool {
 
 func getRegexGroups(_ expression: NSRegularExpression, _ input: String) -> [String?]? {
     var groups: [String?] = []
-    let matchResult = expression.firstMatch(in: input, options: .anchored, range: NSRange(location: 0, length: input.utf8.count))
+    let matchResult = expression.firstMatch(
+        in: input, options: .anchored, range: NSRange(location: 0, length: input.utf8.count))
 
     if matchResult == nil {
         return nil

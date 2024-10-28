@@ -334,6 +334,15 @@ SendKeys will use `--application-name` to activate the first application instanc
 name or bundle id (case insensitive). If there are no exact matches, it will attempt to match on whole words for the
 application name, followed by the bundle id.
 
+## Configuration
+
+Common arguments can be stored in the [`~/.sendkeysrc.yml`](./docs/examples/.senkeysrc.yml) configuration file.
+Configuration values are applied in the following priority order:
+
+1. Command line arguments
+2. Configuration file
+3. CLI default values
+
 ## Prerequisites
 
 This application will only run on macOS 10.11 or later.
