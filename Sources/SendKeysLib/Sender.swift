@@ -44,6 +44,11 @@ public struct Sender: ParsableCommand {
     @Option(name: .shortAndLong, help: "Character sequence to use to terminate execution (e.g. f12:command).")
     var terminateCommand: String?
 
+    @Option(
+        name: NameSpecification([.customLong("config")]),
+        help: "Configuration file to load settings from (yaml format).")
+    var configurationFile: String?
+
     @Option(name: .long, help: "Keyboard layout to use for sending keystrokes.")
     var keyboardLayout: KeyMappings.Layouts?
 
@@ -69,12 +74,17 @@ public struct Sender: ParsableCommand {
         let app: NSRunningApplication? = try activator.find()
         let keyPresser: KeyPresser
 
-        self.config = self.config
-            .merge(with: ConfigLoader.loadConfig().send)
-            .merge(
-                with: SendConfig(
-                    activate: activate, animationInterval: animationInterval, delay: delay, initialDelay: initialDelay,
-                    keyboardLayout: keyboardLayout, targeted: targeted, terminateCommand: terminateCommand))
+        // load from home directory by default
+        self.config = self.config.merge(with: ConfigLoader.loadConfig().send)
+
+        if !(configurationFile ?? "").isEmpty {
+            self.config = self.config.merge(with: ConfigLoader.loadConfig(configurationFile!).send)
+        }
+
+        self.config = self.config.merge(
+            with: SendConfig(
+                activate: activate, animationInterval: animationInterval, delay: delay, initialDelay: initialDelay,
+                keyboardLayout: keyboardLayout, targeted: targeted, terminateCommand: terminateCommand))
 
         let activate = activate ?? self.config.activate!
         let targeted = targeted ?? self.config.targeted!
