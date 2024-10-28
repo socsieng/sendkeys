@@ -1,5 +1,14 @@
 # Changelog
 
+## [4.3.0](https://github.com/socsieng/sendkeys/compare/v4.2.0...v4.3.0) (2024-10-28)
+
+
+### Features
+
+* add option to specify arbitrary configuration file ([61133bf](https://github.com/socsieng/sendkeys/commit/61133bf7ec8089d6f3e631a69f35a198cc8c644b))
+* add support for custom key mappings in configuration file ([cc21cce](https://github.com/socsieng/sendkeys/commit/cc21ccee8b10109c74735a8458f8f7161515992d))
+* add support for reading configuration from home directory ([01908f1](https://github.com/socsieng/sendkeys/commit/01908f11f3b85a551f643b2f679f1e595afbf8e3))
+
 ## [4.2.0](https://github.com/socsieng/sendkeys/compare/v4.1.2...v4.2.0) (2024-10-26)
 
 
