@@ -1,7 +1,7 @@
 import ArgumentParser
 
 struct KeyMappings {
-    enum Layouts: String, ExpressibleByArgument {
+    enum Layouts: String, Codable, ExpressibleByArgument {
         case qwerty
         case colemak
         case dvorak

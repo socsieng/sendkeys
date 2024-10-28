@@ -20,16 +20,17 @@ public struct Sender: ParsableCommand {
     @Flag(
         name: .long, inversion: FlagInversion.prefixedNo,
         help: "Activate the specified app or process before sending commands.")
-    var activate: Bool = true
+    var activate: Bool?
 
-    @Flag(name: .long, help: "Only send keystrokes to the targeted app or process.")
-    var targeted: Bool = false
+    @Flag(
+        name: .long, inversion: FlagInversion.prefixedNo, help: "Only send keystrokes to the targeted app or process.")
+    var targeted: Bool?
 
     @Option(name: .shortAndLong, help: "Default delay between keystrokes in seconds.")
-    var delay: Double = 0.1
+    var delay: Double?
 
     @Option(name: .shortAndLong, help: "Initial delay before sending commands in seconds.")
-    var initialDelay: Double = 1
+    var initialDelay: Double?
 
     @Option(name: NameSpecification([.customShort("f"), .long]), help: "File containing keystroke instructions.")
     var inputFile: String?
@@ -38,15 +39,21 @@ public struct Sender: ParsableCommand {
     var characters: String?
 
     @Option(help: "Number of seconds between animation updates.")
-    var animationInterval: Double = 0.01
+    var animationInterval: Double?
 
     @Option(name: .shortAndLong, help: "Character sequence to use to terminate execution (e.g. f12:command).")
     var terminateCommand: String?
 
     @Option(name: .long, help: "Keyboard layout to use for sending keystrokes.")
-    var keyboardLayout: KeyMappings.Layouts = .qwerty
+    var keyboardLayout: KeyMappings.Layouts?
 
-    public init() {}
+    var config: SendConfig
+
+    public init() {
+        self.config = SendConfig(
+            activate: true, animationInterval: 0.01, delay: 0.1, initialDelay: 1, keyboardLayout: .qwerty,
+            targeted: false, terminateCommand: nil)
+    }
 
     public mutating func run() throws {
         let accessEnabled = AXIsProcessTrustedWithOptions(
@@ -61,6 +68,21 @@ public struct Sender: ParsableCommand {
         let activator = AppActivator(appName: applicationName, processId: processId)
         let app: NSRunningApplication? = try activator.find()
         let keyPresser: KeyPresser
+
+        self.config = self.config
+            .merge(with: ConfigLoader.loadConfig().send)
+            .merge(
+                with: SendConfig(
+                    activate: activate, animationInterval: animationInterval, delay: delay, initialDelay: initialDelay,
+                    keyboardLayout: keyboardLayout, targeted: targeted, terminateCommand: terminateCommand))
+
+        let activate = activate ?? self.config.activate!
+        let targeted = targeted ?? self.config.targeted!
+        let delay = delay ?? self.config.delay!
+        let initialDelay = initialDelay ?? self.config.initialDelay!
+        let animationInterval = animationInterval ?? self.config.animationInterval!
+        let terminateCommand = terminateCommand ?? self.config.terminateCommand
+        let keyboardLayout = keyboardLayout ?? self.config.keyboardLayout!
 
         KeyPresser.setKeyboardLayout(keyboardLayout)
 
@@ -89,7 +111,7 @@ public struct Sender: ParsableCommand {
         }
 
         var listener: TerminationListener?
-        if terminateCommand != nil {
+        if terminateCommand != nil && !terminateCommand!.isEmpty {
             listener = TerminationListener(sequence: terminateCommand!) {
                 Sender.exit()
             }

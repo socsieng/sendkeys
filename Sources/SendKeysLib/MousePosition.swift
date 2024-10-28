@@ -12,20 +12,24 @@ class MousePosition: ParsableCommand {
         abstract: "Prints the current mouse position."
     )
 
-    @Flag(name: .shortAndLong, help: "Watch and display the mouse positions as the mouse is clicked.")
-    var watch = false
+    @Flag(
+        name: .shortAndLong, inversion: FlagInversion.prefixedNo,
+        help: "Watch and display the mouse positions as the mouse is clicked.")
+    var watch: Bool?
 
     @Option(
         name: NameSpecification([.customShort("o"), .customLong("output", withSingleDash: false)]),
         help: "Displays results as either a series of coordinates or commands.")
-    var mode = OutputMode.coordinates
+    var mode: OutputMode?
 
     @Option(
         name: .shortAndLong,
         help:
             "Duration (in seconds) to output for mouse events. A negative value uses elapsed time between mouse events."
     )
-    var duration: Double = -1
+    var duration: Double?
+
+    var config: MousePositionConfig
 
     static let eventProcessor = MouseEventProcessor()
 
@@ -38,10 +42,15 @@ class MousePosition: ParsableCommand {
     }
 
     required init() {
+        self.config = MousePositionConfig(watch: false, output: .commands, duration: -1)
     }
 
     func run() {
-        if watch {
+        self.config = self.config
+            .merge(with: ConfigLoader.loadConfig().mousePosition)
+            .merge(with: MousePositionConfig(watch: watch, output: mode, duration: duration))
+
+        if self.config.watch! {
             watchMouseInput()
         } else {
             printMousePosition(nil)
@@ -112,13 +121,12 @@ class MousePosition: ParsableCommand {
                     let command: MousePosition = bridge(ptr: UnsafeRawPointer(refcon)!)
 
                     if let mouseEvent = MousePosition.eventProcessor.consumeEvent(type: eventType, event: event) {
-
                         // if duration is set, override all mouse event durations
-                        if command.duration >= 0 {
-                            mouseEvent.duration = command.duration
+                        if command.config.duration! >= 0 {
+                            mouseEvent.duration = command.config.duration!
                         }
 
-                        switch command.mode {
+                        switch command.config.output! {
                         case .coordinates:
                             if mouseEvent.eventType == .click {
                                 command.printMousePosition(mouseEvent.endPoint)
@@ -148,7 +156,7 @@ class MousePosition: ParsableCommand {
     func eventCallback(proxy: CGEventTapProxy, type: CGEventType, event: CGEvent, refcon: UnsafeMutableRawPointer?)
         -> Unmanaged<CGEvent>?
     {
-        switch mode {
+        switch self.config.output! {
         case .coordinates:
             printMousePosition(nil)
         case .commands:
