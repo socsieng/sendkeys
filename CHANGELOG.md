@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.3.1](https://github.com/socsieng/sendkeys/compare/v4.3.0...v4.3.1) (2024-12-14)
+
+
+### Bug Fixes
+
+* add esc alias for escape key ([ff88df1](https://github.com/socsieng/sendkeys/commit/ff88df1022633e3ab4f7e85a05801ac607024872)), closes [#93](https://github.com/socsieng/sendkeys/issues/93)
+
 ## [4.3.0](https://github.com/socsieng/sendkeys/compare/v4.2.0...v4.3.0) (2024-10-28)
 
 
