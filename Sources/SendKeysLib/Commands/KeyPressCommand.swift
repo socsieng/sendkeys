@@ -30,7 +30,7 @@ public class KeyPressCommand: Command, RequiresKeyPresser {
     }
 
     public override func execute() throws {
-        try! keyPresser!.keyPress(key: key!, modifiers: modifiers)
+        let _ = try! keyPresser!.keyPress(key: key!, modifiers: modifiers)
     }
 
     public override func equals(_ comparison: Command) -> Bool {

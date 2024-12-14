@@ -9,10 +9,12 @@ public class KeyPresser {
         self.application = app
     }
 
-    func keyPress(key: String, modifiers: [String]) throws {
+    func keyPress(key: String, modifiers: [String]) throws -> CGEvent? {
         if let keyDownEvent = try! keyDown(key: key, modifiers: modifiers) {
-            let _ = keyUp(key: key, modifiers: modifiers, event: keyDownEvent)
+            return keyUp(key: key, modifiers: modifiers, event: keyDownEvent)
         }
+
+        return nil
     }
 
     func keyDown(key: String, modifiers: [String]) throws -> CGEvent? {

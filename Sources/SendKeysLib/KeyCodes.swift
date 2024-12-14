@@ -153,6 +153,7 @@ struct KeyCodes {
         "space": KeyCodeWithFlags(space),
         "delete": KeyCodeWithFlags(delete),
         "escape": KeyCodeWithFlags(escape),
+        "esc": KeyCodeWithFlags(escape),
         "⌘": KeyCodeWithFlags(command),
         "cmd": KeyCodeWithFlags(command),
         "command": KeyCodeWithFlags(command),
